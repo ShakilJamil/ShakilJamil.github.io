@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shakil Jamil Mrida | Software Developer &amp; CSE Engineer</title>
+  <meta name="description" content="Portfolio of Shakil Jamil Mrida - Software Developer & Computer Science Engineer specializing in web applications, Spring Boot, Laravel, Angular, and robust databases. 6x AIUB Dean's Award Recipient.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+              950: '#1e1b4b',
+            },
+            dark: {
+              bg: '#0a0f1d',
+              card: '#111827',
+              border: '#1f2937',
+              hover: '#1e293b'
+            }
+          },
+          animation: {
+            'gradient': 'gradient 8s ease infinite',
+            'float': 'float 4s ease-in-out infinite',
+            'pulse-subtle': 'pulseSubtle 3s ease-in-out infinite',
+          },
+          keyframes: {
+            gradient: {
+              '0%, 100%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            pulseSubtle: {
+              '0%, 100%': { opacity: '0.4' },
+              '50%': { opacity: '0.8' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-slate-200 font-sans transition-colors duration-300 min-h-screen selection:bg-brand-500 selection:text-white relative overflow-x-hidden">
+
+  <!-- Ambient Background Glow Effects -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-brand-500/20 dark:bg-brand-600/15 rounded-full blur-[128px]"></div>
+    <div class="absolute top-1/3 -right-40 w-96 h-96 bg-cyan-500/15 dark:bg-cyan-500/10 rounded-full blur-[128px]"></div>
+    <div class="absolute bottom-10 left-1/3 w-[30rem] h-[30rem] bg-purple-500/15 dark:bg-purple-600/10 rounded-full blur-[140px]"></div>
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+  </div>
+
+  <!-- Header / Navigation Bar -->
+  <header class="sticky top-0 z-50 w-full backdrop-blur-md bg-white/75 dark:bg-dark-bg/80 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#hero" class="flex items-center gap-2.5 group">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 via-indigo-600 to-cyan-500 flex items-center justify-center text-white font-mono font-bold shadow-md shadow-brand-500/25 group-hover:scale-105 transition-transform">
+          SM
+        </div>
+        <div class="flex flex-col">
+          <span class="font-bold text-base tracking-tight text-slate-900 dark:text-white leading-tight">Shakil Jamil<span class="text-brand-500">.dev</span></span>
+          <span class="text-[10px] text-slate-400 font-mono hidden sm:inline">Software Developer</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600 dark:text-slate-300">
+        <a href="#about" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">About</a>
+        <a href="#skills" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Skills</a>
+        <a href="#projects" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Projects</a>
+        <a href="#experience" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Experience</a>
+        <a href="#awards" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Awards</a>
+        <a href="#contact" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Contact</a>
+      </nav>
+
+      <!-- Right Action Items (Theme Toggle & Contact Button) -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" type="button" aria-label="Toggle theme" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
+          <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
+          <i data-lucide="sun" class="w-4 h-4 block dark:hidden"></i>
+        </button>
+
+        <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-brand-600 hover:bg-brand-500 text-white shadow-lg shadow-brand-600/25 transition-all hover:-translate-y-0.5">
+          <span>Get in Touch</span>
+          <i data-lucide="send" class="w-3.5 h-3.5"></i>
+        </a>
+
+        <!-- Mobile Menu Hamburger -->
+        <button id="mobile-menu-btn" type="button" aria-label="Toggle mobile menu" class="md:hidden p-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-xl px-4 pt-3 pb-6 space-y-3">
+      <a href="#about" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">About</a>
+      <a href="#skills" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Skills</a>
+      <a href="#projects" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Projects</a>
+      <a href="#experience" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Experience</a>
+      <a href="#awards" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Awards</a>
+      <a href="#contact" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Contact</a>
+      <div class="pt-2">
+        <a href="#contact" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-semibold bg-brand-600 text-white">
+          <span>Get in Touch</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero" class="relative z-10 pt-14 pb-20 md:pt-24 md:pb-28 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      
+      <!-- Left Column: Copy & Actions -->
+      <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+        
+        <!-- Status Pill -->
+        <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full text-xs font-medium border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+          <span>Open to Software Engineering &amp; Full-Stack Roles</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+          Engineering scalable web apps &amp;
+          <span class="bg-gradient-to-r from-brand-500 via-indigo-500 to-cyan-400 bg-clip-text text-transparent">
+            robust digital solutions
+          </span>
+        </h1>
+
+        <!-- Subheading -->
+        <p class="text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
+          Hi, I'm <strong class="font-semibold text-slate-900 dark:text-white">Shakil Jamil Mrida</strong>. A dedicated Software Developer &amp; CSE graduate from AIUB (6-time Dean's Award recipient) specializing in Spring Boot, Laravel, Angular, PHP, Java, and reliable database architectures.
+        </p>
+
+        <!-- CTA Action Buttons -->
+        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+          <a href="#projects" class="px-6 py-3.5 rounded-xl font-semibold bg-brand-600 hover:bg-brand-500 text-white shadow-xl shadow-brand-600/30 hover:shadow-brand-600/50 hover:-translate-y-0.5 transition-all flex items-center gap-2">
+            <span>Explore Projects</span>
+            <i data-lucide="arrow-down" class="w-4 h-4"></i>
+          </a>
+          
+          <button id="download-cv-btn" class="px-6 py-3.5 rounded-xl font-semibold border border-slate-300 dark:border-slate-700 bg-white dark:bg-dark-card hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 transition-all hover:-translate-y-0.5 flex items-center gap-2 shadow-sm">
+            <i data-lucide="file-text" class="w-4 h-4 text-brand-500"></i>
+            <span>Download Resume</span>
+          </button>
+
+          <div class="flex items-center gap-2 pl-2">
+            <a href="https://github.com/ShakilJamil" target="_blank" rel="noopener noreferrer" class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition" aria-label="GitHub Profile">
+              <i data-lucide="github" class="w-5 h-5"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/Shakil%20Jamil%20Mrida" target="_blank" rel="noopener noreferrer" class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition" aria-label="LinkedIn Profile">
+              <i data-lucide="linkedin" class="w-5 h-5"></i>
+            </a>
+            <a href="mailto:mafialhasan@gmail.com" class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition" aria-label="Email Me">
+              <i data-lucide="mail" class="w-5 h-5"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Tech Stack Pill Ribbon -->
+        <div class="pt-6 border-t border-slate-200 dark:border-slate-800/80">
+          <p class="text-xs uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400 mb-3">Core Technical Skills</p>
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs font-mono">
+            <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 font-medium">Java / Spring Boot</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 font-medium">PHP / Laravel</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 font-medium">JavaScript &amp; Angular</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 font-medium">C# / .NET</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 font-medium">MySQL &amp; PostgreSQL</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 font-medium">REST API &amp; JWT</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 font-medium">Git &amp; Linux</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Interactive Code Terminal Card -->
+      <div class="lg:col-span-5">
+        <div class="relative mx-auto max-w-md lg:max-w-none">
+          <!-- Decorative Glow -->
+          <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-brand-600 via-indigo-600 to-cyan-500 opacity-30 blur-xl"></div>
+          
+          <div class="relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-2xl overflow-hidden font-mono text-xs">
+            <!-- Window Titlebar -->
+            <div class="flex items-center justify-between px-4 py-3 bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+              </div>
+              <div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-sans text-xs font-medium">
+                <i data-lucide="terminal" class="w-3.5 h-3.5 text-brand-500"></i>
+                <span>DeveloperProfile.java</span>
+              </div>
+              <div class="text-[10px] text-slate-400">UTF-8</div>
+            </div>
+
+            <!-- Code Content Body -->
+            <div class="p-5 space-y-2 leading-relaxed text-slate-700 dark:text-slate-300 overflow-x-auto text-[11px] sm:text-xs">
+              <p><span class="text-purple-600 dark:text-purple-400">public class</span> <span class="text-blue-600 dark:text-blue-400">ShakilJamilMrida</span> {</p>
+              <p class="pl-4"><span class="text-slate-500 dark:text-slate-400">String</span> name = <span class="text-amber-600 dark:text-amber-300">"Shakil Jamil Mrida"</span>;</p>
+              <p class="pl-4"><span class="text-slate-500 dark:text-slate-400">String</span> degree = <span class="text-amber-600 dark:text-amber-300">"B.Sc in CSE (AIUB)"</span>;</p>
+              <p class="pl-4"><span class="text-slate-500 dark:text-slate-400">String[]</span> primaryFocus = {</p>
+              <p class="pl-8 text-amber-600 dark:text-amber-300">"Full-Stack Web Development",</p>
+              <p class="pl-8 text-amber-600 dark:text-amber-300">"Spring Boot &amp; Laravel",</p>
+              <p class="pl-8 text-amber-600 dark:text-amber-300">"API Gateway &amp; Database Design"</p>
+              <p class="pl-4">};</p>
+              <p class="pl-4"><span class="text-slate-500 dark:text-slate-400">int</span> deansAwards = <span class="text-cyan-600 dark:text-cyan-400">6</span>; <span class="text-slate-400 dark:text-slate-500">// Academic Excellence</span></p>
+              <p class="pl-4"><span class="text-slate-500 dark:text-slate-400">boolean</span> availableForHire = <span class="text-emerald-600 dark:text-emerald-400">true</span>;</p>
+              <p class="pl-4"><span class="text-slate-500 dark:text-slate-400">String</span> contactEmail = <span class="text-amber-600 dark:text-amber-300">"mafialhasan@gmail.com"</span>;</p>
+              <p class="pl-4"><span class="text-purple-600 dark:text-purple-400">public void</span> <span class="text-blue-600 dark:text-blue-400">buildSolutions</span>() {</p>
+              <p class="pl-8 text-brand-600 dark:text-brand-300"><span class="text-purple-600 dark:text-purple-400">return</span> <span class="text-amber-600 dark:text-amber-300">"User-friendly, scalable, reliable"</span>;</p>
+              <p class="pl-4">}</p>
+              <p>};</p>
+            </div>
+
+            <!-- Terminal Status Footer -->
+            <div class="px-5 py-2.5 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-500">
+              <span class="flex items-center gap-1.5 text-emerald-500 font-medium">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> 6x Dean's Award Honor Roll
+              </span>
+              <span>build: passing</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Key Metrics / Stats Section -->
+  <section class="border-y border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-dark-card/40 backdrop-blur-sm relative z-10 py-10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div class="space-y-1">
+          <p class="text-3xl md:text-4xl font-extrabold text-brand-500 font-mono">6x</p>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium">Dean's Award Recipient</p>
+        </div>
+        <div class="space-y-1">
+          <p class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white font-mono">B.Sc</p>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium">Computer Science &amp; Eng.</p>
+        </div>
+        <div class="space-y-1">
+          <p class="text-3xl md:text-4xl font-extrabold text-cyan-500 font-mono">5+</p>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium">Comprehensive Projects</p>
+        </div>
+        <div class="space-y-1">
+          <p class="text-3xl md:text-4xl font-extrabold text-emerald-500 font-mono">Full-Stack</p>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium">Web &amp; Enterprise Focus</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-24 relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <span class="text-xs font-bold tracking-widest text-brand-500 uppercase">Profile</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">Dedicated to Practical Engineering &amp; Creativity</h2>
+      <p class="text-slate-600 dark:text-slate-400 mt-4 leading-relaxed">
+        Passionate about conceptualizing innovative application solutions utilizing modern design principles, clean architecture, and reliable cross-functional teamwork.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <!-- Card 1 -->
+      <div class="p-8 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:border-brand-500/50 transition-all group">
+        <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <i data-lucide="code-2" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Web Application Engineering</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+          Building responsive, performant full-stack web applications using <strong>PHP (Laravel)</strong>, <strong>JavaScript (Angular, jQuery)</strong>, and <strong>Bootstrap</strong> with seamless API integration.
+        </p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="p-8 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:border-cyan-500/50 transition-all group">
+        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <i data-lucide="server" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Enterprise Backends &amp; APIs</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+          Architecting resilient backend systems with <strong>Java (Spring Boot)</strong> and <strong>C# (.NET)</strong>, featuring JWT authentication, MVC separation, and relational database integrity.
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="p-8 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:border-purple-500/50 transition-all group">
+        <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <i data-lucide="network" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Systems &amp; IT Infrastructure</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+          Hands-on enterprise IT experience maintaining Cisco switches, Static IP configurations, Cat 6 network cabling, Linux environments, and event infrastructure.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Skills & Technologies Section -->
+  <section id="skills" class="py-20 relative z-10 bg-slate-100/50 dark:bg-slate-900/30 border-y border-slate-200 dark:border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-xs font-bold tracking-widest text-brand-500 uppercase">Expertise</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">Technical Toolbelt</h2>
+        <p class="text-slate-600 dark:text-slate-400 mt-4 leading-relaxed">
+          Languages, frameworks, databases, and development tools I apply to deliver reliable software.
+        </p>
+      </div>
+
+      <!-- Skills Category Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Column 1: Programming Languages -->
+        <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="p-2 rounded-lg bg-brand-500/10 text-brand-500">
+              <i data-lucide="code" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-bold text-slate-900 dark:text-white">Languages</h3>
+          </div>
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">Java</span>
+              <span class="text-xs font-mono text-brand-500 font-semibold">Proficient</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">PHP</span>
+              <span class="text-xs font-mono text-brand-500 font-semibold">Proficient</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">JavaScript</span>
+              <span class="text-xs font-mono text-brand-500 font-semibold">Proficient</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">C# (.NET)</span>
+              <span class="text-xs font-mono text-brand-500 font-semibold">Proficient</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">C++</span>
+              <span class="text-xs font-mono text-slate-400">Skilled</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">jQuery</span>
+              <span class="text-xs font-mono text-slate-400">Skilled</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Frameworks & Frontend -->
+        <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-500">
+              <i data-lucide="layers" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-bold text-slate-900 dark:text-white">Frameworks &amp; Web</h3>
+          </div>
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">Spring Boot</span>
+              <span class="text-xs font-mono text-emerald-500 font-semibold">Proficient</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">Laravel</span>
+              <span class="text-xs font-mono text-emerald-500 font-semibold">Proficient</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">Angular</span>
+              <span class="text-xs font-mono text-emerald-500 font-semibold">Proficient</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">Bootstrap / Materialize</span>
+              <span class="text-xs font-mono text-emerald-500 font-semibold">Proficient</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">HTML5 &amp; CSS3</span>
+              <span class="text-xs font-mono text-emerald-500 font-semibold">Advanced</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">API Gateway &amp; Ajax</span>
+              <span class="text-xs font-mono text-slate-400">Skilled</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Databases & Platforms -->
+        <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="p-2 rounded-lg bg-cyan-500/10 text-cyan-500">
+              <i data-lucide="database" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-bold text-slate-900 dark:text-white">Databases &amp; Systems</h3>
+          </div>
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">MySQL</span>
+              <span class="text-xs font-mono text-cyan-500 font-semibold">Proficient</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">PostgreSQL</span>
+              <span class="text-xs font-mono text-cyan-500 font-semibold">Proficient</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">Oracle Database</span>
+              <span class="text-xs font-mono text-cyan-500 font-semibold">Proficient</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">Data Warehousing</span>
+              <span class="text-xs font-mono text-slate-400">Academic</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">Linux Environment</span>
+              <span class="text-xs font-mono text-cyan-500 font-semibold">Skilled</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">Arduino / IoT</span>
+              <span class="text-xs font-mono text-slate-400">Hands-on</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Tools & Quality -->
+        <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="p-2 rounded-lg bg-purple-500/10 text-purple-500">
+              <i data-lucide="wrench" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-bold text-slate-900 dark:text-white">Tools &amp; Workflow</h3>
+          </div>
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">Git &amp; GitHub</span>
+              <span class="text-xs font-mono text-purple-500 font-semibold">Proficient</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">Postman (API Testing)</span>
+              <span class="text-xs font-mono text-purple-500 font-semibold">Proficient</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">Jira (Agile Workflow)</span>
+              <span class="text-xs font-mono text-purple-500 font-semibold">Skilled</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">Selenium Automation</span>
+              <span class="text-xs font-mono text-slate-400">Skilled</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">Sourcetree</span>
+              <span class="text-xs font-mono text-slate-400">Skilled</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-slate-700 dark:text-slate-300">XAMPP Server</span>
+              <span class="text-xs font-mono text-purple-500 font-semibold">Proficient</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Featured Projects Section -->
+  <section id="projects" class="py-24 relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <div>
+        <span class="text-xs font-bold tracking-widest text-brand-500 uppercase">Portfolio</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">Engineered Projects</h2>
+        <p class="text-slate-600 dark:text-slate-400 mt-2">Practical implementations spanning web applications, enterprise systems, and system design.</p>
+      </div>
+
+      <!-- Filter Buttons -->
+      <div id="project-filters" class="flex flex-wrap gap-2">
+        <button data-filter="all" class="filter-btn active px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-brand-600 text-white transition">All</button>
+        <button data-filter="web" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition">Web &amp; Full Stack</button>
+        <button data-filter="enterprise" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition">Enterprise &amp; Desktop</button>
+        <button data-filter="engineering" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition">Architecture &amp; Graphics</button>
+      </div>
+    </div>
+
+    <!-- Projects Grid -->
+    <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      
+      <!-- Project 1: Quick Eagle Courier Service -->
+      <article data-category="web" class="project-card rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card overflow-hidden shadow-sm hover:shadow-2xl hover:border-brand-500/50 transition-all flex flex-col">
+        <div class="h-52 bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 p-6 flex flex-col justify-between relative overflow-hidden group">
+          <div class="flex items-center justify-between z-10">
+            <span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">Web Application • PHP &amp; JS</span>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil" target="_blank" rel="noopener noreferrer" class="p-2 rounded-lg bg-black/40 text-white/80 hover:text-white hover:bg-black/60 transition" aria-label="GitHub Repository"><i data-lucide="github" class="w-4 h-4"></i></a>
+            </div>
+          </div>
+          <div class="z-10">
+            <div class="text-xs uppercase tracking-wider text-indigo-400 font-semibold">Logistics &amp; Delivery Platform</div>
+            <h3 class="text-2xl font-bold text-white mt-1">Quick Eagle Courier Service</h3>
+          </div>
+          <div class="absolute -right-8 -bottom-8 w-36 h-36 bg-brand-500/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+        </div>
+        
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              A comprehensive digital courier service platform offering real-time parcel tracking, automated delivery charge estimation algorithms, robust user role management, and online payment processing.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-1.5 font-mono text-[11px] text-slate-600 dark:text-slate-400">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">PHP</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">JavaScript</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">MySQL</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Bootstrap</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Online Payments</span>
+            </div>
+            <button class="project-modal-btn w-full py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5"
+              data-title="Quick Eagle Courier Web Platform"
+              data-desc="Quick Eagle Courier Service was built to streamline package logistics and delivery operations nationwide. It simplifies the user journey with instant delivery cost calculators, package status tracking, driver and customer portals, and seamless payment integration."
+              data-highlights="Automated weight and distance-based delivery charge calculator|Real-time parcel status tracking with unique tracking identifiers|User authentication, customer dashboards &amp; online payment checkout|Scalable MySQL database schema for handling parcels nationwide">
+              <span>View Case Study</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 2: Enterprise Inventory Management System -->
+      <article data-category="web" class="project-card rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card overflow-hidden shadow-sm hover:shadow-2xl hover:border-emerald-500/50 transition-all flex flex-col">
+        <div class="h-52 bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-950 p-6 flex flex-col justify-between relative overflow-hidden group">
+          <div class="flex items-center justify-between z-10">
+            <span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">Java • Spring Boot &amp; JWT</span>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil" target="_blank" rel="noopener noreferrer" class="p-2 rounded-lg bg-black/40 text-white/80 hover:text-white hover:bg-black/60 transition" aria-label="GitHub Repository"><i data-lucide="github" class="w-4 h-4"></i></a>
+            </div>
+          </div>
+          <div class="z-10">
+            <div class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Enterprise Retail &amp; Logistics</div>
+            <h3 class="text-2xl font-bold text-white mt-1">Smart Inventory Management</h3>
+          </div>
+          <div class="absolute -right-8 -bottom-8 w-36 h-36 bg-emerald-500/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+        </div>
+        
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Full-featured inventory management system offering dynamic interactive discounts based on product expiry dates, wishlist management, item categorization, JavaMailSender alerts, and full CRUD operations.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-1.5 font-mono text-[11px] text-slate-600 dark:text-slate-400">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Java</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Spring Boot MVC</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">JWT Security</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">AOP Logging</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">JavaMailSender</span>
+            </div>
+            <button class="project-modal-btn w-full py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5"
+              data-title="Smart Inventory Management System"
+              data-desc="An enterprise-grade Java web application engineered to minimize inventory waste. It dynamically applies discount tiers to products as their expiration date nears, logs every transaction using Aspect-Oriented Programming (AOP), and dispatches automated email notifications via JavaMailSender."
+              data-highlights="Expiry-based algorithmic dynamic discount pricing model|Stateless authentication and role-based authorization using JSON Web Tokens (JWT)|Spring AOP logging aspect for auditable activity tracing|Automated email alert notifications using JavaMailSender">
+              <span>View Case Study</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 3: Market Management System (.NET C# Desktop) -->
+      <article data-category="enterprise" class="project-card rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card overflow-hidden shadow-sm hover:shadow-2xl hover:border-cyan-500/50 transition-all flex flex-col">
+        <div class="h-52 bg-gradient-to-br from-cyan-950 via-slate-900 to-slate-950 p-6 flex flex-col justify-between relative overflow-hidden group">
+          <div class="flex items-center justify-between z-10">
+            <span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-400/30">C# • Microsoft .NET</span>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil" target="_blank" rel="noopener noreferrer" class="p-2 rounded-lg bg-black/40 text-white/80 hover:text-white hover:bg-black/60 transition" aria-label="GitHub Repository"><i data-lucide="github" class="w-4 h-4"></i></a>
+            </div>
+          </div>
+          <div class="z-10">
+            <div class="text-xs uppercase tracking-wider text-cyan-400 font-semibold">Commercial Complex ERP</div>
+            <h3 class="text-2xl font-bold text-white mt-1">Mega Market Management</h3>
+          </div>
+          <div class="absolute -right-8 -bottom-8 w-36 h-36 bg-cyan-500/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+        </div>
+        
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              A comprehensive C# desktop application built on Microsoft .NET for mega market complexes. Manages employee work area allocations, floor assignments, and commercial shop rent billing lists.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-1.5 font-mono text-[11px] text-slate-600 dark:text-slate-400">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">C#</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">.NET Framework</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">SQL Server / MySQL</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Desktop GUI</span>
+            </div>
+            <button class="project-modal-btn w-full py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5"
+              data-title="Mega Market &amp; Commercial Rent ERP"
+              data-desc="This C# Microsoft .NET desktop solution addresses operational management in large commercial shopping malls. It centralizes tenant records, rental agreements, payment schedules, and staff shift assignments across multi-story shopping floors."
+              data-highlights="Automated rent calculation and tenant billing lifecycle tracking|Staff work-zone scheduling and shift assignment management|Relational database storage with complete audit trails|Clean Windows desktop GUI for rapid back-office operations">
+              <span>View Case Study</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 4: Full Interior Design System Architecture -->
+      <article data-category="engineering" class="project-card rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card overflow-hidden shadow-sm hover:shadow-2xl hover:border-purple-500/50 transition-all flex flex-col">
+        <div class="h-52 bg-gradient-to-br from-purple-950 via-slate-900 to-slate-950 p-6 flex flex-col justify-between relative overflow-hidden group">
+          <div class="flex items-center justify-between z-10">
+            <span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-purple-500/20 text-purple-300 border border-purple-400/30">System Design • UI/UX &amp; QA</span>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil" target="_blank" rel="noopener noreferrer" class="p-2 rounded-lg bg-black/40 text-white/80 hover:text-white hover:bg-black/60 transition" aria-label="GitHub Repository"><i data-lucide="github" class="w-4 h-4"></i></a>
+            </div>
+          </div>
+          <div class="z-10">
+            <div class="text-xs uppercase tracking-wider text-purple-400 font-semibold">Software Engineering Architecture</div>
+            <h3 class="text-2xl font-bold text-white mt-1">Interior Design Architecture Specification</h3>
+          </div>
+          <div class="absolute -right-8 -bottom-8 w-36 h-36 bg-purple-500/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+        </div>
+        
+        <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Complete software architecture blueprint: functional/non-functional requirements, UML diagrams, UI/UX designs, test planning, EVA calculations, timeline WBS, and comprehensive risk analysis.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-1.5 font-mono text-[11px] text-slate-600 dark:text-slate-400">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">UML &amp; System Design</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">UI/UX Design</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">EVA Calculation</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">QA &amp; Test Planning</span>
+            </div>
+            <button class="project-modal-btn w-full py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5"
+              data-title="Interior Design Software System Architecture"
+              data-desc="An end-to-end software engineering documentation and architectural specification for an interior design enterprise platform. It details architectural models, risk mitigation frameworks, and cost-benefit analysis."
+              data-highlights="Complete UML diagram suite: Use Case, Class, Sequence, and ER diagrams|Earned Value Analysis (EVA) cost estimation and risk mitigation matrix|Comprehensive QA Test Planning and Acceptance Criteria|UI/UX wireframes with human-centered workflow design">
+              <span>View Case Study</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 5: Freedom Fighters (OpenGL Graphics Simulation) -->
+      <article data-category="engineering" class="project-card rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card overflow-hidden shadow-sm hover:shadow-2xl hover:border-amber-500/50 transition-all flex flex-col md:col-span-2">
+        <div class="h-48 bg-gradient-to-r from-amber-950 via-slate-900 to-slate-950 p-6 flex flex-col justify-between relative overflow-hidden group">
+          <div class="flex items-center justify-between z-10">
+            <span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-amber-500/20 text-amber-300 border border-amber-400/30">C++ • OpenGL Computer Graphics</span>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil" target="_blank" rel="noopener noreferrer" class="p-2 rounded-lg bg-black/40 text-white/80 hover:text-white hover:bg-black/60 transition" aria-label="GitHub Repository"><i data-lucide="github" class="w-4 h-4"></i></a>
+            </div>
+          </div>
+          <div class="z-10">
+            <div class="text-xs uppercase tracking-wider text-amber-400 font-semibold">Interactive Graphics Rendering</div>
+            <h3 class="text-2xl font-bold text-white mt-1">Freedom Fighters (OpenGL Graphics Engine)</h3>
+          </div>
+          <div class="absolute -right-8 -bottom-8 w-36 h-36 bg-amber-500/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+        </div>
+        
+        <div class="p-6 flex-1 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="max-w-2xl">
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              A computer graphics tribute simulation engineered using C++ and OpenGL. Features interactive lighting transitions between dynamic day and night cycles, geometric rendering, and camera control.
+            </p>
+            <div class="flex flex-wrap gap-1.5 font-mono text-[11px] text-slate-600 dark:text-slate-400 mt-3">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">C++</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">OpenGL API</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Shader Lighting</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Interactive Day/Night Cycle</span>
+            </div>
+          </div>
+          <button class="project-modal-btn py-2.5 px-6 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5 whitespace-nowrap"
+            data-title="Freedom Fighters Graphics Simulation"
+            data-desc="Freedom Fighters is an interactive visual tribute created with OpenGL in C++. The project demonstrates core computer graphics algorithms including transformation matrices, dynamic ambient and diffuse lighting, and interactive state switching."
+            data-highlights="Interactive real-time switching between ambient daylight and illuminated night modes|Custom geometric primitive rendering and mathematical transformation matrices|Event-driven keyboard and mouse interaction handling in C++">
+            <span>View Case Study</span>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- Career Experience & Education Timeline -->
+  <section id="experience" class="py-20 relative z-10 bg-slate-100/50 dark:bg-slate-900/30 border-t border-slate-200 dark:border-slate-800">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center mb-16">
+        <span class="text-xs font-bold tracking-widest text-brand-500 uppercase">Track Record</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">Experience &amp; Education</h2>
+        <p class="text-slate-600 dark:text-slate-400 mt-2">Professional responsibilities and academic qualifications.</p>
+      </div>
+
+      <!-- Timeline List -->
+      <div class="relative border-l-2 border-brand-500/30 dark:border-brand-500/20 ml-4 md:ml-32 space-y-12">
+        
+        <!-- Experience 1: AIUB IT Support -->
+        <div class="relative pl-8 group">
+          <!-- Timeline Indicator Dot -->
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-brand-600 border-4 border-slate-50 dark:border-dark-bg group-hover:scale-125 transition-transform"></div>
+          
+          <div class="md:absolute md:-left-36 top-1 text-xs font-mono text-slate-500 dark:text-slate-400 font-semibold mb-1 md:mb-0">
+            Oct 2025 — Jan 2026
+          </div>
+
+          <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white">Intern, IT Support (Full-time)</h3>
+              <span class="text-xs font-semibold text-brand-600 dark:text-brand-400">AIUB IT &bull; Bangladesh (Onsite)</span>
+            </div>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+              Maintained university network infrastructure by performing Cat 6 cabling and connectivity testing, configuring Cisco switches, providing technical support to faculty members for Static IP configuration, troubleshooting hardware issues, and managing logistical IT setups for major university events.
+            </p>
+            <div class="flex flex-wrap gap-2 text-xs font-mono text-slate-500">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Cisco Switches</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Cat 6 Cabling</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Static IP Config</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Hardware Diagnostics</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Event Infrastructure</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education 1: AIUB B.Sc in CSE -->
+        <div class="relative pl-8 group">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-emerald-500 border-4 border-slate-50 dark:border-dark-bg group-hover:scale-125 transition-transform"></div>
+          
+          <div class="md:absolute md:-left-36 top-1 text-xs font-mono text-slate-500 dark:text-slate-400 font-semibold mb-1 md:mb-0">
+            Feb 2022 — Jan 2026
+          </div>
+
+          <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white">B.Sc in Computer Science and Engineering</h3>
+              <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">American International University-Bangladesh (AIUB)</span>
+            </div>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+              Comprehensive undergraduate engineering program covering foundational theory, software design, and applied computational systems. Awarded the prestigious <strong>AIUB Dean's Award six times</strong> for academic excellence.
+            </p>
+            <div>
+              <p class="text-xs uppercase font-mono tracking-wider font-semibold text-slate-500 dark:text-slate-400 mb-2">Key Coursework Completed:</p>
+              <div class="flex flex-wrap gap-2 text-xs font-mono text-slate-500">
+                <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Data Structures</span>
+                <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Algorithms Analysis</span>
+                <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Operating Systems</span>
+                <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Artificial Intelligence</span>
+                <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Databases &amp; Warehousing</span>
+                <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Computer Networking</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Awards & Honors Section -->
+  <section id="awards" class="py-20 relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-xs font-bold tracking-widest text-brand-500 uppercase">Recognition</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">Academic Honors</h2>
+    </div>
+
+    <div class="max-w-3xl mx-auto">
+      <div class="p-8 rounded-2xl bg-gradient-to-tr from-brand-600/10 via-white dark:via-dark-card to-cyan-500/10 border-2 border-brand-500/30 shadow-lg relative overflow-hidden">
+        <div class="flex items-start gap-5">
+          <div class="w-14 h-14 rounded-2xl bg-brand-600 text-white flex items-center justify-center flex-shrink-0 shadow-lg shadow-brand-600/30">
+            <i data-lucide="award" class="w-8 h-8"></i>
+          </div>
+          <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">
+              6x Dean's Honor Roll
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Dean's Award, AIUB</h3>
+            <p class="text-sm font-semibold text-brand-600 dark:text-brand-400">American International University-Bangladesh</p>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed pt-1">
+              "Received six times for continuous academic excellence across undergraduate semesters in Computer Science and Engineering."
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Get In Touch Section -->
+  <section id="contact" class="py-24 relative z-10 bg-slate-100/60 dark:bg-slate-900/40 border-t border-slate-200 dark:border-slate-800">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        <!-- Left: Contact Details -->
+        <div class="lg:col-span-5 space-y-6">
+          <span class="text-xs font-bold tracking-widest text-brand-500 uppercase">Contact</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Let's connect &amp; collaborate.</h2>
+          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+            I am available for full-time software developer opportunities, contract engagements, and innovative web projects. Reach out directly or send a message.
+          </p>
+
+          <div class="space-y-4 pt-4">
+            <a href="mailto:mafialhasan@gmail.com" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 hover:border-brand-500 transition group">
+              <div class="w-10 h-10 rounded-lg bg-brand-500/10 text-brand-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <p class="text-xs text-slate-400">Email</p>
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">mafialhasan@gmail.com</p>
+              </div>
+            </a>
+
+            <a href="tel:+8801700656279" class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition group">
+              <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <i data-lucide="phone" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <p class="text-xs text-slate-400">Mobile / WhatsApp</p>
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">+880 1700-656279</p>
+              </div>
+            </a>
+
+            <div class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800">
+              <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-500 flex items-center justify-center">
+                <i data-lucide="map-pin" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <p class="text-xs text-slate-400">Location</p>
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">Dhaka, Bangladesh &bull; Open to Onsite &amp; Remote</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800">
+              <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center">
+                <i data-lucide="globe" class="w-5 h-5"></i>
+              </div>
+              <div class="flex items-center gap-3">
+                <a href="https://github.com/ShakilJamil" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:underline">GitHub</a>
+                <span class="text-slate-400">&bull;</span>
+                <a href="https://www.linkedin.com/in/Shakil%20Jamil%20Mrida" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:underline">LinkedIn</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Interactive Contact Form -->
+        <div class="lg:col-span-7">
+          <div class="p-8 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 shadow-xl">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Send Shakil a Message</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Leave your details and inquiry below, and I will get back to you promptly.</p>
+            
+            <form id="contact-form" class="space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="name" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Your Name *</label>
+                  <input type="text" id="name" required placeholder="John Doe" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm transition">
+                </div>
+                <div>
+                  <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Your Email *</label>
+                  <input type="email" id="email" required placeholder="john@example.com" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm transition">
+                </div>
+              </div>
+
+              <div>
+                <label for="subject" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Subject</label>
+                <input type="text" id="subject" placeholder="Job Opportunity / Project Collaboration" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm transition">
+              </div>
+
+              <div>
+                <label for="message" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Message *</label>
+                <textarea id="message" rows="4" required placeholder="Tell me about your team, role, or project..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm transition resize-none"></textarea>
+              </div>
+
+              <button type="submit" id="submit-btn" class="w-full py-3.5 px-6 rounded-xl font-semibold bg-brand-600 hover:bg-brand-500 text-white shadow-lg shadow-brand-600/30 transition-all flex items-center justify-center gap-2">
+                <span>Send Message</span>
+                <i data-lucide="send" class="w-4 h-4"></i>
+              </button>
+            </form>
+
+            <!-- Success Notification Alert -->
+            <div id="form-success" class="hidden mt-4 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-sm flex items-center gap-3">
+              <i data-lucide="check-circle" class="w-5 h-5 flex-shrink-0"></i>
+              <div>
+                <p class="font-semibold">Message dispatched!</p>
+                <p class="text-xs">Thanks for reaching out! Shakil will respond within 24 hours.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-bg py-10 relative z-10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-brand-500"></span>
+        <span>&copy; <span id="current-year"></span> Shakil Jamil Mrida. Built with HTML5 &amp; Tailwind CSS.</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="#hero" class="hover:text-brand-500 transition">Back to Top &uarr;</a>
+        <a href="https://github.com/ShakilJamil" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 dark:hover:text-white transition">GitHub</a>
+        <a href="https://www.linkedin.com/in/Shakil%20Jamil%20Mrida" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 dark:hover:text-white transition">LinkedIn</a>
+        <a href="mailto:mafialhasan@gmail.com" class="hover:text-slate-900 dark:hover:text-white transition">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal for Case Study Details -->
+  <div id="project-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm transition-opacity">
+    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 rounded-2xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button id="close-modal-btn" aria-label="Close modal" class="absolute top-5 right-5 p-2 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <span class="text-xs font-bold font-mono uppercase tracking-widest text-brand-500">Project Highlights</span>
+      <h3 id="modal-title" class="text-2xl font-bold text-slate-900 dark:text-white mt-1 mb-4">Project Title</h3>
+      
+      <p id="modal-desc" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+        Detailed description...
+      </p>
+
+      <div class="mb-6">
+        <h4 class="text-xs uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400 mb-3">Key Technical Features</h4>
+        <ul id="modal-highlights" class="space-y-2 text-sm text-slate-700 dark:text-slate-300">
+          <!-- Populated by app.js -->
+        </ul>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
+        <button id="modal-done-btn" class="px-5 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs hover:bg-slate-300 dark:hover:bg-slate-700 transition">Close</button>
+        <a href="#contact" id="modal-discuss-btn" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-xs transition">Discuss Project</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 hidden px-5 py-3.5 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-2xl font-medium text-xs flex items-center gap-2.5 border border-slate-800 dark:border-slate-200 animate-bounce">
+    <i data-lucide="info" class="w-4 h-4 text-brand-500"></i>
+    <span id="toast-message">Notification message</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
