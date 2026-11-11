@@ -895,22 +895,22 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label for="name" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Your Name *</label>
-                  <input type="text" id="name" required placeholder="John Doe" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm transition">
+                  <input type="text" id="name" name="name" required placeholder="John Doe" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm transition">
                 </div>
                 <div>
                   <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Your Email *</label>
-                  <input type="email" id="email" required placeholder="john@example.com" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm transition">
+                  <input type="email" id="email" name="email" required placeholder="john@example.com" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm transition">
                 </div>
               </div>
 
               <div>
                 <label for="subject" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Subject</label>
-                <input type="text" id="subject" placeholder="Job Opportunity / Project Collaboration" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm transition">
+                <input type="text" id="subject" name="subject" placeholder="Job Opportunity / Project Collaboration" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm transition">
               </div>
 
               <div>
                 <label for="message" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Message *</label>
-                <textarea id="message" rows="4" required placeholder="Tell me about your team, role, or project..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm transition resize-none"></textarea>
+                <textarea id="message" name="message" rows="4" required placeholder="Tell me about your team, role, or project..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm transition resize-none"></textarea>
               </div>
 
               <button type="submit" id="submit-btn" class="w-full py-3.5 px-6 rounded-xl font-semibold bg-brand-600 hover:bg-brand-500 text-white shadow-lg shadow-brand-600/30 transition-all flex items-center justify-center gap-2">
@@ -924,7 +924,20 @@
               <i data-lucide="check-circle" class="w-5 h-5 flex-shrink-0"></i>
               <div>
                 <p class="font-semibold">Message dispatched!</p>
-                <p class="text-xs">Thanks for reaching out! Shakil will respond within 24 hours.</p>
+                <p id="form-success-text" class="text-xs">Thanks for reaching out! Shakil will respond within 24 hours.</p>
+              </div>
+            </div>
+
+            <!-- Error / Fallback Notification Alert -->
+            <div id="form-error" class="hidden mt-4 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-sm flex items-start gap-3">
+              <i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0 mt-0.5"></i>
+              <div class="space-y-1.5">
+                <p class="font-semibold">Could not send directly from browser</p>
+                <p id="form-error-text" class="text-xs">Please verify your internet connection or send via your email client.</p>
+                <a id="mailto-fallback" href="mailto:mafialhasan@gmail.com" class="inline-flex items-center gap-1.5 text-xs font-semibold underline hover:no-underline">
+                  <span>Open in Email App</span>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                </a>
               </div>
             </div>
 

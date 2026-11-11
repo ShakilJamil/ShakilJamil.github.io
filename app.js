@@ -1,5 +1,5 @@
 /**
- * Alex Carter - Developer Portfolio Script
+ * Shakil Jamil Mrida - Developer Portfolio Script
  * Handles theme toggling, mobile navigation, project filtering,
  * modal dialogs, and interactive contact form handling.
  */
@@ -144,14 +144,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 7. Interactive Contact Form Handling
+  // 7. Interactive Contact Form Handling (FormSubmit + Mailto Fallback)
   const contactForm = document.getElementById('contact-form');
   const formSuccess = document.getElementById('form-success');
+  const formSuccessText = document.getElementById('form-success-text');
+  const formError = document.getElementById('form-error');
+  const formErrorText = document.getElementById('form-error-text');
+  const mailtoFallback = document.getElementById('mailto-fallback');
   const submitBtn = document.getElementById('submit-btn');
 
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      const name = document.getElementById('name')?.value.trim() || '';
+      const email = document.getElementById('email')?.value.trim() || '';
+      const subject = document.getElementById('subject')?.value.trim() || '';
+      const message = document.getElementById('message')?.value.trim() || '';
+
+      if (formSuccess) formSuccess.classList.add('hidden');
+      if (formError) formError.classList.add('hidden');
+
+      const mailtoSubject = encodeURIComponent(subject || `Portfolio Inquiry from ${name}`);
+      const mailtoBody = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+      if (mailtoFallback) {
+        mailtoFallback.href = `mailto:mafialhasan@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
+      }
+
+      if (window.location.protocol === 'file:') {
+        if (formError && formErrorText) {
+          formErrorText.textContent = 'Direct web form delivery requires opening via your live website (https://shakiljamil.github.io) or a local server. Click below to send via your email app.';
+          formError.classList.remove('hidden');
+        }
+        showToast('Open via live URL or use Email App fallback');
+        return;
+      }
 
       const originalBtnHTML = submitBtn.innerHTML;
       submitBtn.disabled = true;
@@ -160,31 +187,60 @@ document.addEventListener('DOMContentLoaded', () => {
         <span>Sending message...</span>
       `;
 
-      // Simulate network request
-      setTimeout(() => {
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/mafialhasan@gmail.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            _subject: subject ? `Portfolio Inquiry: ${subject}` : `New Portfolio Message from ${name}`,
+            message,
+            _template: 'table'
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && (data.success === 'true' || data.success === true)) {
+          contactForm.reset();
+          if (formSuccess && formSuccessText) {
+            formSuccessText.textContent = 'Thanks for reaching out! Shakil will respond to your email shortly.';
+            formSuccess.classList.remove('hidden');
+            setTimeout(() => formSuccess.classList.add('hidden'), 7000);
+          }
+          showToast('Message sent successfully!');
+        } else {
+          const msg = data?.message || 'Verification may be required in Shakil\'s inbox for the first submission.';
+          if (formError && formErrorText) {
+            formErrorText.textContent = msg;
+            formError.classList.remove('hidden');
+          }
+          showToast('Please check the notice below the form.');
+        }
+      } catch (err) {
+        if (formError && formErrorText) {
+          formErrorText.textContent = 'Network request was blocked or failed. Use the direct email link below to send your message.';
+          formError.classList.remove('hidden');
+        }
+        showToast('Could not send directly — use Email App link.');
+      } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalBtnHTML;
-        contactForm.reset();
-        
-        if (formSuccess) {
-          formSuccess.classList.remove('hidden');
-          setTimeout(() => {
-            formSuccess.classList.add('hidden');
-          }, 6000);
-        }
-
-        showToast('Message sent! I will reply shortly.');
         if (window.lucide) window.lucide.createIcons();
-      }, 1000);
+      }
     });
   }
 
-  // 8. CV Download Simulation / Handler
+  // 8. CV Download / Printable Resume Handler
   const downloadCvBtn = document.getElementById('download-cv-btn');
   if (downloadCvBtn) {
     downloadCvBtn.addEventListener('click', () => {
-      showToast('Resume ready: replace href with your resume.pdf!');
-      // Alternatively, can trigger window.print() or open resume link
+      showToast('Opening printable CV view (choose "Save as PDF")');
+      setTimeout(() => window.print(), 300);
     });
   }
 
