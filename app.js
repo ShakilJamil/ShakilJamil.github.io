@@ -144,19 +144,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 7. Interactive Contact Form Handling (FormSubmit + Mailto Fallback)
+  // 7. Interactive Contact Form Handling (Standard FormSubmit POST + Mailto Fallback)
   const contactForm = document.getElementById('contact-form');
   const formSuccess = document.getElementById('form-success');
   const formSuccessText = document.getElementById('form-success-text');
   const formError = document.getElementById('form-error');
   const formErrorText = document.getElementById('form-error-text');
   const mailtoFallback = document.getElementById('mailto-fallback');
+  const hiddenSubject = document.getElementById('hidden-subject');
   const submitBtn = document.getElementById('submit-btn');
 
-  if (contactForm) {
-    contactForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  // Show success confirmation when redirected back from FormSubmit (?sent=1)
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('sent') === '1') {
+    if (formSuccess && formSuccessText) {
+      formSuccessText.textContent = 'Thanks for reaching out! Your message has been sent to Shakil\'s inbox.';
+      formSuccess.classList.remove('hidden');
+      setTimeout(() => formSuccess.classList.add('hidden'), 8000);
+    }
+    showToast('Message delivered successfully!');
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState({}, '', window.location.pathname + '#contact');
+    }
+  }
 
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
       const name = document.getElementById('name')?.value.trim() || '';
       const email = document.getElementById('email')?.value.trim() || '';
       const subject = document.getElementById('subject')?.value.trim() || '';
@@ -172,66 +185,35 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (window.location.protocol === 'file:') {
+        e.preventDefault();
         if (formError && formErrorText) {
-          formErrorText.textContent = 'Direct web form delivery requires opening via your live website (https://shakiljamil.github.io) or a local server. Click below to send via your email app.';
+          formErrorText.textContent = 'Direct web form delivery requires opening via your live website (https://shakiljamil.github.io). Click below to send via your email app.';
           formError.classList.remove('hidden');
         }
         showToast('Open via live URL or use Email App fallback');
         return;
       }
 
-      const originalBtnHTML = submitBtn.innerHTML;
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = `
-        <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-        <span>Sending message...</span>
-      `;
-
-      try {
-        const response = await fetch('https://formsubmit.co/ajax/mafialhasan@gmail.com', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            name,
-            email,
-            _subject: subject ? `Portfolio Inquiry: ${subject}` : `New Portfolio Message from ${name}`,
-            message,
-            _template: 'table'
-          })
-        });
-
-        const data = await response.json();
-
-        if (response.ok && (data.success === 'true' || data.success === true)) {
-          contactForm.reset();
-          if (formSuccess && formSuccessText) {
-            formSuccessText.textContent = 'Thanks for reaching out! Shakil will respond to your email shortly.';
-            formSuccess.classList.remove('hidden');
-            setTimeout(() => formSuccess.classList.add('hidden'), 7000);
-          }
-          showToast('Message sent successfully!');
-        } else {
-          const msg = data?.message || 'Verification may be required in Shakil\'s inbox for the first submission.';
-          if (formError && formErrorText) {
-            formErrorText.textContent = msg;
-            formError.classList.remove('hidden');
-          }
-          showToast('Please check the notice below the form.');
-        }
-      } catch (err) {
-        if (formError && formErrorText) {
-          formErrorText.textContent = 'Network request was blocked or failed. Use the direct email link below to send your message.';
-          formError.classList.remove('hidden');
-        }
-        showToast('Could not send directly — use Email App link.');
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalBtnHTML;
-        if (window.lucide) window.lucide.createIcons();
+      if (hiddenSubject) {
+        hiddenSubject.value = subject
+          ? `Portfolio Inquiry: ${subject}`
+          : `New Portfolio Message from ${name}`;
       }
+
+      if (submitBtn) {
+        const originalHTML = submitBtn.innerHTML;
+        submitBtn.innerHTML = `
+          <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+          <span>Sending message...</span>
+        `;
+        setTimeout(() => { submitBtn.disabled = true; }, 0);
+        window.addEventListener('pageshow', () => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalHTML;
+          if (window.lucide) window.lucide.createIcons();
+        }, { once: true });
+      }
+      // Allow native HTML POST to https://formsubmit.co/mafialhasan@gmail.com
     });
   }
 

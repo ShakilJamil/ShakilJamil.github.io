@@ -949,7 +949,13 @@
             <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Send Shakil a Message</h3>
             <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Leave your details and inquiry below, and I will get back to you promptly.</p>
             
-            <form id="contact-form" class="space-y-4">
+            <form id="contact-form" action="https://formsubmit.co/mafialhasan@gmail.com" method="POST" class="space-y-4">
+              <!-- FormSubmit Configuration -->
+              <input type="hidden" name="_subject" id="hidden-subject" value="New Portfolio Message for Shakil Jamil">
+              <input type="hidden" name="_template" value="table">
+              <input type="hidden" name="_next" value="https://shakiljamil.github.io/?sent=1#contact">
+              <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off">
+
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label for="name" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Your Name *</label>
@@ -1057,6 +1063,6 @@
     <span id="toast-message">Notification message</span>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
