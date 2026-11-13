@@ -81,12 +81,10 @@
 
       <!-- Right Actions: Auth Pill, Swagger & Theme Toggle -->
       <div class="flex items-center gap-2">
-        <!-- Auth / Role Indicator Button -->
-        <button onclick="openAuthModal()" id="user-role-badge" title="Click to Switch Roles or Login" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl text-xs border border-slate-200 dark:border-slate-700 bg-white dark:bg-dark-card hover:border-brand-500 transition shadow-sm cursor-pointer">
-          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-          <span id="user-display-name" class="font-bold text-[11px] text-slate-800 dark:text-slate-200">Admin</span>
-          <span id="user-role-tag" class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20">ROLE_ADMIN</span>
-        </button>
+        <!-- Dynamic Auth Slot -->
+        <div id="user-auth-slot">
+          <!-- Populated by updateUserHeaderDisplay() -->
+        </div>
 
         <a href="/swagger-ui.html" target="_blank" rel="noopener noreferrer" class="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-mono font-semibold border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition">
           <i data-lucide="file-code-2" class="w-3.5 h-3.5 text-brand-500"></i>
@@ -214,63 +212,82 @@
 
     <!-- TAB 3: STAFF DESK -->
     <section id="tab-staff" class="tab-content hidden space-y-8">
-      <div class="text-center max-w-2xl mx-auto space-y-2">
-        <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">Doctor &amp; Staff Service Counter</h2>
-        <p class="text-sm text-slate-600 dark:text-slate-400">Call waiting patients, begin consultations, and trigger digital signage announcements.</p>
+      
+      <!-- Security Gate: Shown if not ROLE_STAFF or ROLE_ADMIN -->
+      <div id="staff-security-gate" class="hidden p-8 rounded-3xl border border-cyan-500/30 bg-cyan-500/5 text-center max-w-lg mx-auto space-y-4">
+        <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-500 flex items-center justify-center mx-auto">
+          <i data-lucide="shield-alert" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Staff Terminal Restricted</h3>
+        <p class="text-xs text-slate-600 dark:text-slate-400">
+          Access to active counter desks, patient calling, and triage controls is restricted to authorized clinic personnel and administrators.
+        </p>
+        <button onclick="openAuthModal()" class="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs shadow-lg shadow-cyan-600/30 transition flex items-center justify-center gap-2 mx-auto">
+          <i data-lucide="log-in" class="w-4 h-4"></i>
+          <span>Sign In as Staff / Doctor</span>
+        </button>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Station Selector -->
-        <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-3">
-          <span class="text-xs font-mono uppercase text-slate-400 font-bold">Step 1: Your Station</span>
-          <select id="staff-counter-select" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
-            <!-- Counters populated dynamically -->
-          </select>
-          <p class="text-[11px] text-slate-400">Select which counter desk you are currently logged in at.</p>
+      <!-- Staff Dashboard Content (Active when authenticated as Staff or Admin) -->
+      <div id="staff-main-content" class="space-y-8">
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+          <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">Doctor &amp; Staff Service Counter</h2>
+          <p class="text-sm text-slate-600 dark:text-slate-400">Call waiting patients, begin consultations, and trigger digital signage announcements.</p>
         </div>
 
-        <!-- Current Patient in Service -->
-        <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-2 text-center">
-          <span class="text-xs font-mono uppercase text-slate-400 font-bold">Now at Your Counter</span>
-          <div id="staff-now-serving" class="text-4xl font-extrabold font-mono text-emerald-500 my-1">Ready</div>
-          <p class="text-[11px] text-slate-400">Click below to call the next waiting patient in queue.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Station Selector -->
+          <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-3">
+            <span class="text-xs font-mono uppercase text-slate-400 font-bold">Step 1: Your Station</span>
+            <select id="staff-counter-select" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+              <!-- Counters populated dynamically -->
+            </select>
+            <p class="text-[11px] text-slate-400">Select which counter desk you are currently logged in at.</p>
+          </div>
+
+          <!-- Current Patient in Service -->
+          <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-2 text-center">
+            <span class="text-xs font-mono uppercase text-slate-400 font-bold">Now at Your Counter</span>
+            <div id="staff-now-serving" class="text-4xl font-extrabold font-mono text-emerald-500 my-1">Ready</div>
+            <p class="text-[11px] text-slate-400">Click below to call the next waiting patient in queue.</p>
+          </div>
+
+          <!-- Quick Triage Actions -->
+          <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm flex flex-col justify-center gap-2">
+            <button onclick="callNextCustomer()" class="w-full py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs shadow-md shadow-brand-600/30 transition flex items-center justify-center gap-2">
+              <i data-lucide="megaphone" class="w-4 h-4"></i>
+              <span>Call Next Patient</span>
+            </button>
+            <button onclick="completeCurrentTicket()" class="w-full py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition flex items-center justify-center gap-2">
+              <i data-lucide="check-circle" class="w-4 h-4"></i>
+              <span>Complete Consultation</span>
+            </button>
+            <button onclick="skipCurrentTicket()" class="w-full py-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-rose-500/10 hover:border-rose-500 text-slate-600 dark:text-slate-300 hover:text-rose-400 font-semibold text-xs transition flex items-center justify-center gap-2">
+              <i data-lucide="user-x" class="w-4 h-4"></i>
+              <span>No-Show / Skip</span>
+            </button>
+          </div>
         </div>
 
-        <!-- Quick Triage Actions -->
-        <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm flex flex-col justify-center gap-2">
-          <button onclick="callNextCustomer()" class="w-full py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs shadow-md shadow-brand-600/30 transition flex items-center justify-center gap-2">
-            <i data-lucide="megaphone" class="w-4 h-4"></i>
-            <span>Call Next Patient</span>
-          </button>
-          <button onclick="completeCurrentTicket()" class="w-full py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition flex items-center justify-center gap-2">
-            <i data-lucide="check-circle" class="w-4 h-4"></i>
-            <span>Complete Consultation</span>
-          </button>
-          <button onclick="skipCurrentTicket()" class="w-full py-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-rose-500/10 hover:border-rose-500 text-slate-600 dark:text-slate-300 hover:text-rose-400 font-semibold text-xs transition flex items-center justify-center gap-2">
-            <i data-lucide="user-x" class="w-4 h-4"></i>
-            <span>No-Show / Skip</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Waiting Queue Table -->
-      <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-4">
-        <h3 class="font-bold text-base text-slate-900 dark:text-white">Waiting Patient Queue</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs">
-            <thead class="uppercase font-mono text-slate-400 border-b border-slate-100 dark:border-slate-800">
-              <tr>
-                <th class="py-3 px-4">Ticket</th>
-                <th class="py-3 px-4">Patient</th>
-                <th class="py-3 px-4">Department</th>
-                <th class="py-3 px-4">Wait Position</th>
-                <th class="py-3 px-4">Issued Time</th>
-              </tr>
-            </thead>
-            <tbody id="staff-queue-tbody" class="divide-y divide-slate-100 dark:divide-slate-800">
-              <!-- Populated via JS -->
-            </tbody>
-          </table>
+        <!-- Waiting Queue Table -->
+        <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-4">
+          <h3 class="font-bold text-base text-slate-900 dark:text-white">Waiting Patient Queue</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="uppercase font-mono text-slate-400 border-b border-slate-100 dark:border-slate-800">
+                <tr>
+                  <th class="py-3 px-4">Ticket</th>
+                  <th class="py-3 px-4">Patient</th>
+                  <th class="py-3 px-4">Department</th>
+                  <th class="py-3 px-4">Wait Position</th>
+                  <th class="py-3 px-4">Issued Time</th>
+                </tr>
+              </thead>
+              <tbody id="staff-queue-tbody" class="divide-y divide-slate-100 dark:divide-slate-800">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>
@@ -327,10 +344,11 @@
         </div>
         <h3 class="text-lg font-bold text-slate-900 dark:text-white">Admin Privileges Required</h3>
         <p class="text-xs text-slate-600 dark:text-slate-400">
-          This portal is guarded by Spring Security with <code class="font-mono text-brand-500">@PreAuthorize("hasAuthority('ROLE_ADMIN')")</code>. You are currently logged in as a non-admin account.
+          This administrative portal requires verified Administrator credentials. You are currently browsing as a guest or standard account.
         </p>
-        <button onclick="loginAsPreset('admin')" class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-lg shadow-amber-600/30 transition">
-          Switch to System Administrator
+        <button onclick="openAuthModal()" class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-lg shadow-amber-600/30 transition flex items-center justify-center gap-2 mx-auto">
+          <i data-lucide="log-in" class="w-4 h-4"></i>
+          <span>Sign In as Administrator</span>
         </button>
       </div>
 
@@ -341,8 +359,8 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 mb-2">
-              <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
-              <span>Spring Security 6 &bull; ROLE_ADMIN Authorized</span>
+              <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+              <span>Enterprise Security &bull; Administrator Access Granted</span>
             </div>
             <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">System Admin &amp; Database CRUD</h2>
             <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">
@@ -517,7 +535,7 @@
               <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
                 <i data-lucide="calendar" class="w-4 h-4 text-emerald-500"></i> Doctor Appointment Slots (CRUD)
               </h3>
-              <p class="text-xs text-slate-500">Guarded by JPA <code class="font-mono text-brand-500">@Version</code> optimistic locking</p>
+              <p class="text-xs text-slate-500">Guarded by automated concurrent booking protection</p>
             </div>
             <button onclick="openSlotModal()" class="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
               <i data-lucide="plus" class="w-3.5 h-3.5"></i> Generate Slot
@@ -602,63 +620,72 @@
     </div>
   </div>
 
-  <!-- MODAL: Authentication & Role Switcher -->
+  <!-- MODAL: Spring Security JWT Authentication Gateway -->
   <div id="auth-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
-    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-6">
+    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-5">
       <div class="flex items-center justify-between">
-        <div>
-          <h3 class="font-bold text-lg text-slate-900 dark:text-white">Security &amp; Role-Based Access</h3>
-          <p class="text-xs text-slate-500">Switch roles with 1-click or authenticate with Spring Security JWT</p>
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-brand-500/10 text-brand-500 flex items-center justify-center">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-base text-slate-900 dark:text-white">PulseQueue Authentication</h3>
+            <p class="text-xs text-slate-500">Spring Security 6 &bull; JWT Bearer Token Gate</p>
+          </div>
         </div>
         <button onclick="closeAuthModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
-      <!-- 1-Click Role Presets -->
+      <!-- Credential Helper / Role Directory -->
       <div class="space-y-2">
-        <span class="text-[11px] font-mono uppercase text-slate-400 font-bold">1-Click Quick Login Presets:</span>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-          <!-- Admin -->
-          <button onclick="loginAsPreset('admin')" class="p-3 rounded-2xl border border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/10 text-left transition space-y-1">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-xs text-amber-500">👑 Admin</span>
-              <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400">CRUD</span>
+        <span class="text-[10px] font-mono uppercase text-slate-400 font-bold">Authorized Test Accounts:</span>
+        <div class="space-y-1.5 text-xs">
+          <div class="p-2.5 rounded-xl border border-amber-500/20 bg-amber-500/5 flex items-center justify-between">
+            <div>
+              <strong class="text-amber-500 font-bold">Admin:</strong>
+              <span class="font-mono text-slate-600 dark:text-slate-400">admin@pulsequeue.io</span>
+              <span class="text-[10px] text-slate-400 ml-1">(Pass: <code class="text-amber-400">Admin@123</code>)</span>
             </div>
-            <div class="text-[10px] text-slate-400 font-mono truncate">admin@pulsequeue.dev</div>
-          </button>
-
-          <!-- Staff -->
-          <button onclick="loginAsPreset('staff')" class="p-3 rounded-2xl border border-cyan-500/30 bg-cyan-500/5 hover:bg-cyan-500/10 text-left transition space-y-1">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-xs text-cyan-500">🩺 Staff</span>
-              <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-400">Desk</span>
+            <button type="button" onclick="fillPulseQueueCreds('admin@pulsequeue.io', 'Admin@123')" class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-500 font-bold hover:bg-amber-500/30">Auto-Fill</button>
+          </div>
+          <div class="p-2.5 rounded-xl border border-cyan-500/20 bg-cyan-500/5 flex items-center justify-between">
+            <div>
+              <strong class="text-cyan-500 font-bold">Staff:</strong>
+              <span class="font-mono text-slate-600 dark:text-slate-400">staff@pulsequeue.io</span>
+              <span class="text-[10px] text-slate-400 ml-1">(Pass: <code class="text-cyan-400">Staff@123</code>)</span>
             </div>
-            <div class="text-[10px] text-slate-400 font-mono truncate">staff1@pulsequeue.dev</div>
-          </button>
-
-          <!-- Customer -->
-          <button onclick="loginAsPreset('customer')" class="p-3 rounded-2xl border border-brand-500/30 bg-brand-500/5 hover:bg-brand-500/10 text-left transition space-y-1">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-xs text-brand-500">👤 Patient</span>
-              <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-brand-500/20 text-brand-400">Book</span>
+            <button type="button" onclick="fillPulseQueueCreds('staff@pulsequeue.io', 'Staff@123')" class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-500 font-bold hover:bg-cyan-500/30">Auto-Fill</button>
+          </div>
+          <div class="p-2.5 rounded-xl border border-brand-500/20 bg-brand-500/5 flex items-center justify-between">
+            <div>
+              <strong class="text-brand-500 font-bold">Patient:</strong>
+              <span class="font-mono text-slate-600 dark:text-slate-400">patient@pulsequeue.io</span>
+              <span class="text-[10px] text-slate-400 ml-1">(Pass: <code class="text-brand-400">User@123</code>)</span>
             </div>
-            <div class="text-[10px] text-slate-400 font-mono truncate">customer@pulsequeue.dev</div>
-          </button>
+            <button type="button" onclick="fillPulseQueueCreds('patient@pulsequeue.io', 'User@123')" class="text-[10px] px-2 py-0.5 rounded bg-brand-500/20 text-brand-500 font-bold hover:bg-brand-500/30">Auto-Fill</button>
+          </div>
         </div>
       </div>
 
-      <!-- Custom Auth Form -->
+      <!-- Secure Login Form -->
       <form onsubmit="handleCustomLogin(event)" class="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
-        <span class="text-[11px] font-mono uppercase text-slate-400 font-bold">Or Sign In with Credentials:</span>
         <div>
-          <label class="block text-[11px] font-semibold text-slate-500 mb-1">Email Address</label>
-          <input type="email" id="auth-email" required placeholder="name@pulsequeue.dev" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+          <label class="block text-[11px] font-semibold text-slate-500 mb-1">Email / Principal</label>
+          <input type="email" id="auth-email" required value="admin@pulsequeue.io" placeholder="admin@pulsequeue.io" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
         </div>
         <div>
           <label class="block text-[11px] font-semibold text-slate-500 mb-1">Password</label>
-          <input type="password" id="auth-password" required placeholder="••••••••" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+          <input type="password" id="auth-password" required placeholder="Enter password" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
         </div>
-        <button type="submit" class="w-full py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs shadow-md shadow-brand-600/30 transition">
-          Authenticate &amp; Generate JWT Bearer
+
+        <div id="auth-error-msg" class="hidden text-xs text-rose-500 font-semibold flex items-center gap-1.5">
+          <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+          <span id="auth-error-text">Invalid credentials. Authentication rejected.</span>
+        </div>
+
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs shadow-md shadow-brand-600/30 transition flex items-center justify-center gap-1.5">
+          <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
+          <span>Authenticate &amp; Issue JWT</span>
         </button>
       </form>
     </div>
@@ -747,7 +774,7 @@
       </div>
 
       <button onclick="saveSlot()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 transition">
-        Generate Time Slot (@Version 0)
+        Generate Time Slot
       </button>
     </div>
   </div>

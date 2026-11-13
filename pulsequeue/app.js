@@ -73,13 +73,8 @@ function persistDemoState() {
   } catch (_) {}
 }
 
-// Active Authenticated User & Role
-let currentUser = loadPersistedUser() || {
-  name: "Dr. Shakil Admin",
-  email: "admin@pulsequeue.dev",
-  role: "ROLE_ADMIN",
-  token: "jwt-demo-token-admin-sha256"
-};
+// Active Authenticated User & Role (Defaults to null: Unauthenticated Guest Mode)
+let currentUser = loadPersistedUser();
 
 function loadPersistedUser() {
   try {
@@ -92,7 +87,11 @@ function loadPersistedUser() {
 function persistCurrentUser(user) {
   currentUser = user;
   try {
-    sessionStorage.setItem('pulsequeue_user', JSON.stringify(user));
+    if (user) {
+      sessionStorage.setItem('pulsequeue_user', JSON.stringify(user));
+    } else {
+      sessionStorage.removeItem('pulsequeue_user');
+    }
   } catch (_) {}
   updateUserHeaderDisplay();
   applyRoleSecurity();
@@ -139,111 +138,99 @@ document.addEventListener('DOMContentLoaded', () => {
 // USER INTERFACE & AUTHENTICATION
 // -------------------------------------------------------------
 function updateUserHeaderDisplay() {
-  const nameEl = document.getElementById('user-display-name');
-  const roleEl = document.getElementById('user-role-tag');
+  const authSlot = document.getElementById('user-auth-slot');
+  if (!authSlot) return;
 
-  if (nameEl) {
-    nameEl.textContent = currentUser.role === 'ROLE_ADMIN' ? 'Admin' :
-                         currentUser.role === 'ROLE_STAFF' ? 'Staff' : 'Patient';
+  if (!currentUser) {
+    // Unauthenticated Guest View
+    authSlot.innerHTML = `
+      <button onclick="openAuthModal()" title="Sign In with Spring Security" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-brand-500/30 bg-brand-500/10 hover:bg-brand-500/20 text-brand-600 dark:text-brand-400 transition shadow-sm cursor-pointer">
+        <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+        <span>Sign In</span>
+      </button>
+    `;
+  } else {
+    // Authenticated User View
+    const roleColor = currentUser.role === 'ROLE_ADMIN' ? 'bg-amber-400' :
+                      currentUser.role === 'ROLE_STAFF' ? 'bg-cyan-400' : 'bg-emerald-400';
+    const roleBadgeClass = currentUser.role === 'ROLE_ADMIN' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' :
+                           currentUser.role === 'ROLE_STAFF' ? 'bg-cyan-500/10 text-cyan-500 border-cyan-500/20' :
+                           'bg-emerald-500/10 text-emerald-500 border-emerald-500/20';
+
+    authSlot.innerHTML = `
+      <div class="flex items-center gap-1.5">
+        <div class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl text-xs border border-slate-200 dark:border-slate-700 bg-white dark:bg-dark-card shadow-sm">
+          <span class="w-2 h-2 rounded-full ${roleColor}"></span>
+          <span class="font-bold text-[11px] text-slate-800 dark:text-slate-200">${currentUser.name || currentUser.email}</span>
+          <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold border ${roleBadgeClass}">${currentUser.role}</span>
+        </div>
+        <button onclick="logout()" title="Sign Out" class="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-rose-500/10 hover:border-rose-500 text-slate-500 hover:text-rose-500 transition cursor-pointer">
+          <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    `;
   }
-  if (roleEl) {
-    roleEl.textContent = currentUser.role;
-    if (currentUser.role === 'ROLE_ADMIN') {
-      roleEl.className = 'px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20';
-    } else if (currentUser.role === 'ROLE_STAFF') {
-      roleEl.className = 'px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-cyan-500/10 text-cyan-500 border border-cyan-500/20';
-    } else {
-      roleEl.className = 'px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-brand-500/10 text-brand-500 border border-brand-500/20';
-    }
-  }
+
+  if (window.lucide) lucide.createIcons();
 }
 
 function applyRoleSecurity() {
-  const securityGate = document.getElementById('admin-security-gate');
+  // Admin Guard
+  const adminGate = document.getElementById('admin-security-gate');
   const adminContent = document.getElementById('admin-main-content');
-
-  if (securityGate && adminContent) {
-    if (currentUser.role === 'ROLE_ADMIN') {
-      securityGate.classList.add('hidden');
+  if (adminGate && adminContent) {
+    if (currentUser && currentUser.role === 'ROLE_ADMIN') {
+      adminGate.classList.add('hidden');
       adminContent.classList.remove('hidden');
     } else {
-      securityGate.classList.remove('hidden');
+      adminGate.classList.remove('hidden');
       adminContent.classList.add('hidden');
+    }
+  }
+
+  // Staff Guard
+  const staffGate = document.getElementById('staff-security-gate');
+  const staffContent = document.getElementById('staff-main-content');
+  if (staffGate && staffContent) {
+    if (currentUser && (currentUser.role === 'ROLE_STAFF' || currentUser.role === 'ROLE_ADMIN')) {
+      staffGate.classList.add('hidden');
+      staffContent.classList.remove('hidden');
+    } else {
+      staffGate.classList.remove('hidden');
+      staffContent.classList.add('hidden');
     }
   }
 }
 
 function openAuthModal() {
   document.getElementById('auth-modal')?.classList.remove('hidden');
+  const errorMsg = document.getElementById('auth-error-msg');
+  if (errorMsg) errorMsg.classList.add('hidden');
 }
 
 function closeAuthModal() {
   document.getElementById('auth-modal')?.classList.add('hidden');
 }
 
-async function loginAsPreset(preset) {
-  let email = '';
-  let password = '';
-  let role = '';
-  let name = '';
-
-  if (preset === 'admin') {
-    email = 'admin@pulsequeue.dev';
-    password = 'Admin@123';
-    role = 'ROLE_ADMIN';
-    name = 'Dr. Shakil (Admin)';
-  } else if (preset === 'staff') {
-    email = 'staff1@pulsequeue.dev';
-    password = 'Staff@123';
-    role = 'ROLE_STAFF';
-    name = 'Staff Nurse Emily';
-  } else {
-    email = 'customer@pulsequeue.dev';
-    password = 'Customer@123';
-    role = 'ROLE_CUSTOMER';
-    name = 'Patient Alex Rivera';
-  }
-
-  try {
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-    if (res.ok) {
-      const data = await res.json();
-      persistCurrentUser({
-        name: data.fullName || name,
-        email: data.email || email,
-        role: data.role || role,
-        token: data.token
-      });
-    } else {
-      throw new Error('API offline');
-    }
-  } catch (_) {
-    // Demo Mode JWT generation
-    persistCurrentUser({
-      name,
-      email,
-      role,
-      token: `demo-jwt-${role.toLowerCase()}-${Date.now()}`
-    });
-  }
-
-  closeAuthModal();
-  showToast(`Authenticated as ${role} (${email})`);
-
-  if (role === 'ROLE_ADMIN') {
-    loadAdminData();
-  }
+function fillPulseQueueCreds(email, password) {
+  const emailInput = document.getElementById('auth-email');
+  const passInput = document.getElementById('auth-password');
+  if (emailInput) emailInput.value = email;
+  if (passInput) passInput.value = password;
+  const errorMsg = document.getElementById('auth-error-msg');
+  if (errorMsg) errorMsg.classList.add('hidden');
 }
 
 async function handleCustomLogin(e) {
   e.preventDefault();
-  const email = document.getElementById('auth-email').value;
-  const password = document.getElementById('auth-password').value;
+  const email = (document.getElementById('auth-email')?.value || '').trim();
+  const password = (document.getElementById('auth-password')?.value || '').trim();
+  const errorMsg = document.getElementById('auth-error-msg');
+  const errorText = document.getElementById('auth-error-text');
 
+  if (errorMsg) errorMsg.classList.add('hidden');
+
+  // Attempt real Spring Security backend endpoint if running locally
   try {
     const res = await fetch('/api/auth/login', {
       method: 'POST',
@@ -259,23 +246,52 @@ async function handleCustomLogin(e) {
         token: data.token
       });
       closeAuthModal();
-      showToast(`Welcome ${data.fullName || email}!`);
-    } else {
-      throw new Error('Invalid credentials');
+      showToast(`Welcome ${data.fullName || email}! Authenticated successfully.`);
+      return;
     }
   } catch (_) {
-    // Determine simulated role based on email keyword
-    const detectedRole = email.includes('admin') ? 'ROLE_ADMIN' :
-                         email.includes('staff') ? 'ROLE_STAFF' : 'ROLE_CUSTOMER';
-    persistCurrentUser({
-      name: email.split('@')[0],
-      email: email,
-      role: detectedRole,
-      token: `demo-jwt-${detectedRole.toLowerCase()}-${Date.now()}`
-    });
-    closeAuthModal();
-    showToast(`Signed in as ${detectedRole}`);
+    // API offline, fall through to client-side credential table
   }
+
+  // Pre-configured verified test credentials
+  const ACCOUNTS = {
+    'admin@pulsequeue.io': { pass: 'Admin@123', name: 'Dr. Shakil (Admin)', role: 'ROLE_ADMIN' },
+    'admin@pulsequeue.dev': { pass: 'Admin@123', name: 'Dr. Shakil (Admin)', role: 'ROLE_ADMIN' },
+    'staff@pulsequeue.io': { pass: 'Staff@123', name: 'Staff Nurse Emily', role: 'ROLE_STAFF' },
+    'staff1@pulsequeue.dev': { pass: 'Staff@123', name: 'Staff Nurse Emily', role: 'ROLE_STAFF' },
+    'patient@pulsequeue.io': { pass: 'User@123', name: 'Patient Alex Rivera', role: 'ROLE_CUSTOMER' },
+    'customer@pulsequeue.dev': { pass: 'User@123', name: 'Patient Alex Rivera', role: 'ROLE_CUSTOMER' }
+  };
+
+  const account = ACCOUNTS[email.toLowerCase()];
+  if (!account || account.pass !== password) {
+    if (errorMsg) {
+      if (errorText) errorText.textContent = 'Invalid credentials. Password or email does not match authorized accounts.';
+      errorMsg.classList.remove('hidden');
+    }
+    return;
+  }
+
+  // Password verified successfully
+  persistCurrentUser({
+    name: account.name,
+    email: email,
+    role: account.role,
+    token: `bearer-jwt-${account.role.toLowerCase()}-${Date.now()}`
+  });
+
+  closeAuthModal();
+  showToast(`Authenticated as ${account.role} (${account.name})`);
+
+  if (account.role === 'ROLE_ADMIN') {
+    loadAdminData();
+  }
+}
+
+function logout() {
+  persistCurrentUser(null);
+  showToast('Signed out. Switched to Guest Mode.');
+  switchTab('booking');
 }
 
 // -------------------------------------------------------------
@@ -369,6 +385,8 @@ function switchTab(tabId) {
 
   if (activeContent) activeContent.classList.remove('hidden');
   if (activeNav) activeNav.classList.add('active', 'bg-brand-600', 'text-white');
+
+  applyRoleSecurity();
 
   if (window.lucide) lucide.createIcons();
 
