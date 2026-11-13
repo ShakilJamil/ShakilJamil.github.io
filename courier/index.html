@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Eagle Courier Service — Nationwide Express Parcel Logistics</title>
+  <meta name="description" content="A nationwide courier and logistics platform featuring dynamic parcel delivery charge estimation, real-time shipment milestone tracking, and branch logistics management.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #d97706;
+      --primary-hover: #b45309;
+      --primary-light: #fef3c7;
+      --dark: #0f172a;
+      --card-bg: #1e293b;
+      --surface: #182234;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --success: #10b981;
+      --info: #38bdf8;
+      --warning: #f59e0b;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--dark);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Nav */
+    header {
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 14px 24px;
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+    .logo-badge {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
+    }
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: white;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .btn-portfolio {
+      background: #334155;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-portfolio:hover {
+      background: #475569;
+    }
+
+    /* Hero / Status Bar */
+    .hero {
+      background: linear-gradient(180deg, rgba(217, 119, 6, 0.12) 0%, rgba(15, 23, 42, 0) 100%);
+      padding: 40px 24px 30px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(217, 119, 6, 0.18);
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      color: #fbbf24;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+    .hero p {
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+      width: 100%;
+    }
+
+    /* Quick Tabs */
+    .tab-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover {
+      color: white;
+      border-color: #64748b;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, #d97706, #b45309);
+      color: white;
+      border-color: #f59e0b;
+      box-shadow: 0 4px 16px rgba(217, 119, 6, 0.3);
+    }
+
+    /* Panels */
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Grid Layout */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Card */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #ffffff;
+    }
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    /* Forms */
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .form-control {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: white;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    select.form-control option {
+      background: var(--surface);
+      color: white;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      transition: all 0.2s;
+    }
+    .btn:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 4px 14px rgba(217, 119, 6, 0.4);
+    }
+
+    /* Calculator Result Box */
+    .calc-result-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 24px;
+    }
+    .calc-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+    .calc-row.total {
+      border-bottom: none;
+      padding-top: 14px;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fbbf24;
+    }
+
+    /* Tracking Search Bar */
+    .tracking-search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .tracking-search-box input {
+      flex: 1;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .tracking-search-box button {
+      width: auto;
+      padding: 0 24px;
+    }
+
+    /* Quick Tracking Samples */
+    .sample-tags {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .sample-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: #38bdf8;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+    .sample-pill:hover {
+      background: #334155;
+    }
+
+    /* Tracking Status Card */
+    .status-banner {
+      background: linear-gradient(135deg, rgba(217, 119, 6, 0.15), rgba(30, 41, 59, 0.8));
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      border-radius: 10px;
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .status-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+    .status-transit { background: rgba(56, 189, 248, 0.2); color: #38bdf8; }
+    .status-delivered { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+    .status-pending { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+      margin-top: 20px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 11px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: var(--border);
+    }
+    .timeline-step {
+      position: relative;
+      margin-bottom: 24px;
+    }
+    .timeline-step:last-child {
+      margin-bottom: 0;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -32px;
+      top: 2px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+    .timeline-step.completed .timeline-dot {
+      background: var(--success);
+      border-color: var(--success);
+      color: white;
+    }
+    .timeline-step.current .timeline-dot {
+      background: var(--primary);
+      border-color: #f59e0b;
+      box-shadow: 0 0 10px rgba(217, 119, 6, 0.6);
+      color: white;
+    }
+    .timeline-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #ffffff;
+    }
+    .timeline-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Table */
+    .table-container {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: var(--surface);
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 520px;
+      width: 100%;
+      padding: 28px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <div>
+          <span>Quick Eagle</span>
+          <span style="font-size:0.75rem; color:#f59e0b; display:block; font-weight:600; margin-top:-3px;">COURIER &amp; LOGISTICS</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="../index.html" class="btn-portfolio">← Back to Portfolio</a>
+        <a href="../cv.html" class="btn-portfolio" style="background:#1e1b4b; border:1px solid #4338ca;">View CV</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      Live Interactive Logistics Engine
+    </div>
+    <h1>Quick Eagle Courier Service</h1>
+    <p>Real-time parcel milestone tracking, automated weight and distance charge computation, and nationwide distribution hub simulation.</p>
+  </div>
+
+  <!-- MAIN APP CONTAINER -->
+  <div class="container">
+
+    <!-- TABS -->
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('track')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        Track Parcel
+      </button>
+      <button class="tab-btn" onclick="switchTab('calculator')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+        Delivery Charge Estimator
+      </button>
+      <button class="tab-btn" onclick="switchTab('book')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+        Dispatch / Book Parcel
+      </button>
+      <button class="tab-btn" onclick="switchTab('hubs')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        Nationwide Hubs (8 Divisions)
+      </button>
+    </div>
+
+    <!-- TAB 1: PARCEL TRACKER -->
+    <div id="pane-track" class="tab-pane active">
+      <div class="card">
+        <div class="card-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          Live Consignment Tracking
+        </div>
+        <div class="card-desc">Enter your unique consignee tracking reference number to view real-time transit telemetry and routing milestones.</div>
+
+        <div class="sample-tags">
+          <span>Try quick sample parcels:</span>
+          <span class="sample-pill" onclick="loadSample('QE-84920')">QE-84920 (In Transit)</span>
+          <span class="sample-pill" onclick="loadSample('QE-99124')">QE-99124 (Delivered)</span>
+          <span class="sample-pill" onclick="loadSample('QE-77215')">QE-77215 (Out for Delivery)</span>
+        </div>
+
+        <div class="tracking-search-box">
+          <input type="text" id="trackInput" class="form-control" placeholder="E.g. QE-84920" value="QE-84920">
+          <button class="btn" onclick="performTracking()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            Track Parcel
+          </button>
+        </div>
+
+        <!-- Tracking Results Container -->
+        <div id="trackingResult">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: ESTIMATOR -->
+    <div id="pane-calculator" class="tab-pane">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            Automated Delivery Fare Calculator
+          </div>
+          <div class="card-desc">Calculate exact shipping costs based on origin-destination distance, deadweight/volumetric weight, and speed tier.</div>
+
+          <div class="form-group">
+            <label class="form-label">Pickup Location (Origin)</label>
+            <select id="originCity" class="form-control" onchange="calculateRate()">
+              <option value="Dhaka" selected>Dhaka (Central Hub)</option>
+              <option value="Chittagong">Chittagong Port City</option>
+              <option value="Sylhet">Sylhet Metropolitan</option>
+              <option value="Rajshahi">Rajshahi North</option>
+              <option value="Khulna">Khulna South-West</option>
+              <option value="Barishal">Barishal Coastal</option>
+              <option value="Rangpur">Rangpur District</option>
+              <option value="Mymensingh">Mymensingh Division</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Delivery Destination</label>
+            <select id="destCity" class="form-control" onchange="calculateRate()">
+              <option value="Dhaka">Dhaka (Central Hub)</option>
+              <option value="Chittagong" selected>Chittagong Port City</option>
+              <option value="Sylhet">Sylhet Metropolitan</option>
+              <option value="Rajshahi">Rajshahi North</option>
+              <option value="Khulna">Khulna South-West</option>
+              <option value="Barishal">Barishal Coastal</option>
+              <option value="Rangpur">Rangpur District</option>
+              <option value="Mymensingh">Mymensingh Division</option>
+            </select>
+          </div>
+
+          <div class="grid-2" style="gap:12px;">
+            <div class="form-group">
+              <label class="form-label">Weight (kg)</label>
+              <input type="number" id="parcelWeight" class="form-control" value="2.5" min="0.1" step="0.5" oninput="calculateRate()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Parcel Category</label>
+              <select id="parcelCat" class="form-control" onchange="calculateRate()">
+                <option value="standard">Standard Box / Garments</option>
+                <option value="doc">Official Document / Envelope</option>
+                <option value="electronics">Electronics / Fragile (+15%)</option>
+                <option value="perishable">Perishable Food / Cold (+25%)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Shipping Priority Tier</label>
+            <select id="speedTier" class="form-control" onchange="calculateRate()">
+              <option value="regular">Regular Economy (48-72 hrs)</option>
+              <option value="express" selected>Eagle Express (24 hrs) (+৳80)</option>
+              <option value="sameday">Same-Day Priority (12 hrs) (+৳180)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div class="card-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Fare Breakdown &amp; SLA
+            </div>
+            <div class="card-desc">Itemized pricing algorithm breakdown per logistics industry standards.</div>
+
+            <div class="calc-result-box">
+              <div class="calc-row">
+                <span>Base City Handling Fee:</span>
+                <span id="rateBase">৳60.00</span>
+              </div>
+              <div class="calc-row">
+                <span>Inter-City Distance Surcharge:</span>
+                <span id="rateDist">৳90.00</span>
+              </div>
+              <div class="calc-row">
+                <span>Weight Fee (<span id="rateWeightTxt">2.5 kg</span>):</span>
+                <span id="rateWeight">৳75.00</span>
+              </div>
+              <div class="calc-row">
+                <span>Category Handling:</span>
+                <span id="rateCat">৳0.00</span>
+              </div>
+              <div class="calc-row">
+                <span>Speed Priority Tier:</span>
+                <span id="rateSpeed">৳80.00</span>
+              </div>
+              <div class="calc-row total">
+                <span>Total Estimated Fare:</span>
+                <span id="rateTotal">৳305.00</span>
+              </div>
+            </div>
+
+            <div style="margin-top:20px; font-size:0.85rem; color:var(--text-muted); background:var(--surface); padding:14px; border-radius:8px; border:1px solid var(--border);">
+              <strong>Estimated Arrival:</strong> <span id="rateTime" style="color:white; font-weight:700;">Within 24 Hours</span><br>
+              <strong>Insurance Protection:</strong> Included up to ৳5,000 for verified shipments.
+            </div>
+          </div>
+
+          <button class="btn" style="margin-top:24px;" onclick="prefillBookingFromCalc()">
+            Proceed to Book with this Rate →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: BOOK PARCEL -->
+    <div id="pane-book" class="tab-pane">
+      <div class="card">
+        <div class="card-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          Dispatch Consignment Booking
+        </div>
+        <div class="card-desc">Create a new parcel dispatch order. Generates a live tracking number and stores in session state.</div>
+
+        <form id="bookingForm" onsubmit="handleBooking(event)">
+          <div class="grid-2">
+            <div>
+              <h4 style="color:#fbbf24; margin-bottom:12px; font-size:0.95rem;">1. Sender Information</h4>
+              <div class="form-group">
+                <label class="form-label">Sender Name</label>
+                <input type="text" id="senderName" class="form-control" required value="Shakil Jamil">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Sender Phone</label>
+                <input type="tel" id="senderPhone" class="form-control" required value="+8801700656279">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Pickup Hub / Division</label>
+                <select id="bookOrigin" class="form-control">
+                  <option value="Dhaka" selected>Dhaka Central Hub</option>
+                  <option value="Chittagong">Chittagong Hub</option>
+                  <option value="Sylhet">Sylhet Hub</option>
+                  <option value="Rajshahi">Rajshahi Hub</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <h4 style="color:#fbbf24; margin-bottom:12px; font-size:0.95rem;">2. Recipient Information</h4>
+              <div class="form-group">
+                <label class="form-label">Recipient Name</label>
+                <input type="text" id="recipientName" class="form-control" required value="Tanvir Ahmed">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Recipient Phone</label>
+                <input type="tel" id="recipientPhone" class="form-control" required value="+8801812345678">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Destination Hub / Division</label>
+                <select id="bookDest" class="form-control">
+                  <option value="Chittagong" selected>Chittagong Hub</option>
+                  <option value="Dhaka">Dhaka Central Hub</option>
+                  <option value="Sylhet">Sylhet Hub</option>
+                  <option value="Khulna">Khulna Hub</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top:10px;">
+            <label class="form-label">Parcel Description &amp; Item Details</label>
+            <input type="text" id="bookDesc" class="form-control" required value="Software Engineering Lab Manual &amp; Hardware Circuit Board">
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Weight (kg)</label>
+              <input type="number" id="bookWeight" class="form-control" required value="1.8" step="0.1">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Payment Method</label>
+              <select id="bookPayment" class="form-control">
+                <option value="COD">Cash on Delivery (COD)</option>
+                <option value="bKash">bKash Merchant Pay</option>
+                <option value="Nagad">Nagad Online Gateway</option>
+                <option value="Prepaid">Prepaid at Counter</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn" style="margin-top:12px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Generate Consignment &amp; Dispatch Tracking ID
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- TAB 4: HUBS -->
+    <div id="pane-hubs" class="tab-pane">
+      <div class="card">
+        <div class="card-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+          Nationwide Logistics Hub Network
+        </div>
+        <div class="card-desc">Active distribution hubs operating under Quick Eagle Courier's automated routing mesh.</div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Hub Code</th>
+                <th>Division / Region</th>
+                <th>Facility Address</th>
+                <th>Coverage Districts</th>
+                <th>Daily Capacity</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code style="color:#fbbf24;">HUB-DHK-01</code></td>
+                <td><strong>Dhaka Central</strong></td>
+                <td>Tejgaon Industrial Area, Dhaka 1208</td>
+                <td>Gazipur, Narayanganj, Manikganj, Munshiganj</td>
+                <td>12,500 Parcels/day</td>
+                <td><span class="status-tag status-delivered">● Operational</span></td>
+              </tr>
+              <tr>
+                <td><code style="color:#fbbf24;">HUB-CTG-02</code></td>
+                <td><strong>Chittagong Regional</strong></td>
+                <td>Agrabad Commercial Area, Chittagong</td>
+                <td>Cox's Bazar, Feni, Comilla, Noakhali</td>
+                <td>8,200 Parcels/day</td>
+                <td><span class="status-tag status-delivered">● Operational</span></td>
+              </tr>
+              <tr>
+                <td><code style="color:#fbbf24;">HUB-SYL-03</code></td>
+                <td><strong>Sylhet Regional</strong></td>
+                <td>Subidbazar, Sylhet Sadar</td>
+                <td>Moulvibazar, Habiganj, Sunamganj</td>
+                <td>4,500 Parcels/day</td>
+                <td><span class="status-tag status-delivered">● Operational</span></td>
+              </tr>
+              <tr>
+                <td><code style="color:#fbbf24;">HUB-RAJ-04</code></td>
+                <td><strong>Rajshahi North</strong></td>
+                <td>Shaheb Bazar, Rajshahi</td>
+                <td>Natore, Pabna, Bogra, Chapainawabganj</td>
+                <td>5,100 Parcels/day</td>
+                <td><span class="status-tag status-delivered">● Operational</span></td>
+              </tr>
+              <tr>
+                <td><code style="color:#fbbf24;">HUB-KHU-05</code></td>
+                <td><strong>Khulna South-West</strong></td>
+                <td>Boyra Main Road, Khulna</td>
+                <td>Jessore, Satkhira, Bagerhat</td>
+                <td>4,800 Parcels/day</td>
+                <td><span class="status-tag status-delivered">● Operational</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOOKING SUCCESS MODAL -->
+  <div id="bookingModal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div style="text-align:center; margin-bottom:16px;">
+        <div style="width:52px; height:52px; background:rgba(16, 185, 129, 0.2); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; color:#10b981;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <h3 style="margin-top:12px; font-size:1.3rem;">Parcel Booked Successfully!</h3>
+        <p style="color:var(--text-muted); font-size:0.88rem;">Consignment registered in Quick Eagle database.</p>
+      </div>
+
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:16px; margin-bottom:20px; font-size:0.9rem;">
+        <div class="calc-row">
+          <span>Tracking ID:</span>
+          <strong id="modalTrackingId" style="font-family:'JetBrains Mono', monospace; color:#fbbf24; font-size:1.05rem;"></strong>
+        </div>
+        <div class="calc-row">
+          <span>Sender / Recipient:</span>
+          <span id="modalSenderRecipient"></span>
+        </div>
+        <div class="calc-row">
+          <span>Route:</span>
+          <span id="modalRoute"></span>
+        </div>
+        <div class="calc-row">
+          <span>Item:</span>
+          <span id="modalItem"></span>
+        </div>
+        <div class="calc-row total" style="font-size:1.05rem;">
+          <span>Payable Amount:</span>
+          <span id="modalFare"></span>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button class="btn" style="background:#334155;" onclick="closeModal()">Close</button>
+        <button class="btn" onclick="trackGeneratedParcel()">Track Shipment Now →</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // In-memory Database of Consignments
+    const PARCEL_DB = {
+      'QE-84920': {
+        id: 'QE-84920',
+        sender: 'Shakil Jamil (Dhaka)',
+        recipient: 'Rafiqul Islam (Chittagong)',
+        route: 'Dhaka Central Hub → Chittagong Port Hub',
+        item: 'Enterprise Router & Network Switchboard (4.2 kg)',
+        status: 'In Transit',
+        statusClass: 'status-transit',
+        statusIcon: '🚚',
+        eta: 'Today, 06:30 PM',
+        stages: [
+          { title: 'Parcel Picked Up & Weighed', meta: 'Tejgaon Central Hub, Dhaka • Nov 13, 09:15 AM', done: true },
+          { title: 'Security Scan & Document Ingestion', meta: 'Automated Barcode Sorting • Nov 13, 11:30 AM', done: true },
+          { title: 'Dispatched via Highway Express Line', meta: 'En Route to Chittagong Hub • Nov 13, 02:45 PM', current: true },
+          { title: 'Arrival at Agrabad Destination Hub', meta: 'Scheduled • Nov 13, 05:00 PM', done: false },
+          { title: 'Out for Delivery to Consignee Address', meta: 'Pending Destination Scan', done: false },
+          { title: 'Delivered & Signature Captured', meta: 'Pending Final Handover', done: false }
+        ]
+      },
+      'QE-99124': {
+        id: 'QE-99124',
+        sender: 'AIUB IT Department (Dhaka)',
+        recipient: 'Dr. M. Rahman (Gulshan-2, Dhaka)',
+        route: 'Dhaka Intra-City Express',
+        item: 'Academic Transcripts & Graduation Portfolio (0.6 kg)',
+        status: 'Delivered',
+        statusClass: 'status-delivered',
+        statusIcon: '✓',
+        eta: 'Delivered on Nov 12, 03:20 PM',
+        stages: [
+          { title: 'Parcel Handed Over at Counter', meta: 'Kuratoli AIUB Branch • Nov 12, 10:00 AM', done: true },
+          { title: 'Sorted for North Dhaka Delivery Route', meta: 'Banani Dispatch Center • Nov 12, 12:15 PM', done: true },
+          { title: 'Assigned to Courier Rider #42', meta: 'Delivery Vehicle Reg: DHK-M-8891 • Nov 12, 01:45 PM', done: true },
+          { title: 'Out for Final Delivery', meta: 'Gulshan-2 Diplomatic Zone • Nov 12, 02:30 PM', done: true },
+          { title: 'Successfully Delivered', meta: 'Received by Dr. M. Rahman (Signature Captured) • Nov 12, 03:20 PM', done: true, current: true }
+        ]
+      },
+      'QE-77215': {
+        id: 'QE-77215',
+        sender: 'Bengal Tech Store (Dhaka)',
+        recipient: 'Farhana Yasmin (Zindabazar, Sylhet)',
+        route: 'Dhaka Central Hub → Sylhet Regional Hub',
+        item: 'Dell XPS Laptop Battery & Type-C Dock (1.5 kg)',
+        status: 'Out for Delivery',
+        statusClass: 'status-transit',
+        statusIcon: '🛵',
+        eta: 'Expected by 02:00 PM',
+        stages: [
+          { title: 'Order Booked Online via Merchant API', meta: 'API Integration • Nov 13, 08:00 AM', done: true },
+          { title: 'Consignment Dispatched to Sylhet Hub', meta: 'Overnight Inter-City Transit • Nov 13, 11:00 PM', done: true },
+          { title: 'Arrived at Subidbazar Sorting Facility', meta: 'Sylhet Metro Hub • Nov 14, 07:30 AM', done: true },
+          { title: 'Out for Delivery with Rider Kamal', meta: 'Contact: +8801711223344 • Nov 14, 10:15 AM', done: true, current: true },
+          { title: 'Delivered & Cash on Delivery Collected', meta: 'COD Amount: ৳4,250 • Pending handover', done: false }
+        ]
+      }
+    };
+
+    let latestCreatedId = null;
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+
+      const btn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+      if (btn) btn.classList.add('active');
+
+      const targetPane = document.getElementById('pane-' + tabId);
+      if (targetPane) targetPane.classList.add('active');
+    }
+
+    function loadSample(trackingId) {
+      document.getElementById('trackInput').value = trackingId;
+      performTracking();
+    }
+
+    function performTracking() {
+      const input = document.getElementById('trackInput').value.trim().toUpperCase();
+      const resultContainer = document.getElementById('trackingResult');
+
+      const parcel = PARCEL_DB[input];
+      if (!parcel) {
+        resultContainer.innerHTML = `
+          <div style="background:rgba(239, 68, 68, 0.1); border:1px solid rgba(239, 68, 68, 0.3); border-radius:10px; padding:24px; text-align:center; color:#f87171;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom:8px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <h4 style="font-size:1.1rem; margin-bottom:4px;">Consignment Reference Not Found</h4>
+            <p style="font-size:0.88rem; color:#fca5a5;">No package matching "<strong>${input}</strong>". Please verify your 8-digit tracking code or try one of the samples above.</p>
+          </div>
+        `;
+        return;
+      }
+
+      let timelineHtml = parcel.stages.map(stage => {
+        let cls = stage.done ? 'completed' : '';
+        if (stage.current) cls += ' current';
+        let icon = stage.done ? '✓' : (stage.current ? '●' : '○');
+        return `
+          <div class="timeline-step ${cls}">
+            <div class="timeline-dot">${icon}</div>
+            <div class="timeline-title">${stage.title}</div>
+            <div class="timeline-meta">${stage.meta}</div>
+          </div>
+        `;
+      }).join('');
+
+      resultContainer.innerHTML = `
+        <div class="status-banner">
+          <div>
+            <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">Tracking ID: <strong style="color:white; font-family:'JetBrains Mono'">${parcel.id}</strong></div>
+            <div style="font-size:1.2rem; font-weight:800; margin-top:2px;">${parcel.route}</div>
+            <div style="font-size:0.88rem; color:#cbd5e1; margin-top:4px;">Item: ${parcel.item}</div>
+          </div>
+          <div style="text-align:right;">
+            <span class="status-tag ${parcel.statusClass}">
+              <span>${parcel.statusIcon}</span>
+              <span>${parcel.status}</span>
+            </span>
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:6px;">${parcel.eta}</div>
+          </div>
+        </div>
+
+        <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:22px;">
+          <h4 style="font-size:1rem; font-weight:700; margin-bottom:16px; color:#ffffff; display:flex; align-items:center; gap:8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+            Shipment Routing Milestones
+          </h4>
+          <div class="timeline">
+            ${timelineHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    // Delivery Charge Calculator Engine
+    function calculateRate() {
+      const origin = document.getElementById('originCity').value;
+      const dest = document.getElementById('destCity').value;
+      const weight = Math.max(0.1, parseFloat(document.getElementById('parcelWeight').value) || 1.0);
+      const cat = document.getElementById('parcelCat').value;
+      const speed = document.getElementById('speedTier').value;
+
+      const isIntraCity = (origin === dest);
+
+      // Base rate
+      let baseRate = isIntraCity ? 50 : 70;
+
+      // Distance surcharge
+      let distRate = 0;
+      if (!isIntraCity) {
+        distRate = 80;
+        if ((origin === 'Chittagong' && dest === 'Rajshahi') || (origin === 'Sylhet' && dest === 'Khulna')) {
+          distRate = 120; // Long-haul cross country
+        }
+      }
+
+      // Weight calculation: first 1kg included, then ৳25 per extra kg
+      let weightFee = 0;
+      if (weight > 1.0) {
+        weightFee = (weight - 1.0) * 25;
+      }
+
+      // Category multiplier
+      let catFee = 0;
+      if (cat === 'electronics') catFee = (baseRate + distRate) * 0.15;
+      if (cat === 'perishable') catFee = (baseRate + distRate) * 0.25;
+
+      // Speed surcharge
+      let speedFee = 0;
+      let timeText = 'Within 48-72 Hours';
+      if (speed === 'express') {
+        speedFee = 80;
+        timeText = 'Within 24 Hours';
+      } else if (speed === 'sameday') {
+        speedFee = 180;
+        timeText = isIntraCity ? 'Same-Day (Under 8 Hours)' : 'Express Priority (Under 18 Hours)';
+      }
+
+      const total = baseRate + distRate + weightFee + catFee + speedFee;
+
+      document.getElementById('rateBase').textContent = `৳${baseRate.toFixed(2)}`;
+      document.getElementById('rateDist').textContent = `৳${distRate.toFixed(2)}`;
+      document.getElementById('rateWeightTxt').textContent = `${weight} kg`;
+      document.getElementById('rateWeight').textContent = `৳${weightFee.toFixed(2)}`;
+      document.getElementById('rateCat').textContent = `৳${catFee.toFixed(2)}`;
+      document.getElementById('rateSpeed').textContent = `৳${speedFee.toFixed(2)}`;
+      document.getElementById('rateTotal').textContent = `৳${total.toFixed(2)}`;
+      document.getElementById('rateTime').textContent = timeText;
+
+      return total;
+    }
+
+    function prefillBookingFromCalc() {
+      const origin = document.getElementById('originCity').value;
+      const dest = document.getElementById('destCity').value;
+      const weight = document.getElementById('parcelWeight').value;
+
+      if (document.getElementById('bookOrigin')) document.getElementById('bookOrigin').value = origin;
+      if (document.getElementById('bookDest')) document.getElementById('bookDest').value = dest;
+      if (document.getElementById('bookWeight')) document.getElementById('bookWeight').value = weight;
+
+      switchTab('book');
+    }
+
+    function handleBooking(e) {
+      e.preventDefault();
+
+      const sender = document.getElementById('senderName').value;
+      const recipient = document.getElementById('recipientName').value;
+      const origin = document.getElementById('bookOrigin').value;
+      const dest = document.getElementById('bookDest').value;
+      const desc = document.getElementById('bookDesc').value;
+      const weight = parseFloat(document.getElementById('bookWeight').value) || 1.0;
+      const payment = document.getElementById('bookPayment').value;
+
+      // Generate random unique tracking number
+      const randNum = Math.floor(10000 + Math.random() * 90000);
+      const newTrackingId = `QE-${randNum}`;
+      latestCreatedId = newTrackingId;
+
+      const calcTotal = (origin === dest ? 60 : 130) + (weight > 1 ? (weight - 1) * 25 : 0) + 40;
+
+      // Add to Database
+      PARCEL_DB[newTrackingId] = {
+        id: newTrackingId,
+        sender: `${sender} (${origin})`,
+        recipient: `${recipient} (${dest})`,
+        route: `${origin} Hub → ${dest} Hub`,
+        item: `${desc} (${weight} kg)`,
+        status: 'Order Booked',
+        statusClass: 'status-pending',
+        statusIcon: '📦',
+        eta: 'Processing at Sorting Hub',
+        stages: [
+          { title: 'Consignment Registered Online', meta: `Booked by ${sender} • Payment: ${payment}`, done: true, current: true },
+          { title: 'Awaiting Courier Pickup from Origin Address', meta: `Scheduled Dispatch from ${origin} Hub`, done: false },
+          { title: 'Security Scan & Barcoding', meta: 'Pending Hub Arrival', done: false },
+          { title: 'In Transit to Destination Hub', meta: `Destination: ${dest}`, done: false },
+          { title: 'Delivered', meta: 'Handover to Consignee', done: false }
+        ]
+      };
+
+      // Populate Modal
+      document.getElementById('modalTrackingId').textContent = newTrackingId;
+      document.getElementById('modalSenderRecipient').textContent = `${sender} → ${recipient}`;
+      document.getElementById('modalRoute').textContent = `${origin} to ${dest}`;
+      document.getElementById('modalItem').textContent = `${desc} (${weight} kg)`;
+      document.getElementById('modalFare').textContent = `৳${calcTotal.toFixed(2)} (${payment})`;
+
+      document.getElementById('bookingModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('bookingModal').classList.remove('active');
+    }
+
+    function trackGeneratedParcel() {
+      closeModal();
+      if (latestCreatedId) {
+        document.getElementById('trackInput').value = latestCreatedId;
+        switchTab('track');
+        performTracking();
+      }
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      calculateRate();
+      performTracking();
+    });
+  </script>
+</body>
+</html>
