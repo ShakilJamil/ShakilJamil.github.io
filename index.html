@@ -528,6 +528,60 @@
     <!-- Projects Grid -->
     <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
       
+      <!-- Flagship Project: PulseQueue -->
+      <article data-category="web" class="project-card rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card overflow-hidden shadow-sm hover:shadow-2xl hover:border-brand-500/50 transition-all flex flex-col md:col-span-2">
+        <div class="h-56 bg-gradient-to-r from-brand-950 via-indigo-950 to-slate-950 p-6 flex flex-col justify-between relative overflow-hidden group">
+          <div class="flex items-center justify-between z-10">
+            <span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-brand-500/20 text-brand-300 border border-brand-400/30 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+              <span>Java 17 • Spring Boot 3 • WebSockets • PostgreSQL • Docker</span>
+            </span>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/pulsequeue" target="_blank" rel="noopener noreferrer" class="p-2 rounded-lg bg-black/40 text-white/80 hover:text-white hover:bg-black/60 transition" aria-label="GitHub Repository"><i data-lucide="github" class="w-4 h-4"></i></a>
+            </div>
+          </div>
+          <div class="z-10">
+            <div class="text-xs uppercase tracking-wider text-brand-400 font-semibold flex items-center gap-2">
+              <span>Flagship Enterprise Project</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Optimistic Locking &amp; WebSockets</span>
+            </div>
+            <h3 class="text-3xl font-extrabold text-white mt-1">PulseQueue — Real-Time Smart Appointment &amp; Queue Platform</h3>
+          </div>
+          <div class="absolute -right-8 -bottom-8 w-44 h-44 bg-brand-500/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+        </div>
+        
+        <div class="p-6 flex-1 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="max-w-2xl space-y-3">
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Enterprise appointment booking &amp; live queue triage platform. Eliminates slot double-booking race conditions using <strong>PostgreSQL Optimistic Locking (<code class="text-xs bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded">@Version</code>)</strong> and broadcasts live waiting room ticket calls in sub-20ms via <strong>Spring WebSockets (STOMP)</strong>.
+            </p>
+            <div class="flex flex-wrap gap-1.5 font-mono text-[11px] text-slate-600 dark:text-slate-400">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Java 17</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Spring Boot 3</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Spring Security 6 (JWT)</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">WebSockets STOMP</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">PostgreSQL</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">OpenAPI/Swagger</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">Docker Compose</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800">JUnit 5</span>
+            </div>
+          </div>
+          <div class="flex flex-col sm:flex-row md:flex-col gap-2.5 flex-shrink-0">
+            <a href="https://github.com/ShakilJamil/pulsequeue" target="_blank" rel="noopener noreferrer" class="py-2.5 px-5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-xs shadow-md shadow-brand-600/30 transition flex items-center justify-center gap-1.5">
+              <i data-lucide="github" class="w-4 h-4"></i>
+              <span>View Source Code</span>
+            </a>
+            <button class="project-modal-btn py-2.5 px-5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5"
+              data-title="PulseQueue — Real-Time Smart Appointment &amp; Queue Platform"
+              data-desc="PulseQueue solves clinical and service counter concurrency challenges. It prevents simultaneous double-booking collisions via JPA Optimistic Locking, routes waiting patients through staff counters, and pushes live audio-visual queue calls via WebSockets."
+              data-highlights="JPA @Version optimistic locking eliminates double-booking race conditions|Sub-20ms WebSocket STOMP broadcast to patient phones &amp; waiting room TV displays|Stateless Spring Security 6 with JWT and Role-Based Access Control (RBAC)|Comprehensive OpenAPI 3 Swagger documentation &amp; automated JUnit 5 tests|1-command deployment with multi-stage Dockerfile &amp; Docker Compose">
+              <span>View Architecture Specs</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      </article>
+
       <!-- Project 1: Quick Eagle Courier Service -->
       <article data-category="web" class="project-card rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card overflow-hidden shadow-sm hover:shadow-2xl hover:border-brand-500/50 transition-all flex flex-col">
         <div class="h-52 bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 p-6 flex flex-col justify-between relative overflow-hidden group">
