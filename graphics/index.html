@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liberation's Canvas | Interactive OpenGL &amp; Computer Graphics Simulation</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              500: '#f59e0b',
+              600: '#d97706',
+            },
+            dark: {
+              bg: '#0a0f1d',
+              card: '#111827',
+              border: '#1f2937',
+              hover: '#1e293b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-slate-200 font-sans min-h-screen transition-colors flex flex-col">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/85 dark:bg-dark-bg/85 border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 via-orange-600 to-red-600 flex items-center justify-center text-white font-mono font-bold shadow-md shadow-amber-500/25">
+          GL
+        </div>
+        <div>
+          <span class="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">Liberation's<span class="text-amber-500">Canvas</span></span>
+          <span class="hidden sm:inline-block ml-2 text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            OpenGL C++ Simulation
+          </span>
+        </div>
+      </div>
+
+      <!-- Navigation & Links -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <a href="../" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-1.5">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Portfolio</span>
+        </a>
+        <a href="https://github.com/ShakilJamil/Computer_graphics_OpenGl" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition flex items-center gap-1.5">
+          <i data-lucide="github" class="w-3.5 h-3.5 text-amber-500"></i>
+          <span>GitHub Repo</span>
+        </a>
+        <button id="theme-toggle" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition">
+          <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
+          <i data-lucide="sun" class="w-4 h-4 block dark:hidden"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-6">
+
+    <!-- Hero / Title -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm">
+      <div class="space-y-1">
+        <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20">
+          <span>AIUB Computer Graphics &bull; 1971 Liberation War Simulation</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          Liberation's Canvas: Dynamic Day &amp; Night View
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+          Interactive simulation reproducing the 3,400-line C++ OpenGL program featuring procedural floating clouds, river boat navigation, ambient lighting shifts, and rural landscape geometry.
+        </p>
+      </div>
+
+      <!-- Quick Interactive Controls Bar -->
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="setMode('day')" id="btn-day" class="px-4 py-2 rounded-xl bg-amber-500 text-white font-bold text-xs shadow-md shadow-amber-500/30 transition flex items-center gap-1.5">
+          <i data-lucide="sun" class="w-4 h-4"></i> Day View [D]
+        </button>
+        <button onclick="setMode('night')" id="btn-night" class="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs transition flex items-center gap-1.5">
+          <i data-lucide="moon" class="w-4 h-4"></i> Night View [N]
+        </button>
+        <button onclick="toggleInfoModal()" class="px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-xs transition flex items-center gap-1.5">
+          <i data-lucide="info" class="w-4 h-4"></i> Info [P]
+        </button>
+      </div>
+    </div>
+
+    <!-- Live Simulation Viewport -->
+    <div class="relative rounded-3xl overflow-hidden border-2 border-slate-200 dark:border-slate-800 shadow-2xl bg-black">
+      <canvas id="gl-canvas" width="1280" height="720" class="w-full h-auto aspect-video block"></canvas>
+      
+      <!-- Overlay HUD -->
+      <div class="absolute top-4 left-4 z-10 flex items-center gap-2">
+        <span id="hud-mode-badge" class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-500/80 backdrop-blur-md text-white shadow-lg flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+          <span>Day Mode Active</span>
+        </span>
+        <span class="px-2.5 py-1 rounded-full text-[10px] font-mono bg-black/60 backdrop-blur-md text-white/90">
+          60 FPS &bull; Continuous Animation
+        </span>
+      </div>
+
+      <div class="absolute bottom-4 right-4 z-10 hidden sm:flex items-center gap-2 text-[11px] font-mono bg-black/60 backdrop-blur-md text-white/80 px-3 py-1.5 rounded-xl border border-white/10">
+        <span>Press <kbd class="px-1.5 py-0.5 rounded bg-white/20 text-white font-bold">D</kbd> for Day</span>
+        <span>&bull;</span>
+        <span>Press <kbd class="px-1.5 py-0.5 rounded bg-white/20 text-white font-bold">N</kbd> for Night</span>
+        <span>&bull;</span>
+        <span>Press <kbd class="px-1.5 py-0.5 rounded bg-white/20 text-white font-bold">P</kbd> for Info</span>
+      </div>
+    </div>
+
+    <!-- Technical Deep-Dive Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-2">
+        <div class="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center font-mono font-bold text-sm">
+          01
+        </div>
+        <h3 class="font-bold text-sm text-slate-900 dark:text-white">Trigonometric Circle Discretization</h3>
+        <p class="text-xs text-slate-500 leading-relaxed">
+          The sun, clouds, wheels, and celestial spheres are rendered by generating triangle fans across 100 angular steps using <code class="text-amber-500">x = r * cos(θ)</code> and <code class="text-amber-500">y = r * sin(θ)</code>.
+        </p>
+      </div>
+
+      <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-2">
+        <div class="w-8 h-8 rounded-xl bg-orange-500/10 text-orange-500 flex items-center justify-center font-mono font-bold text-sm">
+          02
+        </div>
+        <h3 class="font-bold text-sm text-slate-900 dark:text-white">Matrix Stack Coordinate Isolation</h3>
+        <p class="text-xs text-slate-500 leading-relaxed">
+          Moving riverboats, floating cumulus clouds, and passing vehicles utilize isolated <code class="text-orange-500">glPushMatrix()</code> and <code class="text-orange-500">glPopMatrix()</code> transformations to prevent coordinate drift.
+        </p>
+      </div>
+
+      <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-2">
+        <div class="w-8 h-8 rounded-xl bg-red-500/10 text-red-500 flex items-center justify-center font-mono font-bold text-sm">
+          03
+        </div>
+        <h3 class="font-bold text-sm text-slate-900 dark:text-white">Dynamic Color Temperature Shifting</h3>
+        <p class="text-xs text-slate-500 leading-relaxed">
+          Transitions smoothly between daytime high-key azure lighting and nocturnal twilight ambient illumination with star field twinkling and campfire glow shaders.
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Info Modal (Proposal / Title screen matching C++ displayProposal) -->
+  <div id="info-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="font-bold text-base text-slate-900 dark:text-white">Project Metadata (displayProposal)</h3>
+        <button onclick="toggleInfoModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 text-xs space-y-2 font-mono">
+        <div><strong>Institution:</strong> American International University-Bangladesh (AIUB)</div>
+        <div><strong>Course:</strong> Computer Graphics Project [I]</div>
+        <div><strong>Project Title:</strong> Liberation's Canvas: A Graphic Tale of Freedom's War</div>
+        <div><strong>Course Teacher:</strong> Dipta Justin Gomes</div>
+        <div class="pt-2 border-t border-slate-200 dark:border-slate-800">
+          <strong>Project Group:</strong>
+          <ul class="list-disc pl-5 mt-1 space-y-0.5">
+            <li><span class="text-amber-500 font-bold">Shakil Jamil Mrida</span> (ID: 22-47275-1)</li>
+            <li>Nowrin Tasnim (ID: 22-47280-1)</li>
+            <li>Hasibur Rahman Rahim (ID: 22-47044-1)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flex justify-end">
+        <button onclick="toggleInfoModal()" class="px-4 py-2 rounded-xl bg-amber-500 text-white font-bold text-xs shadow transition">
+          Return to Simulation
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 py-6 text-xs text-slate-500 text-center space-y-1">
+    <div>Liberation's Canvas &bull; Developed by <strong>Shakil Jamil Mrida</strong></div>
+    <div class="font-mono text-[11px] text-slate-400">C++ &bull; OpenGL (GLUT) &bull; Code::Blocks &bull; Computer Graphics</div>
+  </footer>
+
+  <!-- Simulation Engine -->
+  <script>
+    const canvas = document.getElementById('gl-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let currentMode = 'day'; // 'day' or 'night'
+    let cloud1X = -50;
+    let cloud2X = 300;
+    let boat1X = 100;
+    let boat2X = 600;
+    let carX = -120;
+    let sunY = 120;
+    let moonY = 140;
+    let starTwinkle = 0;
+
+    function setMode(mode) {
+      currentMode = mode;
+      const btnDay = document.getElementById('btn-day');
+      const btnNight = document.getElementById('btn-night');
+      const badge = document.getElementById('hud-mode-badge');
+
+      if (mode === 'day') {
+        btnDay.className = 'px-4 py-2 rounded-xl bg-amber-500 text-white font-bold text-xs shadow-md shadow-amber-500/30 transition flex items-center gap-1.5';
+        btnNight.className = 'px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs transition flex items-center gap-1.5';
+        badge.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-500/80 backdrop-blur-md text-white shadow-lg flex items-center gap-1.5';
+        badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-white animate-pulse"></span><span>Day Mode Active</span>';
+      } else {
+        btnNight.className = 'px-4 py-2 rounded-xl bg-indigo-600 text-white font-bold text-xs shadow-md shadow-indigo-600/30 transition flex items-center gap-1.5';
+        btnDay.className = 'px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs transition flex items-center gap-1.5';
+        badge.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-indigo-600/80 backdrop-blur-md text-white shadow-lg flex items-center gap-1.5';
+        badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-indigo-300 animate-pulse"></span><span>Night Mode Active</span>';
+      }
+    }
+
+    function toggleInfoModal() {
+      document.getElementById('info-modal').classList.toggle('hidden');
+    }
+
+    // Keyboard Listeners matching GLUT main.cpp
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'd' || e.key === 'D') setMode('day');
+      if (e.key === 'n' || e.key === 'N') setMode('night');
+      if (e.key === 'p' || e.key === 'P') toggleInfoModal();
+    });
+
+    // Theme toggle
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+    });
+
+    // Generate random stars for night mode
+    const stars = [];
+    for (let i = 0; i < 70; i++) {
+      stars.push({
+        x: Math.random() * 1280,
+        y: Math.random() * 320,
+        r: Math.random() * 1.8 + 0.5,
+        twinkleSpeed: Math.random() * 0.05 + 0.02
+      });
+    }
+
+    // Main 60 FPS Render Loop
+    function render() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const isDay = currentMode === 'day';
+
+      // 1. SKY GRADIENT
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, 400);
+      if (isDay) {
+        skyGrad.addColorStop(0, '#5cb8ff');
+        skyGrad.addColorStop(1, '#cceeff');
+      } else {
+        skyGrad.addColorStop(0, '#040817');
+        skyGrad.addColorStop(0.7, '#0b1633');
+        skyGrad.addColorStop(1, '#1a294d');
+      }
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, 1280, 420);
+
+      // 2. CELESTIAL BODIES
+      if (isDay) {
+        // Sun
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(1020, sunY, 44, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffcc00';
+        ctx.shadowColor = '#ff9900';
+        ctx.shadowBlur = 35;
+        ctx.fill();
+        ctx.restore();
+      } else {
+        // Stars
+        ctx.save();
+        starTwinkle += 0.03;
+        stars.forEach((s, idx) => {
+          const alpha = 0.4 + 0.6 * Math.sin(starTwinkle + idx);
+          ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Glowing Moon Crescent
+        ctx.beginPath();
+        ctx.arc(1020, moonY, 38, 0, Math.PI * 2);
+        ctx.fillStyle = '#fef3c7';
+        ctx.shadowColor = '#fef08a';
+        ctx.shadowBlur = 25;
+        ctx.fill();
+        // Shadow circle for crescent
+        ctx.beginPath();
+        ctx.arc(1035, moonY - 6, 32, 0, Math.PI * 2);
+        ctx.fillStyle = '#0b1633';
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // 3. ANIMATED CLOUDS
+      drawCloud(cloud1X, 85, isDay ? 1 : 0.25);
+      drawCloud(cloud2X, 130, isDay ? 0.9 : 0.2);
+      cloud1X = (cloud1X + 0.6) % 1350;
+      cloud2X = (cloud2X + 0.8) % 1350;
+
+      // 4. BACKGROUND HILLS & DISTANT HORIZON
+      ctx.fillStyle = isDay ? '#4a7c59' : '#102619';
+      ctx.beginPath();
+      ctx.moveTo(0, 360);
+      ctx.bezierCurveTo(250, 310, 450, 350, 700, 320);
+      ctx.bezierCurveTo(950, 290, 1150, 340, 1280, 320);
+      ctx.lineTo(1280, 420);
+      ctx.lineTo(0, 420);
+      ctx.fill();
+
+      // 5. RIVER WATER (GL_QUADS in main.cpp)
+      const riverGrad = ctx.createLinearGradient(0, 400, 0, 560);
+      if (isDay) {
+        riverGrad.addColorStop(0, '#4da8da');
+        riverGrad.addColorStop(0.5, '#007cc7');
+        riverGrad.addColorStop(1, '#12232e');
+      } else {
+        riverGrad.addColorStop(0, '#0e2439');
+        riverGrad.addColorStop(0.5, '#071524');
+        riverGrad.addColorStop(1, '#020b12');
+      }
+      ctx.fillStyle = riverGrad;
+      ctx.fillRect(0, 400, 1280, 160);
+
+      // River Water Ripples
+      ctx.strokeStyle = isDay ? 'rgba(255, 255, 255, 0.25)' : 'rgba(255, 255, 255, 0.08)';
+      ctx.lineWidth = 1.5;
+      for (let r = 0; r < 7; r++) {
+        const yPos = 420 + r * 18;
+        const offset = Math.sin(starTwinkle + r) * 20;
+        ctx.beginPath();
+        ctx.moveTo(100 + offset, yPos);
+        ctx.lineTo(250 + offset, yPos);
+        ctx.moveTo(400 + offset, yPos + 6);
+        ctx.lineTo(600 + offset, yPos + 6);
+        ctx.moveTo(800 + offset, yPos);
+        ctx.lineTo(1050 + offset, yPos);
+        ctx.stroke();
+      }
+
+      // 6. MOVING BOATS
+      drawBoat(boat1X, 440, isDay);
+      drawBoat(boat2X, 490, isDay, 1.25);
+      boat1X = (boat1X + 0.7) % 1380;
+      boat2X = (boat2X + 0.5) % 1380;
+
+      // 7. FOREGROUND VILLAGE LANDSCAPE & COTTAGES
+      ctx.fillStyle = isDay ? '#38b000' : '#0d3b0e';
+      ctx.beginPath();
+      ctx.moveTo(0, 530);
+      ctx.bezierCurveTo(400, 520, 800, 550, 1280, 530);
+      ctx.lineTo(1280, 720);
+      ctx.lineTo(0, 720);
+      ctx.fill();
+
+      // Roadway
+      ctx.fillStyle = isDay ? '#7f7f7f' : '#2b2b2b';
+      ctx.fillRect(0, 620, 1280, 70);
+      // Road markings
+      ctx.strokeStyle = isDay ? '#ffffff' : '#666666';
+      ctx.setLineDash([30, 25]);
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(0, 655);
+      ctx.lineTo(1280, 655);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Village Thatched Cottages
+      drawHut(160, 520, isDay);
+      drawHut(320, 525, isDay);
+      drawHut(940, 515, isDay);
+      drawHut(1100, 520, isDay);
+
+      // Trees
+      drawTree(80, 510, isDay);
+      drawTree(260, 520, isDay);
+      drawTree(420, 530, isDay);
+      drawTree(860, 510, isDay);
+      drawTree(1220, 515, isDay);
+
+      // 8. MOVING VEHICLE ON ROAD
+      drawCar(carX, 642, isDay);
+      carX = (carX + 2.5) % 1400;
+
+      requestAnimationFrame(render);
+    }
+
+    function drawCloud(x, y, opacity) {
+      ctx.save();
+      ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+      ctx.beginPath();
+      ctx.arc(x, y, 28, 0, Math.PI * 2);
+      ctx.arc(x + 28, y - 10, 36, 0, Math.PI * 2);
+      ctx.arc(x + 65, y, 32, 0, Math.PI * 2);
+      ctx.arc(x + 35, y + 10, 24, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawBoat(x, y, isDay, scale = 1) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.scale(scale, scale);
+
+      // Hull
+      ctx.fillStyle = isDay ? '#5a3825' : '#22150e';
+      ctx.beginPath();
+      ctx.moveTo(-35, 0);
+      ctx.lineTo(35, 0);
+      ctx.lineTo(25, 14);
+      ctx.lineTo(-25, 14);
+      ctx.closePath();
+      ctx.fill();
+
+      // Cabin canopy
+      ctx.fillStyle = isDay ? '#d97706' : '#573002';
+      ctx.beginPath();
+      ctx.arc(0, 0, 16, Math.PI, 0);
+      ctx.fill();
+
+      // Mast / Oar
+      ctx.strokeStyle = '#1e1b18';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(15, -4);
+      ctx.lineTo(28, -25);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    function drawHut(x, y, isDay) {
+      ctx.save();
+      ctx.translate(x, y);
+
+      // Walls
+      ctx.fillStyle = isDay ? '#e2d3b3' : '#3a3429';
+      ctx.fillRect(-30, -25, 60, 25);
+
+      // Thatched Roof
+      ctx.fillStyle = isDay ? '#a0522d' : '#3a1f10';
+      ctx.beginPath();
+      ctx.moveTo(-38, -25);
+      ctx.lineTo(0, -50);
+      ctx.lineTo(38, -25);
+      ctx.closePath();
+      ctx.fill();
+
+      // Door
+      ctx.fillStyle = isDay ? '#5c3317' : '#140c06';
+      ctx.fillRect(-8, -20, 16, 20);
+
+      // Window
+      ctx.fillStyle = isDay ? '#93c5fd' : (Math.sin(starTwinkle * 2) > 0 ? '#fef08a' : '#1e293b');
+      ctx.fillRect(14, -18, 10, 10);
+
+      ctx.restore();
+    }
+
+    function drawTree(x, y, isDay) {
+      ctx.save();
+      ctx.translate(x, y);
+
+      // Trunk
+      ctx.fillStyle = isDay ? '#6d4c41' : '#2b1b16';
+      ctx.fillRect(-5, -35, 10, 35);
+
+      // Foliage layers
+      ctx.fillStyle = isDay ? '#2e7d32' : '#0e3012';
+      ctx.beginPath();
+      ctx.arc(0, -45, 24, 0, Math.PI * 2);
+      ctx.arc(-14, -38, 16, 0, Math.PI * 2);
+      ctx.arc(14, -38, 16, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function drawCar(x, y, isDay) {
+      ctx.save();
+      ctx.translate(x, y);
+
+      // Chassis
+      ctx.fillStyle = isDay ? '#dc2626' : '#7f1d1d';
+      ctx.fillRect(-35, -14, 70, 14);
+
+      // Cabin
+      ctx.fillStyle = isDay ? '#991b1b' : '#450a0a';
+      ctx.beginPath();
+      ctx.moveTo(-18, -14);
+      ctx.lineTo(-8, -26);
+      ctx.lineTo(16, -26);
+      ctx.lineTo(26, -14);
+      ctx.closePath();
+      ctx.fill();
+
+      // Windows
+      ctx.fillStyle = isDay ? '#e0f2fe' : '#38bdf8';
+      ctx.fillRect(-6, -23, 18, 9);
+
+      // Wheels
+      ctx.fillStyle = '#171717';
+      ctx.beginPath();
+      ctx.arc(-20, 2, 7, 0, Math.PI * 2);
+      ctx.arc(20, 2, 7, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Headlight Beam at Night
+      if (!isDay) {
+        ctx.fillStyle = 'rgba(254, 240, 138, 0.25)';
+        ctx.beginPath();
+        ctx.moveTo(35, -8);
+        ctx.lineTo(120, -22);
+        ctx.lineTo(120, 8);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+
+    // Start Animation
+    requestAnimationFrame(render);
+    if (window.lucide) lucide.createIcons();
+  </script>
+</body>
+</html>
