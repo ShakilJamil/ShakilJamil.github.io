@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Management System | Commercial Shopping Complex ERP</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              500: '#06b6d4',
+              600: '#0891b2',
+            },
+            dark: {
+              bg: '#0a0f1d',
+              card: '#111827',
+              border: '#1f2937',
+              hover: '#1e293b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-slate-200 font-sans min-h-screen transition-colors flex flex-col">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/85 dark:bg-dark-bg/85 border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 via-teal-600 to-indigo-600 flex items-center justify-center text-white font-mono font-bold shadow-md shadow-cyan-500/25">
+          MM
+        </div>
+        <div>
+          <span class="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">Market<span class="text-cyan-500">Management</span></span>
+          <span class="hidden sm:inline-block ml-2 text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+            C# &bull; .NET &bull; SQL Server ERP
+          </span>
+        </div>
+      </div>
+
+      <!-- Navigation & Links -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <a href="../" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-1.5">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Portfolio</span>
+        </a>
+        <a href="https://github.com/ShakilJamil/marketmngt" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition flex items-center gap-1.5">
+          <i data-lucide="github" class="w-3.5 h-3.5 text-cyan-500"></i>
+          <span>GitHub Repo</span>
+        </a>
+        <button id="theme-toggle" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition">
+          <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
+          <i data-lucide="sun" class="w-4 h-4 block dark:hidden"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-6">
+
+    <!-- Top Banner / Authentication Status -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm">
+      <div class="space-y-1">
+        <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[10px] font-mono font-bold bg-cyan-500/10 text-cyan-500 border border-cyan-500/20">
+          <span>Enterprise Shopping Mall Management &bull; ADO.NET Architecture</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          Commercial Complex Tenant &amp; Operations ERP
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+          Simulating the C# Windows Forms application: centralizing commercial tenant shop leasing, floor assignments, monthly rent collection, inventory indexing, and staff payroll.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2 self-start md:self-auto shrink-0">
+        <div class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-mono text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span>Logged in as <strong>Admin</strong></span>
+        </div>
+        <button onclick="resetDbSeeds()" class="px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs text-slate-600 dark:text-slate-400 font-medium transition flex items-center gap-1">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Reset Seeds
+        </button>
+      </div>
+    </div>
+
+    <!-- KPI Metric Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm">
+        <span class="text-[10px] uppercase font-mono text-slate-400 font-bold">Monthly Rental Revenue</span>
+        <div id="kpi-total-rent" class="text-2xl sm:text-3xl font-extrabold font-mono text-cyan-500 my-1">$0</div>
+        <span class="text-[11px] text-slate-500">Commercial Tenant Leases</span>
+      </div>
+
+      <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm">
+        <span class="text-[10px] uppercase font-mono text-slate-400 font-bold">Leased Commercial Shops</span>
+        <div id="kpi-shop-count" class="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white my-1">0</div>
+        <span class="text-[11px] text-slate-500">Active Tenant Spaces</span>
+      </div>
+
+      <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm">
+        <span class="text-[10px] uppercase font-mono text-slate-400 font-bold">Retail Products Indexed</span>
+        <div id="kpi-product-count" class="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-500 my-1">0</div>
+        <span class="text-[11px] text-slate-500">Tenant Store Inventory</span>
+      </div>
+
+      <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm">
+        <span class="text-[10px] uppercase font-mono text-slate-400 font-bold">Monthly Staff Payroll</span>
+        <div id="kpi-total-salary" class="text-2xl sm:text-3xl font-extrabold font-mono text-indigo-500 my-1">$0</div>
+        <span class="text-[11px] text-slate-500">Mall Operations Staff</span>
+      </div>
+    </div>
+
+    <!-- ERP Navigation Tabs -->
+    <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+      <button onclick="switchTab('shops')" id="tab-btn-shops" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-cyan-600 text-white transition flex items-center gap-2">
+        <i data-lucide="store" class="w-4 h-4"></i>
+        <span>Commercial Shops (Shoptb)</span>
+      </button>
+      <button onclick="switchTab('products')" id="tab-btn-products" class="tab-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-2">
+        <i data-lucide="tag" class="w-4 h-4"></i>
+        <span>Store Products (producrtb)</span>
+      </button>
+      <button onclick="switchTab('employees')" id="tab-btn-employees" class="tab-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-2">
+        <i data-lucide="users" class="w-4 h-4"></i>
+        <span>Staff &amp; Payroll (emptb)</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: SHOPS MANAGEMENT (shopms.cs) -->
+    <section id="tab-shops" class="tab-content space-y-4">
+      <div class="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="building-2" class="w-4 h-4 text-cyan-500"></i> Commercial Shop Leases (Shoptb)
+            </h3>
+            <p class="text-xs text-slate-500">Manage tenant lease contracts, floor levels, and monthly rent schedules</p>
+          </div>
+          <button onclick="openShopModal()" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs shadow-md shadow-cyan-600/30 transition flex items-center gap-1.5 self-start sm:self-auto">
+            <i data-lucide="plus" class="w-4 h-4"></i> Add Commercial Shop
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-mono">
+            <thead class="uppercase text-slate-400 border-b border-slate-100 dark:border-slate-800">
+              <tr>
+                <th class="py-3 px-4">ID (sid)</th>
+                <th class="py-3 px-4 font-sans">Shop / Brand Name</th>
+                <th class="py-3 px-4">Lease Date</th>
+                <th class="py-3 px-4">Building Level</th>
+                <th class="py-3 px-4">Monthly Rent</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="shop-tbody" class="divide-y divide-slate-100 dark:divide-slate-800">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: PRODUCTS MANAGEMENT (productms.cs) -->
+    <section id="tab-products" class="tab-content hidden space-y-4">
+      <div class="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="boxes" class="w-4 h-4 text-emerald-500"></i> Tenant Store Products (producrtb)
+            </h3>
+            <p class="text-xs text-slate-500">Inventory items indexed per commercial tenant space (Relational FK &rarr; Shoptb)</p>
+          </div>
+          <button onclick="openProductModal()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 transition flex items-center gap-1.5 self-start sm:self-auto">
+            <i data-lucide="plus" class="w-4 h-4"></i> Add Store Product
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-mono">
+            <thead class="uppercase text-slate-400 border-b border-slate-100 dark:border-slate-800">
+              <tr>
+                <th class="py-3 px-4">ID (pid)</th>
+                <th class="py-3 px-4 font-sans">Product Name</th>
+                <th class="py-3 px-4 font-sans">Parent Shop (ssid)</th>
+                <th class="py-3 px-4">Import Date</th>
+                <th class="py-3 px-4">Retail Price</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="product-tbody" class="divide-y divide-slate-100 dark:divide-slate-800">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: EMPLOYEES MANAGEMENT (Employees.cs) -->
+    <section id="tab-employees" class="tab-content hidden space-y-4">
+      <div class="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="user-check" class="w-4 h-4 text-indigo-500"></i> Mall Staff &amp; Operations Roster (emptb)
+            </h3>
+            <p class="text-xs text-slate-500">Floor supervisors, security in-charge, and mall operations payroll</p>
+          </div>
+          <button onclick="openEmployeeModal()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-md shadow-indigo-600/30 transition flex items-center gap-1.5 self-start sm:self-auto">
+            <i data-lucide="plus" class="w-4 h-4"></i> Add Staff Member
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-mono">
+            <thead class="uppercase text-slate-400 border-b border-slate-100 dark:border-slate-800">
+              <tr>
+                <th class="py-3 px-4">ID (eid)</th>
+                <th class="py-3 px-4 font-sans">Employee Name</th>
+                <th class="py-3 px-4">Monthly Salary</th>
+                <th class="py-3 px-4">Joining Date</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="employee-tbody" class="divide-y divide-slate-100 dark:divide-slate-800">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 py-6 text-xs text-slate-500 text-center space-y-1">
+    <div>Market Management System &bull; Designed &amp; Developed by <strong>Shakil Jamil Mrida</strong></div>
+    <div class="font-mono text-[11px] text-slate-400">C# &bull; Microsoft .NET Framework &bull; ADO.NET &bull; SQL Server LocalDB</div>
+  </footer>
+
+  <!-- MODAL: Add / Edit Shop -->
+  <div id="shop-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 id="shop-modal-title" class="font-bold text-base text-slate-900 dark:text-white">Add Commercial Shop</h3>
+        <button onclick="closeShopModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <input type="hidden" id="shop-id">
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Shop / Brand Name</label>
+        <input type="text" id="shop-name" required placeholder="e.g. Apex Footwear" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-cyan-500 outline-none">
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Building Level</label>
+          <input type="number" id="shop-level" value="1" min="0" max="10" required class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono focus:ring-2 focus:ring-cyan-500 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Monthly Rent ($)</label>
+          <input type="number" id="shop-rent" required placeholder="3500" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono focus:ring-2 focus:ring-cyan-500 outline-none">
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Lease Date</label>
+        <input type="date" id="shop-date" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono focus:ring-2 focus:ring-cyan-500 outline-none">
+      </div>
+
+      <button onclick="saveShopForm()" class="w-full py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs shadow-md shadow-cyan-600/30 transition">
+        Save Commercial Shop
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: Add Product -->
+  <div id="product-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="font-bold text-base text-slate-900 dark:text-white">Add Store Product</h3>
+        <button onclick="closeProductModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Product Name</label>
+        <input type="text" id="prod-name" required placeholder="e.g. Leather Oxford Shoes" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Assign to Commercial Shop (ssid)</label>
+        <select id="prod-shop-select" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+          <!-- Populated dynamically -->
+        </select>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Retail Price ($)</label>
+          <input type="number" id="prod-price" required placeholder="120" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono focus:ring-2 focus:ring-emerald-500 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Import Date</label>
+          <input type="date" id="prod-date" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono focus:ring-2 focus:ring-emerald-500 outline-none">
+        </div>
+      </div>
+
+      <button onclick="saveProductForm()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 transition">
+        Add Product to Inventory
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: Add Employee -->
+  <div id="employee-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="font-bold text-base text-slate-900 dark:text-white">Add Staff Member</h3>
+        <button onclick="closeEmployeeModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Full Name</label>
+        <input type="text" id="emp-name" required placeholder="e.g. Tanvir Ahmed" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Monthly Salary ($)</label>
+        <input type="number" id="emp-salary" required placeholder="1800" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono focus:ring-2 focus:ring-indigo-500 outline-none">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Joining Date</label>
+        <input type="date" id="emp-date" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono focus:ring-2 focus:ring-indigo-500 outline-none">
+      </div>
+
+      <button onclick="saveEmployeeForm()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-md shadow-indigo-600/30 transition">
+        Register Staff Member
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 hidden px-5 py-3 rounded-2xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-2xl font-medium text-xs flex items-center gap-2.5 border border-slate-800 dark:border-slate-200">
+    <i data-lucide="info" class="w-4 h-4 text-cyan-500"></i>
+    <span id="toast-message">Notification message</span>
+  </div>
+
+  <!-- Client Script -->
+  <script>
+    const INITIAL_SEEDS = {
+      shops: [
+        { sid: 1, shopname: "Apex Footwear & Leather", shopdate: "2024-01-15", rent: 3500, level: 1 },
+        { sid: 2, shopname: "Aarong Fashion Flagship", shopdate: "2023-11-01", rent: 6200, level: 2 },
+        { sid: 3, shopname: "Samsung SmartHub & Electronics", shopdate: "2024-03-10", rent: 4800, level: 0 },
+        { sid: 4, shopname: "Starbucks Specialty Coffee", shopdate: "2024-02-01", rent: 2900, level: 3 },
+        { sid: 5, shopname: "Apple Authorized Reseller", shopdate: "2023-09-20", rent: 5500, level: 1 }
+      ],
+      products: [
+        { pid: 101, pname: "Leather Oxford Formal Shoes", import_date: "2024-10-05", pprice: 110, ssid: 1 },
+        { pid: 102, pname: "Handcrafted Cotton Panjabi", import_date: "2024-10-12", pprice: 65, ssid: 2 },
+        { pid: 103, pname: "Galaxy S24 Ultra 512GB", import_date: "2024-10-20", pprice: 1299, ssid: 3 },
+        { pid: 104, pname: "Dark Roast Whole Bean Arabica", import_date: "2024-11-01", pprice: 24, ssid: 4 },
+        { pid: 105, pname: "MacBook Pro M3 Max 16-inch", import_date: "2024-10-18", pprice: 2499, ssid: 5 }
+      ],
+      employees: [
+        { eid: 1, ename: "Tanvir Ahmed", esalary: 1800, ejdate: "2023-01-10" },
+        { eid: 2, ename: "Sadia Rahman", esalary: 1400, ejdate: "2023-05-15" },
+        { eid: 3, ename: "Mahmudul Hasan", esalary: 1200, ejdate: "2023-08-01" },
+        { eid: 4, ename: "Rafiul Karim", esalary: 1600, ejdate: "2024-02-01" }
+      ]
+    };
+
+    let state = loadPersistedState();
+
+    function loadPersistedState() {
+      try {
+        const raw = localStorage.getItem('market_erp_state');
+        if (raw) return JSON.parse(raw);
+      } catch (_) {}
+      return JSON.parse(JSON.stringify(INITIAL_SEEDS));
+    }
+
+    function persistState() {
+      try {
+        localStorage.setItem('market_erp_state', JSON.stringify(state));
+      } catch (_) {}
+      updateKPIs();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+
+      document.getElementById('theme-toggle')?.addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark');
+      });
+
+      renderShops();
+      renderProducts();
+      renderEmployees();
+      updateKPIs();
+    });
+
+    function updateKPIs() {
+      const totalRent = state.shops.reduce((sum, s) => sum + s.rent, 0);
+      const totalSalary = state.employees.reduce((sum, e) => sum + e.esalary, 0);
+
+      document.getElementById('kpi-total-rent').textContent = `$${totalRent.toLocaleString()}`;
+      document.getElementById('kpi-shop-count').textContent = state.shops.length;
+      document.getElementById('kpi-product-count').textContent = state.products.length;
+      document.getElementById('kpi-total-salary').textContent = `$${totalSalary.toLocaleString()}`;
+    }
+
+    // Tab Switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.className = 'tab-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-2';
+      });
+
+      document.getElementById('tab-' + tabId)?.classList.remove('hidden');
+      const activeBtn = document.getElementById('tab-btn-' + tabId);
+      if (activeBtn) {
+        activeBtn.className = 'tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-cyan-600 text-white transition flex items-center gap-2';
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // ---------------------------------------------------------
+    // SHOPS CRUD (shopms.cs)
+    // ---------------------------------------------------------
+    function renderShops() {
+      const tbody = document.getElementById('shop-tbody');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      state.shops.forEach(s => {
+        const levelName = s.level === 0 ? 'Ground Floor' : `Floor Level ${s.level}`;
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-50 dark:hover:bg-slate-900 transition">
+            <td class="py-3 px-4 text-slate-400">#${s.sid}</td>
+            <td class="py-3 px-4 font-sans font-bold text-slate-900 dark:text-white">${s.shopname}</td>
+            <td class="py-3 px-4 text-slate-400">${s.shopdate}</td>
+            <td class="py-3 px-4"><span class="px-2 py-0.5 rounded text-[10px] bg-cyan-500/10 text-cyan-400 font-bold">${levelName}</span></td>
+            <td class="py-3 px-4 font-bold text-emerald-500">$${s.rent.toLocaleString()}/mo</td>
+            <td class="py-3 px-4 text-right space-x-1 font-sans">
+              <button onclick="editShop(${s.sid})" class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 hover:bg-cyan-600 hover:text-white text-[11px] font-semibold transition">Edit</button>
+              <button onclick="deleteShop(${s.sid})" class="px-2 py-1 rounded border border-rose-500/30 text-rose-500 hover:bg-rose-500 hover:text-white text-[11px] font-semibold transition">Delete</button>
+            </td>
+          </tr>
+        `;
+      });
+      populateProductShopSelect();
+    }
+
+    function openShopModal() {
+      document.getElementById('shop-id').value = '';
+      document.getElementById('shop-modal-title').textContent = 'Add Commercial Shop';
+      document.getElementById('shop-name').value = '';
+      document.getElementById('shop-level').value = '1';
+      document.getElementById('shop-rent').value = '3500';
+      document.getElementById('shop-date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('shop-modal').classList.remove('hidden');
+    }
+
+    function closeShopModal() {
+      document.getElementById('shop-modal').classList.add('hidden');
+    }
+
+    function editShop(id) {
+      const s = state.shops.find(item => item.sid == id);
+      if (!s) return;
+      document.getElementById('shop-id').value = s.sid;
+      document.getElementById('shop-modal-title').textContent = `Edit Shop #${s.sid}`;
+      document.getElementById('shop-name').value = s.shopname;
+      document.getElementById('shop-level').value = s.level;
+      document.getElementById('shop-rent').value = s.rent;
+      document.getElementById('shop-date').value = s.shopdate;
+      document.getElementById('shop-modal').classList.remove('hidden');
+    }
+
+    function saveShopForm() {
+      const id = document.getElementById('shop-id').value;
+      const shopname = document.getElementById('shop-name').value.trim();
+      const level = parseInt(document.getElementById('shop-level').value);
+      const rent = parseInt(document.getElementById('shop-rent').value);
+      const shopdate = document.getElementById('shop-date').value;
+
+      if (!shopname || isNaN(rent)) {
+        showToast('Please provide valid shop name and monthly rent.');
+        return;
+      }
+
+      if (id) {
+        const idx = state.shops.findIndex(s => s.sid == id);
+        if (idx !== -1) {
+          state.shops[idx] = { sid: Number(id), shopname, level, rent, shopdate };
+          showToast(`Shop "${shopname}" updated.`);
+        }
+      } else {
+        const newId = state.shops.length > 0 ? Math.max(...state.shops.map(s => s.sid)) + 1 : 1;
+        state.shops.push({ sid: newId, shopname, level, rent, shopdate });
+        showToast(`Shop "${shopname}" registered successfully.`);
+      }
+
+      persistState();
+      closeShopModal();
+      renderShops();
+    }
+
+    function deleteShop(id) {
+      if (!confirm(`Delete commercial shop #${id}? Any attached products will be removed.`)) return;
+      state.shops = state.shops.filter(s => s.sid != id);
+      state.products = state.products.filter(p => p.ssid != id);
+      persistState();
+      renderShops();
+      renderProducts();
+      showToast(`Shop #${id} deleted.`);
+    }
+
+    // ---------------------------------------------------------
+    // PRODUCTS CRUD (productms.cs)
+    // ---------------------------------------------------------
+    function populateProductShopSelect() {
+      const select = document.getElementById('prod-shop-select');
+      if (!select) return;
+      select.innerHTML = '';
+      state.shops.forEach(s => {
+        select.innerHTML += `<option value="${s.sid}">${s.shopname} (Level ${s.level})</option>`;
+      });
+    }
+
+    function renderProducts() {
+      const tbody = document.getElementById('product-tbody');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      state.products.forEach(p => {
+        const parentShop = state.shops.find(s => s.sid == p.ssid);
+        const shopTitle = parentShop ? parentShop.shopname : `Shop #${p.ssid}`;
+
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-50 dark:hover:bg-slate-900 transition">
+            <td class="py-3 px-4 text-slate-400">#${p.pid}</td>
+            <td class="py-3 px-4 font-sans font-bold text-slate-900 dark:text-white">${p.pname}</td>
+            <td class="py-3 px-4 font-sans text-cyan-400 font-semibold">${shopTitle}</td>
+            <td class="py-3 px-4 text-slate-400">${p.import_date}</td>
+            <td class="py-3 px-4 font-bold text-emerald-500">$${p.pprice.toFixed(2)}</td>
+            <td class="py-3 px-4 text-right space-x-1 font-sans">
+              <button onclick="deleteProduct(${p.pid})" class="px-2 py-1 rounded border border-rose-500/30 text-rose-500 hover:bg-rose-500 hover:text-white text-[11px] font-semibold transition">Delete</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function openProductModal() {
+      populateProductShopSelect();
+      document.getElementById('prod-name').value = '';
+      document.getElementById('prod-price').value = '99';
+      document.getElementById('prod-date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('product-modal').classList.remove('hidden');
+    }
+
+    function closeProductModal() {
+      document.getElementById('product-modal').classList.add('hidden');
+    }
+
+    function saveProductForm() {
+      const pname = document.getElementById('prod-name').value.trim();
+      const ssid = parseInt(document.getElementById('prod-shop-select').value);
+      const pprice = parseFloat(document.getElementById('prod-price').value);
+      const import_date = document.getElementById('prod-date').value;
+
+      if (!pname || isNaN(pprice) || isNaN(ssid)) {
+        showToast('Please fill in product name and valid price.');
+        return;
+      }
+
+      const newId = state.products.length > 0 ? Math.max(...state.products.map(p => p.pid)) + 1 : 101;
+      state.products.push({ pid: newId, pname, ssid, pprice, import_date });
+
+      persistState();
+      closeProductModal();
+      renderProducts();
+      showToast(`Product "${pname}" added to inventory.`);
+    }
+
+    function deleteProduct(id) {
+      if (!confirm(`Delete product #${id}?`)) return;
+      state.products = state.products.filter(p => p.pid != id);
+      persistState();
+      renderProducts();
+      showToast(`Product #${id} removed.`);
+    }
+
+    // ---------------------------------------------------------
+    // EMPLOYEES CRUD (Employees.cs)
+    // ---------------------------------------------------------
+    function renderEmployees() {
+      const tbody = document.getElementById('employee-tbody');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      state.employees.forEach(e => {
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-50 dark:hover:bg-slate-900 transition">
+            <td class="py-3 px-4 text-slate-400">#${e.eid}</td>
+            <td class="py-3 px-4 font-sans font-bold text-slate-900 dark:text-white">${e.ename}</td>
+            <td class="py-3 px-4 font-bold text-indigo-400">$${e.esalary.toLocaleString()}/mo</td>
+            <td class="py-3 px-4 text-slate-400">${e.ejdate}</td>
+            <td class="py-3 px-4 text-right space-x-1 font-sans">
+              <button onclick="deleteEmployee(${e.eid})" class="px-2 py-1 rounded border border-rose-500/30 text-rose-500 hover:bg-rose-500 hover:text-white text-[11px] font-semibold transition">Delete</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function openEmployeeModal() {
+      document.getElementById('emp-name').value = '';
+      document.getElementById('emp-salary').value = '1500';
+      document.getElementById('emp-date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('employee-modal').classList.remove('hidden');
+    }
+
+    function closeEmployeeModal() {
+      document.getElementById('employee-modal').classList.add('hidden');
+    }
+
+    function saveEmployeeForm() {
+      const ename = document.getElementById('emp-name').value.trim();
+      const esalary = parseInt(document.getElementById('emp-salary').value);
+      const ejdate = document.getElementById('emp-date').value;
+
+      if (!ename || isNaN(esalary)) {
+        showToast('Please provide valid employee name and salary.');
+        return;
+      }
+
+      const newId = state.employees.length > 0 ? Math.max(...state.employees.map(e => e.eid)) + 1 : 1;
+      state.employees.push({ eid: newId, ename, esalary, ejdate });
+
+      persistState();
+      closeEmployeeModal();
+      renderEmployees();
+      showToast(`Staff member "${ename}" registered.`);
+    }
+
+    function deleteEmployee(id) {
+      if (!confirm(`Delete employee record #${id}?`)) return;
+      state.employees = state.employees.filter(e => e.eid != id);
+      persistState();
+      renderEmployees();
+      showToast(`Staff record #${id} removed.`);
+    }
+
+    function resetDbSeeds() {
+      if (!confirm('Reset mall ERP database back to initial seeds?')) return;
+      localStorage.removeItem('market_erp_state');
+      state = JSON.parse(JSON.stringify(INITIAL_SEEDS));
+      persistState();
+      renderShops();
+      renderProducts();
+      renderEmployees();
+      showToast('ERP database reset to initial seeds!');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      if (!toast || !toastMessage) return;
+
+      toastMessage.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 3500);
+    }
+  </script>
+</body>
+</html>
