@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulseQueue | Real-Time Smart Appointment &amp; Queue Management</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- SockJS & STOMP for WebSockets -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            },
+            dark: {
+              bg: '#0a0f1d',
+              card: '#111827',
+              border: '#1f2937',
+              hover: '#1e293b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-slate-200 font-sans min-h-screen transition-colors flex flex-col">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/80 dark:bg-dark-bg/80 border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 via-indigo-600 to-cyan-500 flex items-center justify-center text-white font-mono font-bold shadow-md shadow-brand-500/25">
+          PQ
+        </div>
+        <div>
+          <span class="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">Pulse<span class="text-brand-500">Queue</span></span>
+          <span class="hidden sm:inline-block ml-2 text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping mr-1"></span>WebSocket Live
+          </span>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="flex items-center gap-1.5 sm:gap-2">
+        <button onclick="switchTab('booking')" id="nav-booking" class="nav-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-600 text-white transition">Book Slot</button>
+        <button onclick="switchTab('my-ticket')" id="nav-my-ticket" class="nav-tab px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">My Ticket</button>
+        <button onclick="switchTab('staff')" id="nav-staff" class="nav-tab px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Staff Desk</button>
+        <button onclick="switchTab('tv')" id="nav-tv" class="nav-tab px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">TV Display</button>
+        <button onclick="switchTab('analytics')" id="nav-analytics" class="nav-tab px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Metrics</button>
+      </nav>
+
+      <!-- Right Actions: Theme Toggle & Swagger Link -->
+      <div class="flex items-center gap-2">
+        <a href="/swagger-ui.html" target="_blank" rel="noopener noreferrer" class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono font-semibold border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition">
+          <i data-lucide="file-code-2" class="w-3.5 h-3.5 text-brand-500"></i>
+          <span>Swagger API</span>
+        </a>
+        <button id="theme-toggle" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition">
+          <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
+          <i data-lucide="sun" class="w-4 h-4 block dark:hidden"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-8">
+
+    <!-- Live Queue Notification Banner (Updated via WebSockets) -->
+    <div id="live-broadcast-banner" class="hidden p-4 rounded-2xl bg-gradient-to-r from-brand-600/20 via-cyan-500/20 to-purple-600/20 border border-brand-500/30 flex items-center justify-between animate-card-fade">
+      <div class="flex items-center gap-3">
+        <span class="p-2 rounded-xl bg-brand-600 text-white shadow-lg shadow-brand-600/30">
+          <i data-lucide="volume-2" class="w-5 h-5 animate-bounce"></i>
+        </span>
+        <div>
+          <h4 id="banner-title" class="font-bold text-sm text-slate-900 dark:text-white">Ticket Q-102 Called!</h4>
+          <p id="banner-desc" class="text-xs text-slate-600 dark:text-slate-300">Please proceed to Counter 101 (General Medicine).</p>
+        </div>
+      </div>
+      <span class="text-xs font-mono text-brand-500 font-semibold">Real-Time WebSocket Push</span>
+    </div>
+
+    <!-- TAB 1: BOOKING PORTAL -->
+    <section id="tab-booking" class="tab-content space-y-8">
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">Reserve an Appointment Slot</h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400">
+          Slots are guarded with <strong class="text-brand-500">Optimistic Locking</strong> to prevent concurrent double-booking.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Left: Filters & Selection -->
+        <div class="lg:col-span-5 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card space-y-4 shadow-sm">
+          <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+            <i data-lucide="stethoscope" class="w-4 h-4 text-brand-500"></i>
+            <span>Choose Department &amp; Date</span>
+          </h3>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Department</label>
+            <select id="department-select" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+              <option value="">All Departments</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Date</label>
+            <input type="date" id="date-select" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+          </div>
+
+          <button onclick="loadSlots()" class="w-full py-2.5 px-4 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-xs shadow-md shadow-brand-600/25 transition flex items-center justify-center gap-1.5">
+            <i data-lucide="search" class="w-3.5 h-3.5"></i>
+            <span>Refresh Available Slots</span>
+          </button>
+
+          <!-- Walk-in Shortcut -->
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+            <p class="text-xs text-slate-500 mb-2">Need immediate triage?</p>
+            <button onclick="issueWalkin()" class="w-full py-2 px-3 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">
+              <i data-lucide="ticket" class="w-3.5 h-3.5 text-cyan-500"></i>
+              <span>Issue Instant Walk-in Ticket</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Available Slots Grid -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-base text-slate-900 dark:text-white">Available Time Slots</h3>
+            <span id="slot-count-badge" class="text-xs font-mono text-slate-500">Loading slots...</span>
+          </div>
+
+          <div id="slots-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: MY TICKET TRACKER -->
+    <section id="tab-my-ticket" class="tab-content hidden max-w-xl mx-auto space-y-6">
+      <div class="text-center space-y-2">
+        <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">Live Queue Ticket Status</h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400">Updates dynamically over WebSockets without refreshing.</p>
+      </div>
+
+      <div class="p-8 rounded-3xl border-2 border-brand-500/30 bg-white dark:bg-dark-card shadow-2xl space-y-6 text-center relative overflow-hidden">
+        <div class="absolute -right-12 -top-12 w-36 h-36 bg-brand-500/10 rounded-full blur-2xl"></div>
+
+        <div>
+          <span class="text-xs uppercase font-mono tracking-widest text-slate-400">Your Ticket Number</span>
+          <div id="ticket-number-display" class="text-6xl font-black font-mono tracking-wider text-brand-600 dark:text-brand-400 my-2">Q-103</div>
+          <span id="ticket-department-display" class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">General Medicine</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 py-4 border-y border-slate-100 dark:border-slate-800">
+          <div>
+            <div id="ticket-ahead-display" class="text-3xl font-extrabold font-mono text-slate-900 dark:text-white">2</div>
+            <div class="text-xs text-slate-500">Patients Ahead</div>
+          </div>
+          <div>
+            <div id="ticket-wait-display" class="text-3xl font-extrabold font-mono text-cyan-500">~15m</div>
+            <div class="text-xs text-slate-500">Est. Wait Time</div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
+          <span class="text-slate-500">Assigned Station:</span>
+          <span id="ticket-counter-display" class="font-bold text-slate-900 dark:text-white font-mono">Counter 101</span>
+        </div>
+
+        <div id="ticket-status-pill" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-500 border border-amber-500/20">
+          <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+          <span>Status: WAITING</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: STAFF STATION DESK -->
+    <section id="tab-staff" class="tab-content hidden space-y-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">Staff Counter Station</h2>
+          <p class="text-sm text-slate-600 dark:text-slate-400">Call waiting patients and update triage status in real time.</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <label class="text-xs font-semibold uppercase text-slate-500">My Station:</label>
+          <select id="staff-counter-select" class="px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono font-bold focus:ring-2 focus:ring-brand-500 outline-none">
+            <!-- Populated via JS -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Action Control Banner -->
+      <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <span class="text-xs font-mono uppercase text-slate-400 font-semibold">Currently Serving</span>
+          <div id="staff-now-serving" class="text-3xl font-black font-mono text-emerald-500 mt-1">Q-101</div>
+          <p id="staff-now-serving-desc" class="text-xs text-slate-500">General Medicine &bull; Consultation in Progress</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <button onclick="callNextCustomer()" class="px-5 py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs shadow-lg shadow-brand-600/30 transition flex items-center gap-2">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+            <span>Call Next Ticket</span>
+          </button>
+          <button onclick="completeCurrentTicket()" class="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 transition flex items-center gap-2">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Complete</span>
+          </button>
+          <button onclick="skipCurrentTicket()" class="px-4 py-3 rounded-xl border border-rose-300 dark:border-rose-800 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 font-bold text-xs transition flex items-center gap-1.5">
+            <i data-lucide="user-x" class="w-4 h-4"></i>
+            <span>No-Show</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Waiting Queue Table -->
+      <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-4">
+        <h3 class="font-bold text-base text-slate-900 dark:text-white">Waiting Patient Queue</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="uppercase font-mono text-slate-400 border-b border-slate-100 dark:border-slate-800">
+              <tr>
+                <th class="py-3 px-4">Ticket</th>
+                <th class="py-3 px-4">Patient</th>
+                <th class="py-3 px-4">Department</th>
+                <th class="py-3 px-4">Wait Position</th>
+                <th class="py-3 px-4">Issued Time</th>
+              </tr>
+            </thead>
+            <tbody id="staff-queue-tbody" class="divide-y divide-slate-100 dark:divide-slate-800">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: TV WAITING ROOM DISPLAY -->
+    <section id="tab-tv" class="tab-content hidden space-y-8">
+      <div class="text-center space-y-2">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span>Digital Signage Waiting Display</span>
+        </div>
+        <h2 class="text-4xl font-extrabold text-slate-900 dark:text-white">NOW SERVING</h2>
+      </div>
+
+      <div id="tv-serving-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Populated via JS / WebSockets -->
+      </div>
+    </section>
+
+    <!-- TAB 5: ANALYTICS & METRICS -->
+    <section id="tab-analytics" class="tab-content hidden space-y-8">
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">Live Clinic Throughput Metrics</h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400">Real-time operational monitoring powered by Spring Actuator &amp; JPA.</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm text-center">
+          <div id="metric-waiting" class="text-4xl font-extrabold font-mono text-amber-500">...</div>
+          <div class="text-xs text-slate-500 mt-1">Currently Waiting</div>
+        </div>
+        <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm text-center">
+          <div id="metric-serving" class="text-4xl font-extrabold font-mono text-emerald-500">...</div>
+          <div class="text-xs text-slate-500 mt-1">In Active Service</div>
+        </div>
+        <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm text-center">
+          <div id="metric-completed" class="text-4xl font-extrabold font-mono text-brand-500">...</div>
+          <div class="text-xs text-slate-500 mt-1">Completed Today</div>
+        </div>
+        <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm text-center">
+          <div id="metric-avg-wait" class="text-4xl font-extrabold font-mono text-cyan-500">...</div>
+          <div class="text-xs text-slate-500 mt-1">Avg Wait Time</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 py-6 text-xs text-slate-500 text-center">
+    <span>PulseQueue &bull; Designed &amp; Engineered by <strong>Shakil Jamil Mrida</strong> &bull; Java 17 &bull; Spring Boot 3 &bull; WebSockets</span>
+  </footer>
+
+  <!-- Booking Modal Dialog -->
+  <div id="booking-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="font-bold text-lg text-slate-900 dark:text-white">Confirm Appointment</h3>
+        <button onclick="closeBookingModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 text-xs space-y-2">
+        <div class="flex justify-between"><span class="text-slate-500">Department:</span><span id="modal-dept" class="font-bold">General</span></div>
+        <div class="flex justify-between"><span class="text-slate-500">Time Slot:</span><span id="modal-time" class="font-bold font-mono">10:00 - 10:25</span></div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Reason / Notes</label>
+        <textarea id="booking-notes" rows="3" placeholder="Routine checkup, symptoms, etc." class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-brand-500 outline-none resize-none"></textarea>
+      </div>
+
+      <button id="modal-confirm-btn" onclick="confirmBooking()" class="w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs shadow-lg shadow-brand-600/30 transition">
+        Confirm &amp; Issue Ticket
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 hidden px-5 py-3 rounded-2xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-2xl font-medium text-xs flex items-center gap-2.5 border border-slate-800 dark:border-slate-200">
+    <i data-lucide="info" class="w-4 h-4 text-brand-500"></i>
+    <span id="toast-message">Notification message</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
