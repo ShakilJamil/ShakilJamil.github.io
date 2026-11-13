@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Inventory Management | Dynamic Expiry Discount Engine</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            emerald: {
+              500: '#10b981',
+              600: '#059669',
+            },
+            dark: {
+              bg: '#0a0f1d',
+              card: '#111827',
+              border: '#1f2937',
+              hover: '#1e293b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-slate-200 font-sans min-h-screen transition-colors flex flex-col">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/85 dark:bg-dark-bg/85 border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-cyan-500 flex items-center justify-center text-white font-mono font-bold shadow-md shadow-emerald-500/25">
+          SIM
+        </div>
+        <div>
+          <span class="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">Smart<span class="text-emerald-500">Inventory</span></span>
+          <span class="hidden sm:inline-block ml-2 text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            Dynamic Expiry Discount
+          </span>
+        </div>
+      </div>
+
+      <!-- Navigation & Links -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <a href="../" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-1.5">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Portfolio</span>
+        </a>
+        <a href="https://github.com/ShakilJamil/apwj_final" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition flex items-center gap-1.5">
+          <i data-lucide="github" class="w-3.5 h-3.5 text-emerald-500"></i>
+          <span>GitHub Repo</span>
+        </a>
+        <button id="theme-toggle" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition">
+          <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
+          <i data-lucide="sun" class="w-4 h-4 block dark:hidden"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-8">
+
+    <!-- Hero / Architecture Overview -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm">
+      <div class="space-y-1.5 max-w-3xl">
+        <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+          <i data-lucide="sparkles" class="w-3 h-3"></i>
+          <span>Spring Boot 3 &bull; Spring AOP Logging &bull; JWT Security &bull; MySQL</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          Retail Waste Reduction via Dynamic Expiry Discounts
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+          Products nearing their expiration date (&le; 7 days) are automatically tagged by <code class="font-mono text-emerald-500">ProductServiceImpl</code> with a <strong class="text-emerald-400">20% dynamic discount</strong> to accelerate sales velocity before spoilage. Expired items are automatically delisted from public checkout.
+        </p>
+      </div>
+      <div class="flex items-center gap-2 self-start md:self-auto shrink-0">
+        <button onclick="openAddModal()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 transition flex items-center gap-1.5">
+          <i data-lucide="plus" class="w-4 h-4"></i> Add Product
+        </button>
+        <button onclick="openBulkModal()" class="px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-xs transition flex items-center gap-1.5">
+          <i data-lucide="file-json" class="w-4 h-4 text-emerald-500"></i> Bulk JSON
+        </button>
+      </div>
+    </div>
+
+    <!-- KPI Metric Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm">
+        <span class="text-[10px] uppercase font-mono text-slate-400 font-bold">Total Inventory Value</span>
+        <div id="kpi-total-val" class="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white my-1">$0.00</div>
+        <span class="text-[11px] text-slate-500">Across active stock</span>
+      </div>
+
+      <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm">
+        <span class="text-[10px] uppercase font-mono text-amber-500 font-bold">Expiring Stock (&le; 7 Days)</span>
+        <div id="kpi-expiring-val" class="text-2xl sm:text-3xl font-extrabold font-mono text-amber-500 my-1">0 items</div>
+        <span class="text-[11px] text-amber-400/80 font-mono">⚡ 20% Discount Active</span>
+      </div>
+
+      <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm">
+        <span class="text-[10px] uppercase font-mono text-emerald-500 font-bold">Fresh Stock (&gt; 7 Days)</span>
+        <div id="kpi-fresh-count" class="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-500 my-1">0 items</div>
+        <span class="text-[11px] text-slate-500">MSRP Full Price</span>
+      </div>
+
+      <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm">
+        <span class="text-[10px] uppercase font-mono text-rose-500 font-bold">Expired / Delisted</span>
+        <div id="kpi-expired-count" class="text-2xl sm:text-3xl font-extrabold font-mono text-rose-500 my-1">0 items</div>
+        <span class="text-[11px] text-slate-500">Locked from sale</span>
+      </div>
+    </div>
+
+    <!-- Filter & Search Controls -->
+    <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="setFilterStatus('ALL')" id="btn-filter-all" class="filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-600 text-white transition">All Items</button>
+        <button onclick="setFilterStatus('EXPIRING')" id="btn-filter-expiring" class="filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-amber-400"></span> Expiring Soon (<span id="badge-expiring-count">0</span>)
+        </button>
+        <button onclick="setFilterStatus('FRESH')" id="btn-filter-fresh" class="filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Fresh Stock
+        </button>
+        <button onclick="setFilterStatus('EXPIRED')" id="btn-filter-expired" class="filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-rose-400"></span> Expired
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <select id="category-filter" onchange="renderProducts()" class="px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+          <option value="">All Categories</option>
+          <option value="GROCERIES">Groceries</option>
+          <option value="VEGETABLES">Vegetables</option>
+          <option value="MEAT">Meat</option>
+          <option value="BEAUTY_CARE">Beauty Care</option>
+          <option value="OTHERS">Others</option>
+        </select>
+        <input type="text" id="search-input" oninput="renderProducts()" placeholder="Search product or ID..." class="px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-emerald-500 outline-none w-44">
+      </div>
+    </div>
+
+    <!-- Product Table Section -->
+    <div class="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+            <i data-lucide="package" class="w-4 h-4 text-emerald-500"></i> Product Catalog &amp; Expiry Tiers
+          </h3>
+          <p class="text-xs text-slate-500">Live dynamic discounts calculated automatically based on system date</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="resetToInitialSeeds()" class="px-3 py-1 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs text-slate-600 dark:text-slate-400 font-medium transition flex items-center gap-1">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Reset Seeds
+          </button>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="uppercase font-mono text-slate-400 border-b border-slate-100 dark:border-slate-800">
+            <tr>
+              <th class="py-3 px-4">ID</th>
+              <th class="py-3 px-4">Product Name</th>
+              <th class="py-3 px-4">Category</th>
+              <th class="py-3 px-4">Unit Price</th>
+              <th class="py-3 px-4">Quantity</th>
+              <th class="py-3 px-4">Expiry Date</th>
+              <th class="py-3 px-4">Shelf Status</th>
+              <th class="py-3 px-4">Dynamic Discount</th>
+              <th class="py-3 px-4 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="product-tbody" class="divide-y divide-slate-100 dark:divide-slate-800 font-mono">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Category Valuation Breakdown Table -->
+    <div class="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+            <i data-lucide="pie-chart" class="w-4 h-4 text-teal-500"></i> Financial Category Valuation Report
+          </h3>
+          <p class="text-xs text-slate-500">Generated using <code class="font-mono text-emerald-500">ProductService.getTotalValueByCategory()</code></p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-3" id="category-valuation-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 py-6 text-xs text-slate-500 text-center space-y-1">
+    <div>Smart Inventory Management &bull; Designed &amp; Developed by <strong>Shakil Jamil Mrida</strong></div>
+    <div class="font-mono text-[11px] text-slate-400">Java 17 &bull; Spring Boot 3.5 &bull; Spring AOP &bull; JWT &bull; MySQL</div>
+  </footer>
+
+  <!-- MODAL: Add / Edit Product -->
+  <div id="product-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 id="product-modal-title" class="font-bold text-base text-slate-900 dark:text-white">Add New Product</h3>
+        <button onclick="closeProductModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <input type="hidden" id="form-id">
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Product Name</label>
+        <input type="text" id="form-name" required placeholder="e.g. Organic Strawberries" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Category</label>
+        <select id="form-category" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+          <option value="GROCERIES">Groceries</option>
+          <option value="VEGETABLES">Vegetables</option>
+          <option value="MEAT">Meat</option>
+          <option value="BEAUTY_CARE">Beauty Care</option>
+          <option value="OTHERS">Others</option>
+        </select>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Unit Price ($)</label>
+          <input type="number" id="form-price" step="0.01" required placeholder="4.99" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono focus:ring-2 focus:ring-emerald-500 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Quantity</label>
+          <input type="number" id="form-quantity" required placeholder="50" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono focus:ring-2 focus:ring-emerald-500 outline-none">
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Expiration Date</label>
+        <input type="date" id="form-expiry" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono focus:ring-2 focus:ring-emerald-500 outline-none">
+      </div>
+
+      <button onclick="saveProductForm()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 transition">
+        Save Product
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: Bulk JSON Ingestion -->
+  <div id="bulk-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-800 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="font-bold text-base text-slate-900 dark:text-white">Bulk Ingest Products (JSON)</h3>
+        <button onclick="closeBulkModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <p class="text-xs text-slate-500">Paste an array of products formatted according to the Spring Boot REST API schema:</p>
+      <textarea id="bulk-json-input" rows="7" class="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-mono focus:ring-2 focus:ring-emerald-500 outline-none resize-none" placeholder='[
+  { "name": "Avocado", "category": "VEGETABLES", "price": 2.50, "quantity": 30, "expiryDate": "2026-11-18" }
+]'></textarea>
+
+      <div class="flex items-center justify-between">
+        <button onclick="fillSampleBulkJson()" class="text-xs text-emerald-500 hover:underline">Insert Sample Payload</button>
+        <button onclick="processBulkJson()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition">
+          Ingest Bulk Items
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 hidden px-5 py-3 rounded-2xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-2xl font-medium text-xs flex items-center gap-2.5 border border-slate-800 dark:border-slate-200">
+    <i data-lucide="info" class="w-4 h-4 text-emerald-500"></i>
+    <span id="toast-message">Notification message</span>
+  </div>
+
+  <!-- Client Script -->
+  <script>
+    // ---------------------------------------------------------
+    // INITIAL SAMPLE SEED DATA
+    // ---------------------------------------------------------
+    const today = new Date();
+    const formatDate = (offsetDays) => {
+      const d = new Date(today);
+      d.setDate(d.getDate() + offsetDays);
+      return d.toISOString().split('T')[0];
+    };
+
+    const INITIAL_SEEDS = [
+      { id: 101, name: "Fresh Atlantic Salmon Fillet", category: "MEAT", price: 14.50, quantity: 24, expiryDate: formatDate(2) },  // Expiring in 2 days -> 20% discount!
+      { id: 102, name: "Organic Whole Milk 1 Gallon", category: "GROCERIES", price: 4.80, quantity: 38, expiryDate: formatDate(3) }, // Expiring in 3 days -> 20% discount!
+      { id: 103, name: "Hydrating Hyaluronic Face Cream", category: "BEAUTY_CARE", price: 28.00, quantity: 45, expiryDate: formatDate(120) }, // Fresh
+      { id: 104, name: "Farm Fresh Roma Tomatoes (kg)", category: "VEGETABLES", price: 3.20, quantity: 80, expiryDate: formatDate(4) }, // Expiring in 4 days -> 20% discount!
+      { id: 105, name: "Himalayan Basmati Rice 5kg", category: "GROCERIES", price: 12.99, quantity: 50, expiryDate: formatDate(365) }, // Fresh
+      { id: 106, name: "Greek Style Strawberry Yogurt", category: "GROCERIES", price: 2.10, quantity: 60, expiryDate: formatDate(-1) }, // EXPIRED yesterday!
+      { id: 107, name: "Aged Sharp Cheddar Cheese", category: "GROCERIES", price: 6.50, quantity: 32, expiryDate: formatDate(5) }, // Expiring in 5 days -> 20% discount!
+      { id: 108, name: "Free-Range Chicken Breast (kg)", category: "MEAT", price: 8.90, quantity: 40, expiryDate: formatDate(1) }, // Expiring in 1 day -> 20% discount!
+      { id: 109, name: "Organic Spinach Bunch", category: "VEGETABLES", price: 1.99, quantity: 25, expiryDate: formatDate(-2) }, // EXPIRED 2 days ago!
+      { id: 110, name: "Botanical Herbal Shampoo", category: "BEAUTY_CARE", price: 11.50, quantity: 35, expiryDate: formatDate(180) } // Fresh
+    ];
+
+    let products = loadPersistedProducts();
+    let currentFilterStatus = 'ALL';
+
+    function loadPersistedProducts() {
+      try {
+        const raw = localStorage.getItem('sim_products');
+        if (raw) return JSON.parse(raw);
+      } catch (_) {}
+      return JSON.parse(JSON.stringify(INITIAL_SEEDS));
+    }
+
+    function persistProducts() {
+      try {
+        localStorage.setItem('sim_products', JSON.stringify(products));
+      } catch (_) {}
+    }
+
+    // ---------------------------------------------------------
+    // ALGORITHMIC EXPIRY & DISCOUNT EVALUATION
+    // Matches ProductServiceImpl.java:
+    // • Expired (< today): available = false, discount = null
+    // • Expiring (<= 7 days): available = true, discount = 0.20
+    // • Fresh (> 7 days): available = true, discount = null
+    // ---------------------------------------------------------
+    function evaluateProduct(p) {
+      if (!p.expiryDate) {
+        return { isExpired: false, isExpiring: false, discount: 0, finalPrice: p.price, available: true, daysLeft: 999 };
+      }
+
+      const todayMidnight = new Date();
+      todayMidnight.setHours(0, 0, 0, 0);
+
+      const expDate = new Date(p.expiryDate);
+      expDate.setHours(0, 0, 0, 0);
+
+      const diffTime = expDate - todayMidnight;
+      const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (daysLeft < 0) {
+        return { isExpired: true, isExpiring: false, discount: 0, finalPrice: 0, available: false, daysLeft };
+      } else if (daysLeft <= 7) {
+        const discountRate = 0.20; // 20% discount
+        const finalPrice = Math.round(p.price * (1 - discountRate) * 100) / 100;
+        return { isExpired: false, isExpiring: true, discount: discountRate, finalPrice, available: true, daysLeft };
+      } else {
+        return { isExpired: false, isExpiring: false, discount: 0, finalPrice: p.price, available: true, daysLeft };
+      }
+    }
+
+    // ---------------------------------------------------------
+    // RENDER & FILTERING
+    // ---------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+
+      const themeToggle = document.getElementById('theme-toggle');
+      if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+          document.documentElement.classList.toggle('dark');
+        });
+      }
+
+      renderProducts();
+    });
+
+    function setFilterStatus(status) {
+      currentFilterStatus = status;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.className = 'filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition';
+      });
+
+      const activeBtn = document.getElementById('btn-filter-' + status.toLowerCase());
+      if (activeBtn) {
+        activeBtn.className = 'filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-600 text-white transition';
+      }
+
+      renderProducts();
+    }
+
+    function renderProducts() {
+      const tbody = document.getElementById('product-tbody');
+      const catFilter = document.getElementById('category-filter')?.value || '';
+      const searchQuery = document.getElementById('search-input')?.value.toLowerCase().trim() || '';
+
+      if (!tbody) return;
+
+      let totalValuation = 0;
+      let expiringCount = 0;
+      let freshCount = 0;
+      let expiredCount = 0;
+      const categoryMap = {};
+
+      const filtered = products.filter(p => {
+        const evalResult = evaluateProduct(p);
+
+        // Stats accumulation
+        if (evalResult.available) {
+          totalValuation += evalResult.finalPrice * p.quantity;
+          categoryMap[p.category] = (categoryMap[p.category] || 0) + (evalResult.finalPrice * p.quantity);
+        }
+        if (evalResult.isExpiring) expiringCount++;
+        else if (evalResult.isExpired) expiredCount++;
+        else freshCount++;
+
+        // Filters
+        if (catFilter && p.category !== catFilter) return false;
+        if (searchQuery) {
+          const matchName = p.name.toLowerCase().includes(searchQuery);
+          const matchId = String(p.id).includes(searchQuery);
+          if (!matchName && !matchId) return false;
+        }
+
+        if (currentFilterStatus === 'EXPIRING' && !evalResult.isExpiring) return false;
+        if (currentFilterStatus === 'FRESH' && (evalResult.isExpiring || evalResult.isExpired)) return false;
+        if (currentFilterStatus === 'EXPIRED' && !evalResult.isExpired) return false;
+
+        return true;
+      });
+
+      // Update KPI Cards
+      document.getElementById('kpi-total-val').textContent = `$${totalValuation.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      document.getElementById('kpi-expiring-val').textContent = `${expiringCount} items`;
+      document.getElementById('kpi-fresh-count').textContent = `${freshCount} items`;
+      document.getElementById('kpi-expired-count').textContent = `${expiredCount} items`;
+      document.getElementById('badge-expiring-count').textContent = expiringCount;
+
+      // Render Table
+      tbody.innerHTML = '';
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" class="py-8 text-center text-xs text-slate-400 font-sans">No products match this filter criteria.</td></tr>';
+      } else {
+        filtered.forEach(p => {
+          const evalResult = evaluateProduct(p);
+          let statusBadge = '';
+          let discountBadge = '';
+          let priceDisplay = '';
+
+          if (evalResult.isExpired) {
+            statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-500/10 text-rose-500 border border-rose-500/20">Delisted (Expired)</span>`;
+            discountBadge = `<span class="text-slate-400 text-[11px]">-</span>`;
+            priceDisplay = `<span class="line-through text-slate-400">$${p.price.toFixed(2)}</span>`;
+          } else if (evalResult.isExpiring) {
+            statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20 animate-pulse">${evalResult.daysLeft}d left</span>`;
+            discountBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 font-mono">-20% Dynamic</span>`;
+            priceDisplay = `<span><span class="line-through text-slate-400 mr-1">$${p.price.toFixed(2)}</span><span class="text-emerald-400 font-bold">$${evalResult.finalPrice.toFixed(2)}</span></span>`;
+          } else {
+            statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-500">Fresh (${evalResult.daysLeft}d)</span>`;
+            discountBadge = `<span class="text-slate-400 text-[11px]">Standard MSRP</span>`;
+            priceDisplay = `<span class="font-bold text-slate-800 dark:text-slate-200">$${p.price.toFixed(2)}</span>`;
+          }
+
+          tbody.innerHTML += `
+            <tr class="hover:bg-slate-50 dark:hover:bg-slate-900 transition">
+              <td class="py-3 px-4 text-slate-400">#${p.id}</td>
+              <td class="py-3 px-4 font-sans font-bold text-slate-900 dark:text-white">${p.name}</td>
+              <td class="py-3 px-4 font-sans"><span class="px-2 py-0.5 rounded text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">${p.category}</span></td>
+              <td class="py-3 px-4">${priceDisplay}</td>
+              <td class="py-3 px-4 font-bold text-slate-700 dark:text-slate-300">${p.quantity}</td>
+              <td class="py-3 px-4 text-slate-400">${p.expiryDate || 'N/A'}</td>
+              <td class="py-3 px-4">${statusBadge}</td>
+              <td class="py-3 px-4">${discountBadge}</td>
+              <td class="py-3 px-4 text-right space-x-1">
+                <button onclick="editProduct(${p.id})" class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 hover:bg-emerald-600 hover:text-white text-[11px] font-sans font-semibold transition">Edit</button>
+                <button onclick="deleteProduct(${p.id})" class="px-2 py-1 rounded border border-rose-500/30 text-rose-500 hover:bg-rose-500 hover:text-white text-[11px] font-sans font-semibold transition">Delete</button>
+              </td>
+            </tr>
+          `;
+        });
+      }
+
+      renderCategoryValuationGrid(categoryMap);
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderCategoryValuationGrid(catMap) {
+      const grid = document.getElementById('category-valuation-grid');
+      if (!grid) return;
+
+      const allCategories = ['GROCERIES', 'VEGETABLES', 'MEAT', 'BEAUTY_CARE', 'OTHERS'];
+      grid.innerHTML = '';
+
+      allCategories.forEach(cat => {
+        const val = catMap[cat] || 0;
+        grid.innerHTML += `
+          <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-1">
+            <span class="text-[10px] font-mono uppercase text-slate-400 font-bold">${cat}</span>
+            <div class="text-base font-bold font-mono text-emerald-500">$${val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+          </div>
+        `;
+      });
+    }
+
+    // ---------------------------------------------------------
+    // CRUD OPERATIONS
+    // ---------------------------------------------------------
+    function openAddModal() {
+      document.getElementById('form-id').value = '';
+      document.getElementById('product-modal-title').textContent = 'Add New Product';
+      document.getElementById('form-name').value = '';
+      document.getElementById('form-category').value = 'GROCERIES';
+      document.getElementById('form-price').value = '';
+      document.getElementById('form-quantity').value = '';
+      document.getElementById('form-expiry').value = formatDate(5);
+      document.getElementById('product-modal').classList.remove('hidden');
+    }
+
+    function closeProductModal() {
+      document.getElementById('product-modal').classList.add('hidden');
+    }
+
+    function editProduct(id) {
+      const p = products.find(prod => prod.id == id);
+      if (!p) return;
+
+      document.getElementById('form-id').value = p.id;
+      document.getElementById('product-modal-title').textContent = 'Edit Product #' + p.id;
+      document.getElementById('form-name').value = p.name;
+      document.getElementById('form-category').value = p.category;
+      document.getElementById('form-price').value = p.price;
+      document.getElementById('form-quantity').value = p.quantity;
+      document.getElementById('form-expiry').value = p.expiryDate || '';
+      document.getElementById('product-modal').classList.remove('hidden');
+    }
+
+    function saveProductForm() {
+      const id = document.getElementById('form-id').value;
+      const name = document.getElementById('form-name').value.trim();
+      const category = document.getElementById('form-category').value;
+      const price = parseFloat(document.getElementById('form-price').value);
+      const quantity = parseInt(document.getElementById('form-quantity').value);
+      const expiryDate = document.getElementById('form-expiry').value;
+
+      if (!name || isNaN(price) || isNaN(quantity)) {
+        showToast('Please fill in valid name, price, and quantity.');
+        return;
+      }
+
+      if (id) {
+        const idx = products.findIndex(p => p.id == id);
+        if (idx !== -1) {
+          products[idx] = { id: Number(id), name, category, price, quantity, expiryDate };
+          showToast(`Product "${name}" updated.`);
+        }
+      } else {
+        const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 101;
+        products.push({ id: newId, name, category, price, quantity, expiryDate });
+        showToast(`Product "${name}" added to inventory.`);
+      }
+
+      persistProducts();
+      closeProductModal();
+      renderProducts();
+    }
+
+    function deleteProduct(id) {
+      if (!confirm(`Delete product #${id}?`)) return;
+      products = products.filter(p => p.id != id);
+      persistProducts();
+      renderProducts();
+      showToast(`Product #${id} removed from catalog.`);
+    }
+
+    // ---------------------------------------------------------
+    // BULK JSON INGESTION
+    // ---------------------------------------------------------
+    function openBulkModal() {
+      document.getElementById('bulk-modal').classList.remove('hidden');
+    }
+
+    function closeBulkModal() {
+      document.getElementById('bulk-modal').classList.add('hidden');
+    }
+
+    function fillSampleBulkJson() {
+      const sample = [
+        { name: "Organic Blueberries 250g", category: "VEGETABLES", price: 3.99, quantity: 40, expiryDate: formatDate(3) },
+        { name: "Wagyu Beef Ribeye Steak", category: "MEAT", price: 29.99, quantity: 15, expiryDate: formatDate(2) },
+        { name: "Cold-Pressed Virgin Olive Oil", category: "GROCERIES", price: 15.50, quantity: 25, expiryDate: formatDate(200) }
+      ];
+      document.getElementById('bulk-json-input').value = JSON.stringify(sample, null, 2);
+    }
+
+    function processBulkJson() {
+      const raw = document.getElementById('bulk-json-input').value.trim();
+      try {
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) throw new Error('Must be a JSON array');
+
+        let maxId = products.length > 0 ? Math.max(...products.map(p => p.id)) : 100;
+        parsed.forEach(item => {
+          maxId++;
+          products.push({
+            id: maxId,
+            name: item.name || 'Bulk Item',
+            category: item.category || 'GROCERIES',
+            price: Number(item.price) || 5.0,
+            quantity: Number(item.quantity) || 10,
+            expiryDate: item.expiryDate || formatDate(7)
+          });
+        });
+
+        persistProducts();
+        closeBulkModal();
+        renderProducts();
+        showToast(`Successfully ingested ${parsed.length} bulk products!`);
+      } catch (err) {
+        showToast('Invalid JSON array payload: ' + err.message);
+      }
+    }
+
+    function resetToInitialSeeds() {
+      if (!confirm('Reset inventory back to initial sample seeds?')) return;
+      localStorage.removeItem('sim_products');
+      products = JSON.parse(JSON.stringify(INITIAL_SEEDS));
+      persistProducts();
+      renderProducts();
+      showToast('Inventory reset to initial seed items.');
+    }
+
+    // ---------------------------------------------------------
+    // TOAST
+    // ---------------------------------------------------------
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      if (!toast || !toastMessage) return;
+
+      toastMessage.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 3500);
+    }
+  </script>
+</body>
+</html>
