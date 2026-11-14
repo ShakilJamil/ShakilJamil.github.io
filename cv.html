@@ -17,27 +17,28 @@
       font-family: "Times New Roman", Times, serif;
       color: #111;
       background-color: #f3f4f6;
-      line-height: 1.35;
-      font-size: 10.5pt;
+      line-height: 1.34;
+      font-size: 10pt;
       padding: 24px;
     }
     .cv-page {
-      max-width: 820px;
+      max-width: 840px;
       margin: 0 auto;
       background: #ffffff;
-      padding: 38px 46px;
+      padding: 34px 44px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       border-radius: 4px;
     }
     .header-table {
       width: 100%;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .header-left h1 {
-      font-size: 22pt;
+      font-size: 21pt;
       font-weight: 700;
       letter-spacing: -0.3px;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
+      color: #0f172a;
     }
     .header-left a, .header-right a {
       color: #111;
@@ -48,22 +49,24 @@
     }
     .header-right {
       text-align: right;
-      font-size: 10pt;
+      font-size: 9.5pt;
     }
     .section-title {
-      font-size: 11pt;
+      font-size: 10.8pt;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.8px;
-      border-bottom: 1px solid #222;
-      padding-bottom: 2px;
-      margin-top: 10px;
-      margin-bottom: 6px;
+      border-bottom: 1.5px solid #1e293b;
+      padding-bottom: 1.5px;
+      margin-top: 9px;
+      margin-bottom: 5px;
+      color: #0f172a;
     }
     .overview-text {
-      font-size: 10pt;
+      font-size: 9.5pt;
       text-align: justify;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
+      line-height: 1.32;
     }
     .edu-row {
       display: flex;
@@ -72,52 +75,109 @@
     }
     .edu-institution {
       font-weight: 700;
-      font-size: 10.5pt;
+      font-size: 10pt;
     }
     .edu-degree {
       font-style: italic;
-      font-size: 10pt;
+      font-size: 9.5pt;
     }
     .edu-date, .edu-loc {
-      font-size: 10pt;
+      font-size: 9.5pt;
       text-align: right;
     }
     .edu-courses {
-      font-size: 9.5pt;
-      margin-top: 3px;
-      margin-bottom: 4px;
+      font-size: 9pt;
+      margin-top: 2px;
+      margin-bottom: 3px;
     }
     .skills-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 10pt;
+      font-size: 9.3pt;
+      line-height: 1.28;
     }
     .skills-table td {
       padding: 1.5px 0;
       vertical-align: top;
     }
     .skills-label {
-      width: 110px;
+      width: 135px;
       font-weight: 700;
+      color: #0f172a;
+    }
+
+    /* Project Specific Styling */
+    .project-category-header {
+      font-size: 9.3pt;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 7px;
+      margin-bottom: 4px;
+      padding: 2px 6px;
+      background: #f1f5f9;
+      border-left: 3px solid #2563eb;
+      font-family: 'Inter', system-ui, sans-serif;
     }
     .project-item {
-      margin-bottom: 5px;
-      font-size: 9.5pt;
-      text-align: justify;
+      margin-bottom: 8px;
+      font-size: 9.2pt;
       line-height: 1.32;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .project-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 1px;
     }
     .project-title {
       font-weight: 700;
+      font-size: 9.6pt;
+      color: #0f172a;
     }
-    .project-tag {
+    .project-role {
       font-style: italic;
-      color: #333;
+      color: #475569;
+      font-size: 8.6pt;
+      margin-left: 4px;
     }
+    .project-tech-line {
+      font-size: 8.5pt;
+      color: #0f172a;
+      background: #f8fafc;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin: 1.5px 0 2.5px 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.25;
+      border: 1px solid #e2e8f0;
+    }
+    .project-tech-line strong {
+      color: #1e293b;
+    }
+    .project-bullets {
+      margin-left: 15px;
+      margin-top: 1.5px;
+      list-style-type: square;
+    }
+    .project-bullets li {
+      margin-bottom: 1.5px;
+      text-align: justify;
+      line-height: 1.3;
+    }
+    .project-bullets li strong {
+      color: #0f172a;
+    }
+
     .badge-group {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      margin-left: 6px;
       vertical-align: 1px;
     }
     .cv-badge {
@@ -171,11 +231,12 @@
       text-decoration: none;
     }
     .award-item {
-      font-size: 10pt;
+      font-size: 9.5pt;
       margin-bottom: 2px;
+      text-align: justify;
     }
     .print-bar {
-      max-width: 820px;
+      max-width: 840px;
       margin: 0 auto 16px auto;
       display: flex;
       justify-content: space-between;
@@ -184,7 +245,7 @@
       color: white;
       padding: 12px 20px;
       border-radius: 8px;
-      font-family: sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 13px;
     }
     .print-btn {
@@ -215,13 +276,43 @@
       }
       .cv-page {
         box-shadow: none;
-        padding: 16px 24px;
+        padding: 14px 20px;
         max-width: 100%;
         border-radius: 0;
       }
       @page {
         size: A4;
         margin: 6mm 8mm 6mm 8mm;
+      }
+      .project-category-header {
+        background: transparent !important;
+        color: #0f172a !important;
+        border-left: 2pt solid #0f172a !important;
+        font-size: 8.8pt !important;
+        margin-top: 5px !important;
+        margin-bottom: 3px !important;
+        padding-left: 4px !important;
+      }
+      .project-item {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        margin-bottom: 5px !important;
+      }
+      .project-tech-line {
+        background: transparent !important;
+        border: 0.5pt solid #cbd5e1 !important;
+        color: #0f172a !important;
+        padding: 1px 4px !important;
+        font-size: 7.8pt !important;
+        margin: 1px 0 2px 0 !important;
+      }
+      .project-bullets {
+        margin-left: 12px !important;
+      }
+      .project-bullets li {
+        font-size: 8.2pt !important;
+        line-height: 1.22 !important;
+        margin-bottom: 1.2px !important;
       }
       .badge-group {
         margin-left: 4px;
@@ -254,7 +345,7 @@
   <!-- Floating Print Helper Bar -->
   <div class="print-bar">
     <div>
-      <strong>Shakil Jamil Mrida — Upgraded 1-Page CV</strong> (Typos corrected, PulseQueue added, links active)
+      <strong>Shakil Jamil Mrida — Software Engineer CV</strong> (Recruiter-Ready Technical Edition with Cloud, Architecture &amp; Live Links)
     </div>
     <div style="display:flex; gap:10px;">
       <a href="index.html" style="color:#c7d2fe; text-decoration:none; padding:8px 12px;">← Back to Portfolio</a>
@@ -285,21 +376,21 @@
     <!-- OVERVIEW -->
     <div class="section-title">Overview</div>
     <div class="overview-text">
-      <strong>• About Me:</strong> Dedicated and detail-oriented software developer specializing in full-stack web and enterprise application development, with strong analytical skills and exceptional communication abilities. Proficient in conceptualizing scalable app solutions utilizing modern design principles, clean architecture, and creative problem-solving. Committed to delivering viable and user-friendly software while fostering cross-functional collaboration to enhance project success.
+      <strong>• Professional Profile:</strong> Dedicated Software Engineer and CSE Graduate specializing in scalable full-stack web and enterprise distributed systems. Strong track record in eliminating high-concurrency race conditions using database optimistic locking, engineering sub-20ms real-time event streaming pipelines via WebSockets, and developing dynamic algorithmic pricing and logistics calculators. Committed to clean architecture, test-driven development (TDD), containerized cloud deployments, and high-impact engineering execution.
     </div>
 
     <!-- EDUCATION -->
     <div class="section-title">Education</div>
     <div class="edu-row">
       <div class="edu-institution">• American International University-Bangladesh</div>
-      <div class="edu-loc">Bangladesh, BD</div>
+      <div class="edu-loc">Dhaka, Bangladesh</div>
     </div>
     <div class="edu-row">
       <div class="edu-degree">&nbsp;&nbsp;B.Sc in Computer Science and Engineering <span style="font-style:normal; font-size:9pt; color:#444;">(Student ID: 22-47275-1)</span></div>
       <div class="edu-date">Feb 2022 - Jan 2026</div>
     </div>
     <div class="edu-courses">
-      &nbsp;&nbsp;<em>Courses:</em> Operating Systems, Data Structures, Analysis of Algorithms, Artificial Intelligence, Data Warehousing, Networking, Databases.
+      &nbsp;&nbsp;<em>Key Coursework:</em> Operating Systems, Data Structures &amp; Algorithms, Artificial Intelligence, Data Warehousing, Computer Networks, Database Management Systems, Software Engineering, Object-Oriented Analysis &amp; Design (Java &amp; C++).
     </div>
 
     <!-- SKILLS SUMMARY -->
@@ -307,27 +398,27 @@
     <table class="skills-table">
       <tr>
         <td class="skills-label">• Languages:</td>
-        <td>Java (17+), TypeScript, JavaScript, PHP, C#, C++, jQuery &amp; SQL</td>
+        <td>Java (17+), TypeScript, JavaScript (ES6+), PHP 8, C#, C++17, jQuery &amp; SQL (PostgreSQL, MySQL, T-SQL)</td>
       </tr>
       <tr>
         <td class="skills-label">• Frameworks:</td>
-        <td>Spring Boot 3, Angular, Laravel, Bootstrap, Spring Security (JWT)</td>
+        <td>Spring Boot 3, Spring Data JPA / Hibernate, Spring Security (JWT), ASP.NET / C# WPF, Laravel, Angular &amp; Bootstrap 5</td>
       </tr>
       <tr>
-        <td class="skills-label">• Databases:</td>
-        <td>PostgreSQL, MySQL, Oracle Database, Data Warehousing</td>
+        <td class="skills-label">• Cloud &amp; DevOps:</td>
+        <td>Docker, Docker Compose, GitHub Actions (CI/CD), Postman API Testing, Maven, Linux Environment &amp; Swagger / OpenAPI 3</td>
       </tr>
       <tr>
-        <td class="skills-label">• Platforms:</td>
-        <td>Web, Linux, Arduino, Docker</td>
+        <td class="skills-label">• Architecture &amp; Design:</td>
+        <td>Optimistic Locking (<code style="font-size:8.5pt;">@Version</code>), WebSockets (STOMP Protocol), Aspect-Oriented Programming (Spring AOP), Clean Architecture &amp; MVC</td>
       </tr>
       <tr>
-        <td class="skills-label">• Skills:</td>
-        <td>HTML5, CSS3, Bootstrap, Materialize, WebSockets (STOMP), API Gateway, AJAX, Optimistic Locking</td>
+        <td class="skills-label">• Databases &amp; Storage:</td>
+        <td>PostgreSQL, MySQL, Microsoft SQL Server, Oracle Database, Data Warehousing, ACID Transactions &amp; Schema Indexing</td>
       </tr>
       <tr>
-        <td class="skills-label">• Tools:</td>
-        <td>Git, GitHub Actions (CI/CD), Postman, Swagger/OpenAPI, XAMPP, Sourcetree, Jira &amp; Selenium</td>
+        <td class="skills-label">• Tools &amp; Testing:</td>
+        <td>Git, GitHub, JUnit 5, Postman, OpenAPI/Swagger, Sourcetree, XAMPP, Jira, Selenium &amp; Visual Paradigm</td>
       </tr>
     </table>
 
@@ -335,125 +426,200 @@
     <div class="section-title">Experience</div>
     <div class="edu-row">
       <div class="edu-institution">• AIUB IT</div>
-      <div class="edu-loc">Bangladesh, onsite</div>
+      <div class="edu-loc">Dhaka, Bangladesh (Onsite)</div>
     </div>
     <div class="edu-row">
       <div class="edu-degree">&nbsp;&nbsp;Intern, IT Support (Full-time)</div>
       <div class="edu-date">Oct 2025 - Jan 2026</div>
     </div>
-    <div style="font-size:9.8pt; margin-top:2px; margin-bottom:4px; text-align:justify;">
-      &nbsp;&nbsp;◦ Maintained network infrastructure by performing Cat 6 cabling, connectivity testing, configuring Cisco switches, providing technical support to faculty members for Static IP configuration, troubleshooting hardware issues, and assisting in the logistical IT setup for major university events.
+    <div style="font-size:9.3pt; margin-top:2px; margin-bottom:4px; text-align:justify;">
+      &nbsp;&nbsp;◦ Maintained enterprise campus network infrastructure by performing Cat 6 structured cabling, continuity and bandwidth testing, configuring Cisco managed switches, provisioning static IP configurations for faculty workstations, diagnosing core hardware faults, and executing technical infrastructure support for major academic university events.
     </div>
 
     <!-- PROJECTS -->
-    <div class="section-title">Projects</div>
+    <div class="section-title">Engineered Projects</div>
     
+    <!-- SUBSECTION 1: Enterprise Web & Cloud Microservices -->
+    <div class="project-category-header">I. Enterprise Web &amp; Cloud Microservices</div>
+
     <!-- Project 1: PulseQueue -->
     <div class="project-item">
-      ◦ <strong>PulseQueue — Real-Time Smart Appointment &amp; Queue Platform:</strong> 
-      <span class="project-tag">Java 17, Spring Boot 3, PostgreSQL, WebSockets, Docker</span>
-      <span class="badge-group">
-        <a class="cv-badge badge-repo" href="https://github.com/ShakilJamil/pulsequeue" target="_blank" title="View Source Code on GitHub">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          <span>GitHub Repo</span>
-        </a>
-        <a class="cv-badge badge-demo" href="https://shakiljamil.github.io/pulsequeue/" target="_blank" title="Launch Interactive Live App">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span>Live Demo ↗</span>
-        </a>
-      </span>
-      <br>An enterprise appointment and queue management system featuring <strong>Optimistic Locking (<code style="font-size:8.5pt;">@Version</code>)</strong> to eliminate double-booking race conditions across concurrent reservations, sub-20ms live queue ticket broadcasts via <strong>Spring WebSockets (STOMP)</strong>, stateless Spring Security with JWT and RBAC, OpenAPI/Swagger documentation, and containerization with Docker Compose.
+      <div class="project-header-row">
+        <div>
+          <span style="color:#2563eb; font-weight:bold;">◦</span> <span class="project-title">PulseQueue — Real-Time Smart Appointment &amp; Queue Platform</span>
+          <span class="project-role">[Full-Stack Architect &amp; Sole Developer]</span>
+        </div>
+        <div class="badge-group">
+          <a class="cv-badge badge-repo" href="https://github.com/ShakilJamil/pulsequeue" target="_blank" title="View Source Code on GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            <span>GitHub Repo</span>
+          </a>
+          <a class="cv-badge badge-demo" href="https://shakiljamil.github.io/pulsequeue/" target="_blank" title="Launch Interactive Live App">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>Live Demo ↗</span>
+          </a>
+        </div>
+      </div>
+      <div class="project-tech-line">
+        <strong>Stack:</strong> Java 17, Spring Boot 3, PostgreSQL, Spring Data JPA, Spring Security 6 (JWT), WebSockets (STOMP), Docker, Docker Compose, OpenAPI 3, JUnit 5
+      </div>
+      <ul class="project-bullets">
+        <li><strong>Concurrency &amp; Data Integrity:</strong> Implemented JPA Optimistic Locking (<code>@Version</code>) to eliminate race conditions and guarantee zero double-booking collisions across concurrent reservation slots.</li>
+        <li><strong>Real-Time Pub/Sub Telemetry:</strong> Architected a sub-20ms WebSocket (STOMP) broadcasting pipeline delivering instant live queue ticket callouts directly to clinical counter kiosks and patient devices without polling.</li>
+        <li><strong>Cloud, Security &amp; Testing:</strong> Fully containerized with multi-stage Dockerfiles and Docker Compose; secured via stateless JWT with Role-Based Access Control (RBAC); covered with automated JUnit 5 test suites and Swagger/OpenAPI docs.</li>
+      </ul>
     </div>
 
-    <!-- Project 2: Quick Eagle Courier Service -->
+    <!-- Project 2: Smart Inventory -->
     <div class="project-item">
-      ◦ <strong>Quick Eagle Courier Service — Courier Service Web Application:</strong> 
-      <span class="project-tag">PHP, JavaScript, MySQL, Bootstrap</span>
-      <span class="badge-group">
-        <a class="cv-badge badge-repo" href="https://github.com/ShakilJamil/web-tec-spring-23-24-sec-f-Finalproject-group-6" target="_blank" title="View Source Code on GitHub">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          <span>GitHub Repo</span>
-        </a>
-        <a class="cv-badge badge-demo" href="https://shakiljamil.github.io/courier/" target="_blank" title="Launch Interactive Live App">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span>Live Demo ↗</span>
-        </a>
-      </span>
-      <br>A digital platform offering automated online delivery charge estimation based on weight and distance, real-time parcel tracking with unique tracking IDs, user role management, and online payment integration. Designed to meet courier logistics nationwide.
+      <div class="project-header-row">
+        <div>
+          <span style="color:#2563eb; font-weight:bold;">◦</span> <span class="project-title">Smart Inventory Management System — Automated Clearance ERP</span>
+          <span class="project-role">[Enterprise Backend Developer]</span>
+        </div>
+        <div class="badge-group">
+          <a class="cv-badge badge-repo" href="https://github.com/ShakilJamil/apwj_final" target="_blank" title="View Source Code on GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            <span>GitHub Repo</span>
+          </a>
+          <a class="cv-badge badge-demo" href="https://shakiljamil.github.io/inventory/" target="_blank" title="Launch Interactive Live App">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>Live Demo ↗</span>
+          </a>
+        </div>
+      </div>
+      <div class="project-tech-line">
+        <strong>Stack:</strong> Java 17, Spring Boot 3 MVC, MySQL, Spring Security (JWT), Spring AOP (AspectJ), JavaMailSender, HTML5/CSS3
+      </div>
+      <ul class="project-bullets">
+        <li><strong>Dynamic Expiry Markdown Algorithm:</strong> Formulated tiered automated discount calculation engine based on remaining product shelf-life (up to 75% flash liquidation) to actively curb retail inventory wastage.</li>
+        <li><strong>Aspect-Oriented Audit Logging:</strong> Intercepted service method calls using Spring AOP (<code>@Aspect</code>, <code>@Around</code>) for non-invasive performance benchmarking, method execution timing, and regulatory audit compliance.</li>
+        <li><strong>Automated Notifications &amp; Commerce Workflow:</strong> Integrated JavaMailSender for real-time dispatch of low-stock warning alerts and customer clearance checkouts, backed by complete CRUD catalog services.</li>
+      </ul>
     </div>
 
-    <!-- Project 3: Smart Inventory Management -->
+    <!-- SUBSECTION 2: Full-Stack Logistics & Commercial ERP Systems -->
+    <div class="project-category-header">II. Full-Stack Logistics &amp; Commercial ERP Systems</div>
+
+    <!-- Project 3: Quick Eagle Courier -->
     <div class="project-item">
-      ◦ <strong>Inventory Management System:</strong> 
-      <span class="project-tag">Java, Spring Boot MVC, JWT, AOP, JavaMailSender, MySQL</span>
-      <span class="badge-group">
-        <a class="cv-badge badge-repo" href="https://github.com/ShakilJamil/apwj_final" target="_blank" title="View Source Code on GitHub">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          <span>GitHub Repo</span>
-        </a>
-        <a class="cv-badge badge-demo" href="https://shakiljamil.github.io/inventory/" target="_blank" title="Launch Interactive Live App">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span>Live Demo ↗</span>
-        </a>
-      </span>
-      <br>An enterprise management system offering interactive dynamic discounts based on product expiration dates, wishlist management, categorized item indexing, JavaMailSender notification alerts, Spring AOP logging aspect, and complete CRUD operations.
+      <div class="project-header-row">
+        <div>
+          <span style="color:#2563eb; font-weight:bold;">◦</span> <span class="project-title">Quick Eagle Courier Service — Nationwide Logistics Platform</span>
+          <span class="project-role">[Lead Full-Stack Web Developer]</span>
+        </div>
+        <div class="badge-group">
+          <a class="cv-badge badge-repo" href="https://github.com/ShakilJamil/web-tec-spring-23-24-sec-f-Finalproject-group-6" target="_blank" title="View Source Code on GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            <span>GitHub Repo</span>
+          </a>
+          <a class="cv-badge badge-demo" href="https://shakiljamil.github.io/courier/" target="_blank" title="Launch Interactive Live App">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>Live Demo ↗</span>
+          </a>
+        </div>
+      </div>
+      <div class="project-tech-line">
+        <strong>Stack:</strong> PHP 8, JavaScript (ES6+ / AJAX), MySQL (PDO), Bootstrap 5, Payment Gateways (bKash/Nagad/Visa), RESTful JSON
+      </div>
+      <ul class="project-bullets">
+        <li><strong>Algorithmic Telemetry &amp; Distance Rates:</strong> Developed algorithmic shipping fee calculations based on tiered weight brackets and transit distance matrices alongside real-time parcel lifecycle tracking via indexed tracking IDs.</li>
+        <li><strong>Role-Based Portals:</strong> Architected discrete authenticated workflows for Customers (booking &amp; tracking), Delivery Riders (dispatch and delivery confirmation), and Branch Admins (parcel staging &amp; hub routing).</li>
+        <li><strong>Logistics Documents &amp; Payments:</strong> Built simulated instant payment checkout (bKash, Nagad, Visa) and one-click printable standard Air Waybills (AWB) with barcode formatting.</li>
+      </ul>
     </div>
 
-    <!-- Project 4: Interior Design -->
+    <!-- Project 4: Market Management System -->
     <div class="project-item">
-      ◦ <strong>Interior Design System Architecture:</strong> 
-      <span class="project-tag">System Design, UML, UI/UX, QA Test Planning</span>
-      <span class="badge-group">
-        <a class="cv-badge badge-repo" href="https://github.com/ShakilJamil/Software-Engineering" target="_blank" title="View Repository on GitHub">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          <span>GitHub Repo</span>
-        </a>
-        <a class="cv-badge badge-doc" href="https://github.com/ShakilJamil/Software-Engineering/blob/main/Software-Engineering-H-All-Lab-Tasks-Group-5%20(2).pdf" target="_blank" title="View 61-Page Planning Specification PDF">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-          <span>Planning Spec (PDF) ↗</span>
-        </a>
-      </span>
-      <br>A full interior design project documentation and architectural specification with problem solutions, functional and non-functional requirements, comprehensive UML system diagrams, UI/UX design wireframes, test planning, budget and timeline WBS, EVA calculation, and risk analysis.
+      <div class="project-header-row">
+        <div>
+          <span style="color:#2563eb; font-weight:bold;">◦</span> <span class="project-title">Mega Market Management System — Commercial Shopping Complex ERP</span>
+          <span class="project-role">[Desktop Software Developer]</span>
+        </div>
+        <div class="badge-group">
+          <a class="cv-badge badge-repo" href="https://github.com/ShakilJamil/marketmngt" target="_blank" title="View Source Code on GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            <span>GitHub Repo</span>
+          </a>
+          <a class="cv-badge badge-demo" href="https://shakiljamil.github.io/market/" target="_blank" title="Launch Interactive Live App">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>Live Demo ↗</span>
+          </a>
+        </div>
+      </div>
+      <div class="project-tech-line">
+        <strong>Stack:</strong> C#, Microsoft .NET Framework, SQL Server / MySQL, ADO.NET, Windows Forms, Relational Transactions
+      </div>
+      <ul class="project-bullets">
+        <li><strong>Multi-Story Commercial Directory:</strong> Engineered an interactive shopping mall floor directory mapping shop units across multi-story complexes with real-time occupancy and vacancy status.</li>
+        <li><strong>Automated Lease &amp; Rent Invoicing:</strong> Automated monthly commercial rent calculations, square-footage maintenance tariffs, utility billing, and late fee tracking with printable lease receipts.</li>
+        <li><strong>Staff Shift Scheduling:</strong> Designed duty roster management module for floor-wise security, maintenance, and administrative staff allocation with complete audit trails.</li>
+      </ul>
     </div>
 
-    <!-- Project 5: Market Management -->
+    <!-- SUBSECTION 3: Systems Architecture & Low-Level Graphics -->
+    <div class="project-category-header">III. Systems Architecture &amp; Low-Level Graphics</div>
+
+    <!-- Project 5: Interior Design System Architecture -->
     <div class="project-item">
-      ◦ <strong>Market Management System:</strong> 
-      <span class="project-tag">C#, Microsoft .NET Framework, SQL Server</span>
-      <span class="badge-group">
-        <a class="cv-badge badge-repo" href="https://github.com/ShakilJamil/marketmngt" target="_blank" title="View Source Code on GitHub">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          <span>GitHub Repo</span>
-        </a>
-        <a class="cv-badge badge-demo" href="https://shakiljamil.github.io/market/" target="_blank" title="Launch Interactive Live App">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span>Live Demo ↗</span>
-        </a>
-      </span>
-      <br>A C# desktop Microsoft .NET project for mega shopping complexes to manage employee work area allocations, floor assignments, and commercial tenant shop rent billing lists.
+      <div class="project-header-row">
+        <div>
+          <span style="color:#2563eb; font-weight:bold;">◦</span> <span class="project-title">Interior Design System Architecture Specification</span>
+          <span class="project-role">[Software Architect &amp; QA Lead]</span>
+        </div>
+        <div class="badge-group">
+          <a class="cv-badge badge-repo" href="https://github.com/ShakilJamil/Software-Engineering" target="_blank" title="View Repository on GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            <span>GitHub Repo</span>
+          </a>
+          <a class="cv-badge badge-doc" href="https://github.com/ShakilJamil/Software-Engineering/blob/main/Software-Engineering-H-All-Lab-Tasks-Group-5%20(2).pdf" target="_blank" title="View 61-Page Planning Specification PDF">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            <span>Planning Spec (PDF) ↗</span>
+          </a>
+        </div>
+      </div>
+      <div class="project-tech-line">
+        <strong>Domain:</strong> UML System Modeling, IEEE 830 SRS, Earned Value Analysis (EVA), UI/UX Wireframing, QA Test Suites
+      </div>
+      <ul class="project-bullets">
+        <li><strong>End-to-End Architectural Modeling:</strong> Authored 61-page engineering specification featuring comprehensive Use Case, Class, Sequence, Activity, and normalized ER diagrams.</li>
+        <li><strong>Quantitative Financial Controls:</strong> Conducted Earned Value Analysis (EVA), Planned Value (PV), Actual Cost (AC), and Schedule Performance Index (SPI) budgeting.</li>
+        <li><strong>Human-Centered UI/UX &amp; QA:</strong> Produced high-fidelity Figma UI wireframes, acceptance criteria matrices, and structured test plans covering cross-module integration.</li>
+      </ul>
     </div>
 
-    <!-- Project 6: Freedom Fighters -->
+    <!-- Project 6: Freedom Fighters OpenGL -->
     <div class="project-item">
-      ◦ <strong>Freedom Fighters:</strong> 
-      <span class="project-tag">C++, OpenGL Computer Graphics API</span>
-      <span class="badge-group">
-        <a class="cv-badge badge-repo" href="https://github.com/ShakilJamil/Computer_graphics_OpenGl" target="_blank" title="View Source Code on GitHub">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          <span>GitHub Repo</span>
-        </a>
-        <a class="cv-badge badge-demo" href="https://shakiljamil.github.io/graphics/" target="_blank" title="Launch Interactive 60 FPS Canvas Simulation">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span>Live Simulation ↗</span>
-        </a>
-      </span>
-      <br>An interactive computer graphics simulation project in C++ using OpenGL featuring real-time ambient lighting with dynamic day and night view transitions.
+      <div class="project-header-row">
+        <div>
+          <span style="color:#2563eb; font-weight:bold;">◦</span> <span class="project-title">Freedom Fighters — 1971 Liberation War OpenGL Graphics Engine</span>
+          <span class="project-role">[Graphics Programmer &amp; Developer]</span>
+        </div>
+        <div class="badge-group">
+          <a class="cv-badge badge-repo" href="https://github.com/ShakilJamil/Computer_graphics_OpenGl" target="_blank" title="View Source Code on GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            <span>GitHub Repo</span>
+          </a>
+          <a class="cv-badge badge-demo" href="https://shakiljamil.github.io/graphics/" target="_blank" title="Launch Interactive 60 FPS Canvas Simulation">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>Live Simulation ↗</span>
+          </a>
+        </div>
+      </div>
+      <div class="project-tech-line">
+        <strong>Stack:</strong> C++ (C++17), OpenGL API, GLUT / FreeGLUT, Linear Algebra Transformations, Real-Time Ambient Shading
+      </div>
+      <ul class="project-bullets">
+        <li><strong>Real-Time Ambient Lighting:</strong> Programmed mathematical lighting shaders with dynamic day-to-night lighting transitions and specular/diffuse reflection calculations.</li>
+        <li><strong>Coordinate Matrix Transformations:</strong> Rendered 3D battle tanks, river gunboats, rural houses, and animated terrain using hierarchical matrix transformations (<code>glPushMatrix</code>, <code>glRotatef</code>, <code>glTranslatef</code>).</li>
+        <li><strong>Interactive Engine Controls:</strong> Built 60 FPS event-driven keyboard/mouse camera controls, animation speed toggles (0.5x, 1x, 2x), and Web Audio synthesized combat sound effects.</li>
+      </ul>
     </div>
 
     <!-- AWARDS -->
-    <div class="section-title">Awards</div>
+    <div class="section-title">Honors &amp; Awards</div>
     <div class="award-item">
-      ◦ <strong>Dean's Award, AIUB:</strong> "Received six times for academic excellence" across undergraduate semesters in Computer Science and Engineering.
+      ◦ <strong>Dean's Award, AIUB:</strong> Received six times for academic excellence across undergraduate semesters in Computer Science and Engineering.
     </div>
 
   </div>

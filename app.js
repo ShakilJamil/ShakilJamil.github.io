@@ -112,10 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const fragment = document.createDocumentFragment();
     highlights.forEach(item => {
       const li = document.createElement('li');
-      li.className = 'flex items-start gap-2';
+      li.className = 'flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed py-0.5';
       li.innerHTML = `
-        <span class="text-brand-500 font-bold mt-0.5">•</span>
-        <span>${item.trim()}</span>
+        <span class="text-brand-500 font-bold mt-0.5 text-base leading-none">•</span>
+        <div class="flex-1">${item.trim()}</div>
       `;
       fragment.appendChild(li);
     });
