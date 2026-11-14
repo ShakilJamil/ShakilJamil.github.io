@@ -215,33 +215,36 @@
       }
       .cv-page {
         box-shadow: none;
-        padding: 18px 26px;
+        padding: 16px 24px;
         max-width: 100%;
         border-radius: 0;
       }
       @page {
         size: A4;
-        margin: 8mm 10mm 8mm 10mm;
+        margin: 6mm 8mm 6mm 8mm;
+      }
+      .badge-group {
+        margin-left: 4px;
+        gap: 3px;
       }
       .cv-badge {
-        padding: 0.5px 5px;
-        font-size: 6.8pt;
-        border-width: 0.75px;
-      }
-      .badge-repo {
-        background: #f1f5f9 !important;
+        background: #ffffff !important;
+        border: 0.5pt solid #64748b !important;
         color: #0f172a !important;
-        border-color: #94a3b8 !important;
+        box-shadow: none !important;
+        padding: 0.5px 4.5px !important;
+        font-size: 6.5pt !important;
+        font-weight: 600 !important;
+        border-radius: 3px !important;
+        letter-spacing: 0.2px !important;
       }
-      .badge-demo {
-        background: #eff6ff !important;
-        color: #1d4ed8 !important;
-        border-color: #93c5fd !important;
+      .cv-badge svg {
+        display: none !important;
       }
-      .badge-doc {
-        background: #f0fdf4 !important;
-        color: #166534 !important;
-        border-color: #86efac !important;
+      .badge-repo, .badge-demo, .badge-doc {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        border-color: #64748b !important;
       }
     }
   </style>
@@ -292,7 +295,7 @@
       <div class="edu-loc">Bangladesh, BD</div>
     </div>
     <div class="edu-row">
-      <div class="edu-degree">&nbsp;&nbsp;B.Sc in Computer Science and Engineering</div>
+      <div class="edu-degree">&nbsp;&nbsp;B.Sc in Computer Science and Engineering <span style="font-style:normal; font-size:9pt; color:#444;">(Student ID: 22-47275-1)</span></div>
       <div class="edu-date">Feb 2022 - Jan 2026</div>
     </div>
     <div class="edu-courses">

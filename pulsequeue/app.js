@@ -101,7 +101,7 @@ function persistCurrentUser(user) {
 // APP INITIALIZATION
 // -------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
-  if (window.lucide) lucide.createIcons();
+  if (typeof window !== 'undefined' && window.lucide) window.lucide.createIcons();
 
   const themeToggle = document.getElementById('theme-toggle');
   if (themeToggle) {
@@ -171,7 +171,7 @@ function updateUserHeaderDisplay() {
     `;
   }
 
-  if (window.lucide) lucide.createIcons();
+  if (typeof window !== 'undefined' && window.lucide) window.lucide.createIcons();
 }
 
 function applyRoleSecurity() {
@@ -388,7 +388,7 @@ function switchTab(tabId) {
 
   applyRoleSecurity();
 
-  if (window.lucide) lucide.createIcons();
+  if (typeof window !== 'undefined' && window.lucide) window.lucide.createIcons();
 
   if (tabId === 'tv') loadTvDisplay();
   if (tabId === 'staff') loadStaffQueue();
@@ -940,7 +940,7 @@ function renderAdminDepartmentsTable() {
       </tr>
     `;
   });
-  if (window.lucide) lucide.createIcons();
+  if (typeof window !== 'undefined' && window.lucide) window.lucide.createIcons();
 }
 
 function openDepartmentModal(deptId = null) {
