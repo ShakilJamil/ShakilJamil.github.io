@@ -3544,7 +3544,7 @@ function simulationLoop() {
   animReqId = requestAnimationFrame(simulationLoop);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initSimulation() {
   const canvas = document.getElementById('gl-canvas');
   if (!canvas) return;
 
@@ -3562,4 +3562,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updateSimulationUI();
   simulationLoop();
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSimulation);
+} else {
+  initSimulation();
+}
