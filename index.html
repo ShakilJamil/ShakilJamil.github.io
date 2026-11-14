@@ -842,27 +842,486 @@
 
       <!-- Dynamic Language Filters -->
       <div id="github-lang-filters" class="flex flex-wrap gap-2 mb-6">
-        <!-- Populated dynamically by app.js -->
+        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand-600 text-white shadow-sm transition">All (17)</button>
+        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition">Java (4)</button>
+        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition">PHP (3)</button>
+        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition">HTML (3)</button>
+        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition">C++ (2)</button>
+        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition">Markdown (2)</button>
+        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition">C# (1)</button>
+        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition">TypeScript (1)</button>
+        <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition">C (1)</button>
       </div>
 
       <!-- Dynamic GitHub Repos Grid -->
       <div id="github-repos-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Initial Loading Skeletons -->
-        <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card animate-pulse space-y-4">
-          <div class="h-5 bg-slate-200 dark:bg-slate-800 rounded w-2/3"></div>
-          <div class="h-12 bg-slate-200 dark:bg-slate-800 rounded"></div>
-          <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/2"></div>
-        </div>
-        <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card animate-pulse space-y-4">
-          <div class="h-5 bg-slate-200 dark:bg-slate-800 rounded w-2/3"></div>
-          <div class="h-12 bg-slate-200 dark:bg-slate-800 rounded"></div>
-          <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/2"></div>
-        </div>
-        <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card animate-pulse space-y-4 hidden lg:block">
-          <div class="h-5 bg-slate-200 dark:bg-slate-800 rounded w-2/3"></div>
-          <div class="h-12 bg-slate-200 dark:bg-slate-800 rounded"></div>
-          <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/2"></div>
-        </div>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/pulsequeue" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>pulsequeue</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Enterprise Smart Hospital OPD Queue Management System featuring real-time token calling, digital signage TV kiosk, and SLA metrics.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">java</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">spring-boot</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">hospital-management</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">realtime-queue</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #b07219;"></span>
+                  <span>Java</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated today</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/pulsequeue" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+              <a href="projects/pulsequeue/index.html" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition flex items-center justify-center gap-1 shadow-sm">Live Demo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/apwj_final" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>apwj_final</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Advanced Spring Boot 3.x Enterprise Smart Inventory & Asset Management System with automated discount engine and AOP audit logging.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">java</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">spring-boot</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">inventory-management</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">aop</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #b07219;"></span>
+                  <span>Java</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated today</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/apwj_final" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+              <a href="projects/smart-inventory/index.html" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition flex items-center justify-center gap-1 shadow-sm">Live Demo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/web-tec-spring-23-24-sec-f-Finalproject-group-6" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>web-tec-spring-23-24-sec-f-Finalproject-group-6</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Full-stack Courier Logistics & Telemetry Management System (Quick Eagle) with multi-role portal, parcel tracking, and air waybills.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">php</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">logistics</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">tracking-system</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">telemetry</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #4F5D95;"></span>
+                  <span>PHP</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated today</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/web-tec-spring-23-24-sec-f-Finalproject-group-6" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+              <a href="projects/courier-management/index.html" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition flex items-center justify-center gap-1 shadow-sm">Live Demo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/marketmngt" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>marketmngt</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Commercial Market & Plaza Management ERP built with C# .NET Windows Forms, multi-story floor directory, and automated lease invoicing.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">csharp</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">dotnet</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">erp</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">market-management</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #178600;"></span>
+                  <span>C#</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated today</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/marketmngt" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+              <a href="projects/market-management/index.html" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition flex items-center justify-center gap-1 shadow-sm">Live Demo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/Computer_graphics_OpenGl" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>Computer_graphics_OpenGl</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Liberation's Canvas: 1971 Liberation War Interactive 2D Simulation in C++ & OpenGL FreeGLUT with particle cannons and day/night cycle.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">cpp</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">opengl</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">simulation</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">graphics</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #f34b7d;"></span>
+                  <span>C++</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated today</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/Computer_graphics_OpenGl" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+              <a href="projects/opengl-simulation/index.html" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition flex items-center justify-center gap-1 shadow-sm">Live Demo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/Software-Engineering" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>Software-Engineering</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Software Engineering course assignments, system architecture models, UML diagrams, and software development lifecycle documentation.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">software-engineering</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">uml</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">sdlc</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">architecture</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #083fa1;"></span>
+                  <span>Markdown</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated today</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/Software-Engineering" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/krishisathi" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>krishisathi</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Next-generation agricultural platform & agronomy advisory assistant built with TypeScript and modern web technologies.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">typescript</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">agritech</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">react</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">web-app</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #3178c6;"></span>
+                  <span>TypeScript</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated Jul 2026</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/krishisathi" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/computer-network" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>computer-network</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Computer networking laboratory implementations, socket programming, protocol simulations, and network packet analysis.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">networking</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">sockets</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">protocols</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">tcp-ip</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #555555;"></span>
+                  <span>C</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated Jun 2026</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/computer-network" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/Resume" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>Resume</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Professional Software Engineer resume and CV documentation formatted for high-impact technical recruitment.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">resume</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">cv</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">software-engineer</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #e34c26;"></span>
+                  <span>HTML</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated Apr 2026</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/Resume" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+              <a href="cv.html" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition flex items-center justify-center gap-1 shadow-sm">Live Demo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/simple-Bakery-Management-System-PHP" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>simple-Bakery-Management-System-PHP</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">PHP & MySQL Bakery inventory, order processing, and customer billing web application.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">php</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">mysql</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">billing</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">inventory</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #4F5D95;"></span>
+                  <span>PHP</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated Sep 2025</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/simple-Bakery-Management-System-PHP" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/Rxmanager" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>Rxmanager</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Pharmacy & Prescription management dashboard application with medicine stock monitoring.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">pharmacy</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">prescription</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">healthcare</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #e34c26;"></span>
+                  <span>HTML</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated Sep 2025</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/Rxmanager" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/Springboot" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>Springboot</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Spring Boot RESTful microservices, Hibernate JPA persistence, and web application templates.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">springboot</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">rest-api</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">jpa</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">hibernate</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #b07219;"></span>
+                  <span>Java</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated Aug 2025</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/Springboot" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/java_project" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>java_project</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Core Java Object-Oriented software engineering applications, Swing desktop UI, and business logic.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">java</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">oop</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">swing</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">desktop</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #b07219;"></span>
+                  <span>Java</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated Aug 2025</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/java_project" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/ShakilJamil" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>ShakilJamil</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Config files for my GitHub profile showcasing tech stack, contributions, and active projects.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">config</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">github-config</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #083fa1;"></span>
+                  <span>Markdown</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated Dec 2024</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/ShakilJamil" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+              <a href="https://github.com/ShakilJamil" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition flex items-center justify-center gap-1 shadow-sm">Live Demo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/Learning-web-technologies-spring2023-2024-sec-f" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>Learning-web-technologies-spring2023-2024-sec-f</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Web technologies coursework: HTML5, CSS3, JavaScript DOM, PHP backend, and AJAX integration.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">php</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">javascript</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">html5</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">css3</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #4F5D95;"></span>
+                  <span>PHP</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated May 2024</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/Learning-web-technologies-spring2023-2024-sec-f" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/compiler_Lab2" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>compiler_Lab2</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Compiler design laboratory: lexical analyzer, CFG parsing, token recognition, and grammar rules in C++.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">compiler</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">cpp</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">lexical-analysis</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">cfg</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #f34b7d;"></span>
+                  <span>C++</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated Nov 2023</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/compiler_Lab2" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+            </div>
+          </div>
+        </article>
+        <article class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card hover:border-brand-500/50 hover:shadow-xl transition-all flex flex-col justify-between space-y-4 animate-card-fade">
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/ShakilJamil/ShakilJamil.github.io" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-500 dark:hover:text-brand-400 transition break-all flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-500 flex-shrink-0"></i>
+                <span>ShakilJamil.github.io</span>
+              </a>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">Personal portfolio website showcase for Shakil Jamil Mrida featuring live interactive project demos and verified CV.</p>
+            <div class="flex flex-wrap gap-1.5 pt-1"><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">portfolio</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">javascript</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">tailwindcss</span><span class="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 font-mono text-[10px]">github-pages</span></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+              <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: #e34c26;"></span>
+                  <span>HTML</span>
+                </span>
+                <span class="flex items-center gap-1">★ 0</span>
+              </div>
+              <span>Updated today</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="https://github.com/ShakilJamil/ShakilJamil.github.io" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-1.5">View Repo</a>
+              <a href="https://shakiljamil.github.io/" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition flex items-center justify-center gap-1 shadow-sm">Live Demo</a>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
 
@@ -1225,7 +1684,7 @@
 
   <!-- Fast Local Vector Engine & Interactive Scripts -->
   <script src="lucide.min.js?v=5" defer></script>
-  <script src="app.js?v=5" defer></script>
+  <script src="app.js?v=1794633830894" defer></script>
   <script src="touch_fx.js?v=5" defer></script>
   <script src="game.js?v=5" defer></script>
 </body>
