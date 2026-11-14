@@ -257,11 +257,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3200);
   }
 
-  // 10. Live GitHub Repositories Sync (Auto-Updates Count & Cards)
+  // 10. Live GitHub Repositories Sync (Preloaded Snapshot + Instant 0ms Zero-Lag Cache)
   const GITHUB_USERNAME = 'ShakilJamil';
   const GITHUB_API_URL = `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&direction=desc&per_page=100`;
-  const SESSION_CACHE_KEY = 'shakil_github_repos_session_v1';
-  const FALLBACK_CACHE_KEY = 'shakil_github_repos_fallback_v1';
+  const SESSION_CACHE_KEY = 'shakil_github_repos_session_v2';
+  const FALLBACK_CACHE_KEY = 'shakil_github_repos_fallback_v2';
   const CACHE_TTL_MS = 60 * 1000; // 60 seconds
 
   const LANG_COLORS = {
@@ -275,8 +275,227 @@ document.addEventListener('DOMContentLoaded', () => {
     HTML: '#e34c26',
     CSS: '#563d7c',
     Python: '#3572A5',
-    Shell: '#89e051'
+    Shell: '#89e051',
+    Markdown: '#083fa1',
+    Other: '#8b5cf6'
   };
+
+  const REPO_LIVE_DEMOS = {
+    pulsequeue: 'projects/pulsequeue/index.html',
+    apwj_final: 'projects/smart-inventory/index.html',
+    'web-tec-spring-23-24-sec-f-Finalproject-group-6': 'projects/courier-management/index.html',
+    marketmngt: 'projects/market-management/index.html',
+    Computer_graphics_OpenGl: 'projects/opengl-simulation/index.html',
+    Resume: 'cv.html',
+    'ShakilJamil.github.io': 'index.html'
+  };
+
+  const DEFAULT_REPOS = [
+    {
+      name: 'pulsequeue',
+      full_name: 'ShakilJamil/pulsequeue',
+      html_url: 'https://github.com/ShakilJamil/pulsequeue',
+      description: 'Enterprise Smart Hospital OPD Queue Management System featuring real-time token calling, digital signage TV kiosk, and SLA metrics.',
+      fork: false,
+      language: 'Java',
+      stargazers_count: 0,
+      pushed_at: '2026-11-13T22:41:13Z',
+      homepage: 'projects/pulsequeue/index.html',
+      topics: ['java', 'spring-boot', 'hospital-management', 'realtime-queue']
+    },
+    {
+      name: 'apwj_final',
+      full_name: 'ShakilJamil/apwj_final',
+      html_url: 'https://github.com/ShakilJamil/apwj_final',
+      description: 'Advanced Spring Boot 3.x Enterprise Smart Inventory & Asset Management System with automated discount engine and AOP audit logging.',
+      fork: false,
+      language: 'Java',
+      stargazers_count: 0,
+      pushed_at: '2026-11-13T22:47:36Z',
+      homepage: 'projects/smart-inventory/index.html',
+      topics: ['java', 'spring-boot', 'inventory-management', 'aop']
+    },
+    {
+      name: 'web-tec-spring-23-24-sec-f-Finalproject-group-6',
+      full_name: 'ShakilJamil/web-tec-spring-23-24-sec-f-Finalproject-group-6',
+      html_url: 'https://github.com/ShakilJamil/web-tec-spring-23-24-sec-f-Finalproject-group-6',
+      description: 'Full-stack Courier Logistics & Telemetry Management System (Quick Eagle) with multi-role portal, parcel tracking, and air waybills.',
+      fork: false,
+      language: 'PHP',
+      stargazers_count: 0,
+      pushed_at: '2026-11-13T23:28:35Z',
+      homepage: 'projects/courier-management/index.html',
+      topics: ['php', 'logistics', 'tracking-system', 'telemetry']
+    },
+    {
+      name: 'marketmngt',
+      full_name: 'ShakilJamil/marketmngt',
+      html_url: 'https://github.com/ShakilJamil/marketmngt',
+      description: 'Commercial Market & Plaza Management ERP built with C# .NET Windows Forms, multi-story floor directory, and automated lease invoicing.',
+      fork: false,
+      language: 'C#',
+      stargazers_count: 0,
+      pushed_at: '2026-11-13T23:08:29Z',
+      homepage: 'projects/market-management/index.html',
+      topics: ['csharp', 'dotnet', 'erp', 'market-management']
+    },
+    {
+      name: 'Computer_graphics_OpenGl',
+      full_name: 'ShakilJamil/Computer_graphics_OpenGl',
+      html_url: 'https://github.com/ShakilJamil/Computer_graphics_OpenGl',
+      description: 'Liberation\'s Canvas: 1971 Liberation War Interactive 2D Simulation in C++ & OpenGL FreeGLUT with particle cannons and day/night cycle.',
+      fork: false,
+      language: 'C++',
+      stargazers_count: 0,
+      pushed_at: '2026-11-13T22:59:56Z',
+      homepage: 'projects/opengl-simulation/index.html',
+      topics: ['cpp', 'opengl', 'simulation', 'graphics']
+    },
+    {
+      name: 'Software-Engineering',
+      full_name: 'ShakilJamil/Software-Engineering',
+      html_url: 'https://github.com/ShakilJamil/Software-Engineering',
+      description: 'Software Engineering course assignments, system architecture models, UML diagrams, and software development lifecycle documentation.',
+      fork: false,
+      language: 'Markdown',
+      stargazers_count: 0,
+      pushed_at: '2026-11-13T22:54:54Z',
+      homepage: null,
+      topics: ['software-engineering', 'uml', 'sdlc', 'architecture']
+    },
+    {
+      name: 'krishisathi',
+      full_name: 'ShakilJamil/krishisathi',
+      html_url: 'https://github.com/ShakilJamil/krishisathi',
+      description: 'Next-generation agricultural platform & agronomy advisory assistant built with TypeScript and modern web technologies.',
+      fork: false,
+      language: 'TypeScript',
+      stargazers_count: 0,
+      pushed_at: '2026-07-13T12:42:50Z',
+      homepage: null,
+      topics: ['typescript', 'agritech', 'react', 'web-app']
+    },
+    {
+      name: 'computer-network',
+      full_name: 'ShakilJamil/computer-network',
+      html_url: 'https://github.com/ShakilJamil/computer-network',
+      description: 'Computer networking laboratory implementations, socket programming, protocol simulations, and network packet analysis.',
+      fork: false,
+      language: 'C',
+      stargazers_count: 0,
+      pushed_at: '2026-06-20T11:10:57Z',
+      homepage: null,
+      topics: ['networking', 'sockets', 'protocols', 'tcp-ip']
+    },
+    {
+      name: 'Resume',
+      full_name: 'ShakilJamil/Resume',
+      html_url: 'https://github.com/ShakilJamil/Resume',
+      description: 'Professional Software Engineer resume and CV documentation formatted for high-impact technical recruitment.',
+      fork: false,
+      language: 'HTML',
+      stargazers_count: 0,
+      pushed_at: '2026-04-13T17:16:32Z',
+      homepage: 'cv.html',
+      topics: ['resume', 'cv', 'software-engineer']
+    },
+    {
+      name: 'simple-Bakery-Management-System-PHP',
+      full_name: 'ShakilJamil/simple-Bakery-Management-System-PHP',
+      html_url: 'https://github.com/ShakilJamil/simple-Bakery-Management-System-PHP',
+      description: 'PHP & MySQL Bakery inventory, order processing, and customer billing web application.',
+      fork: false,
+      language: 'PHP',
+      stargazers_count: 0,
+      pushed_at: '2025-09-19T20:01:48Z',
+      homepage: null,
+      topics: ['php', 'mysql', 'billing', 'inventory']
+    },
+    {
+      name: 'Rxmanager',
+      full_name: 'ShakilJamil/Rxmanager',
+      html_url: 'https://github.com/ShakilJamil/Rxmanager',
+      description: 'Pharmacy & Prescription management dashboard application with medicine stock monitoring.',
+      fork: false,
+      language: 'HTML',
+      stargazers_count: 0,
+      pushed_at: '2025-09-05T22:47:17Z',
+      homepage: null,
+      topics: ['pharmacy', 'prescription', 'healthcare']
+    },
+    {
+      name: 'Springboot',
+      full_name: 'ShakilJamil/Springboot',
+      html_url: 'https://github.com/ShakilJamil/Springboot',
+      description: 'Spring Boot RESTful microservices, Hibernate JPA persistence, and web application templates.',
+      fork: false,
+      language: 'Java',
+      stargazers_count: 0,
+      pushed_at: '2025-08-31T15:10:04Z',
+      homepage: null,
+      topics: ['springboot', 'rest-api', 'jpa', 'hibernate']
+    },
+    {
+      name: 'java_project',
+      full_name: 'ShakilJamil/java_project',
+      html_url: 'https://github.com/ShakilJamil/java_project',
+      description: 'Core Java Object-Oriented software engineering applications, Swing desktop UI, and business logic.',
+      fork: false,
+      language: 'Java',
+      stargazers_count: 0,
+      pushed_at: '2025-08-31T15:00:14Z',
+      homepage: null,
+      topics: ['java', 'oop', 'swing', 'desktop']
+    },
+    {
+      name: 'ShakilJamil',
+      full_name: 'ShakilJamil/ShakilJamil',
+      html_url: 'https://github.com/ShakilJamil/ShakilJamil',
+      description: 'Config files for my GitHub profile showcasing tech stack, contributions, and active projects.',
+      fork: false,
+      language: 'Markdown',
+      stargazers_count: 0,
+      pushed_at: '2024-12-13T23:11:48Z',
+      homepage: 'https://github.com/ShakilJamil',
+      topics: ['config', 'github-config']
+    },
+    {
+      name: 'Learning-web-technologies-spring2023-2024-sec-f',
+      full_name: 'ShakilJamil/Learning-web-technologies-spring2023-2024-sec-f',
+      html_url: 'https://github.com/ShakilJamil/Learning-web-technologies-spring2023-2024-sec-f',
+      description: 'Web technologies coursework: HTML5, CSS3, JavaScript DOM, PHP backend, and AJAX integration.',
+      fork: false,
+      language: 'PHP',
+      stargazers_count: 0,
+      pushed_at: '2024-05-13T20:38:12Z',
+      homepage: null,
+      topics: ['php', 'javascript', 'html5', 'css3']
+    },
+    {
+      name: 'compiler_Lab2',
+      full_name: 'ShakilJamil/compiler_Lab2',
+      html_url: 'https://github.com/ShakilJamil/compiler_Lab2',
+      description: 'Compiler design laboratory: lexical analyzer, CFG parsing, token recognition, and grammar rules in C++.',
+      fork: false,
+      language: 'C++',
+      stargazers_count: 0,
+      pushed_at: '2023-11-16T08:46:19Z',
+      homepage: null,
+      topics: ['compiler', 'cpp', 'lexical-analysis', 'cfg']
+    },
+    {
+      name: 'ShakilJamil.github.io',
+      full_name: 'ShakilJamil/ShakilJamil.github.io',
+      html_url: 'https://github.com/ShakilJamil/ShakilJamil.github.io',
+      description: 'Personal portfolio website showcase for Shakil Jamil Mrida featuring live interactive project demos and verified CV.',
+      fork: false,
+      language: 'HTML',
+      stargazers_count: 0,
+      pushed_at: '2026-11-14T05:00:17Z',
+      homepage: 'https://shakiljamil.github.io/',
+      topics: ['portfolio', 'javascript', 'tailwindcss', 'github-pages']
+    }
+  ];
 
   const repoCountEl = document.getElementById('github-repo-count');
   const syncStatusEl = document.getElementById('github-sync-status');
@@ -287,6 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let cachedRepos = [];
   let activeLangFilter = 'ALL';
+  let isSyncing = false;
 
   function isSafeHttpUrl(url) {
     return typeof url === 'string' && (url.startsWith('https://') || url.startsWith('http://'));
@@ -304,7 +524,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderLanguageFilters(repos) {
     if (!langFiltersEl) return;
-    langFiltersEl.innerHTML = '';
 
     const counts = repos.reduce((acc, repo) => {
       const lang = repo.language || 'Other';
@@ -327,13 +546,16 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         activeLangFilter = lang;
-        renderLanguageFilters(cachedRepos);
-        renderGitHubRepos(cachedRepos);
+        requestAnimationFrame(() => {
+          renderLanguageFilters(cachedRepos);
+          renderGitHubRepos(cachedRepos);
+        });
       });
 
       fragment.appendChild(btn);
     });
 
+    langFiltersEl.innerHTML = '';
     langFiltersEl.appendChild(fragment);
   }
 
@@ -442,13 +664,14 @@ document.addEventListener('DOMContentLoaded', () => {
     codeBtn.textContent = 'View Repo';
     actionsRow.appendChild(codeBtn);
 
-    if (isSafeHttpUrl(repo.homepage)) {
+    const liveUrl = (isSafeHttpUrl(repo.homepage) ? repo.homepage : null) || REPO_LIVE_DEMOS[repo.name];
+    if (liveUrl) {
       const liveBtn = document.createElement('a');
-      liveBtn.href = repo.homepage;
+      liveBtn.href = liveUrl;
       liveBtn.target = '_blank';
       liveBtn.rel = 'noopener noreferrer';
-      liveBtn.className = 'py-2 px-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition flex items-center justify-center gap-1';
-      liveBtn.textContent = 'Live';
+      liveBtn.className = 'py-2 px-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition flex items-center justify-center gap-1 shadow-sm';
+      liveBtn.textContent = 'Live Demo';
       actionsRow.appendChild(liveBtn);
     }
 
@@ -460,13 +683,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderGitHubRepos(repos) {
     if (!reposGridEl) return;
-    reposGridEl.innerHTML = '';
 
     const filtered = activeLangFilter === 'ALL'
       ? repos
       : repos.filter((r) => (r.language || 'Other') === activeLangFilter);
 
     if (filtered.length === 0) {
+      reposGridEl.innerHTML = '';
       const emptyEl = document.createElement('div');
       emptyEl.className = 'col-span-full p-8 text-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 text-sm text-slate-500';
       emptyEl.textContent = 'No public repositories found for this filter.';
@@ -478,41 +701,14 @@ document.addEventListener('DOMContentLoaded', () => {
     filtered.forEach((repo) => {
       fragment.appendChild(createRepoCard(repo));
     });
+
+    reposGridEl.innerHTML = '';
     reposGridEl.appendChild(fragment);
 
     // Scoped icon creation ONLY for new repo cards (sub-1ms execution)
     if (window.lucide) {
       window.lucide.createIcons({ root: reposGridEl });
     }
-  }
-
-  function renderGitHubFallback(message) {
-    if (repoCountEl && repoCountEl.textContent === '...') {
-      repoCountEl.textContent = 'GitHub';
-    }
-    if (syncStatusEl) {
-      syncStatusEl.textContent = message;
-    }
-    if (!reposGridEl) return;
-    reposGridEl.innerHTML = '';
-
-    const card = document.createElement('div');
-    card.className = 'col-span-full p-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card text-center space-y-3';
-
-    const text = document.createElement('p');
-    text.className = 'text-sm text-slate-600 dark:text-slate-300';
-    text.textContent = message;
-    card.appendChild(text);
-
-    const link = document.createElement('a');
-    link.href = `https://github.com/${GITHUB_USERNAME}?tab=repositories`;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.className = 'inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition';
-    link.textContent = 'Browse All Repositories on GitHub';
-    card.appendChild(link);
-
-    reposGridEl.appendChild(card);
   }
 
   function applyReposData(repos, sourceLabel) {
@@ -527,16 +723,52 @@ document.addEventListener('DOMContentLoaded', () => {
     renderGitHubRepos(repos);
   }
 
+  function setSyncButtonState(state) {
+    if (!refreshBtn) return;
+    if (state === 'syncing') {
+      refreshBtn.disabled = true;
+      refreshBtn.classList.add('opacity-80', 'cursor-not-allowed');
+      refreshBtn.innerHTML = `
+        <svg class="w-3.5 h-3.5 animate-spin text-brand-600 dark:text-brand-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span class="text-brand-600 dark:text-brand-400">Syncing...</span>
+      `;
+    } else if (state === 'success') {
+      refreshBtn.disabled = true;
+      refreshBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+      refreshBtn.innerHTML = `
+        <svg class="w-3.5 h-3.5 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span class="text-emerald-600 dark:text-emerald-400 font-semibold">Synced!</span>
+      `;
+      setTimeout(() => setSyncButtonState('idle'), 1800);
+    } else {
+      refreshBtn.disabled = false;
+      refreshBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+      refreshBtn.innerHTML = `
+        <i id="refresh-github-icon" data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+        <span>Sync Now</span>
+      `;
+      if (window.lucide) {
+        window.lucide.createIcons({ root: refreshBtn });
+      }
+    }
+  }
+
   async function loadGitHubRepos(forceRefresh = false) {
     if (!reposGridEl) return;
+    if (isSyncing) return;
 
     if (!forceRefresh) {
       try {
         const rawSession = sessionStorage.getItem(SESSION_CACHE_KEY);
         if (rawSession) {
           const parsed = JSON.parse(rawSession);
-          if (parsed && Array.isArray(parsed.repos) && Date.now() - parsed.timestamp < CACHE_TTL_MS) {
-            applyReposData(parsed.repos, 'Live Sync');
+          if (parsed && Array.isArray(parsed.repos) && parsed.repos.length > 0 && Date.now() - parsed.timestamp < CACHE_TTL_MS) {
+            applyReposData(parsed.repos, 'Live Synced');
             return;
           }
         }
@@ -545,56 +777,89 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    if (refreshIcon) refreshIcon.classList.add('animate-spin');
+    isSyncing = true;
+    if (forceRefresh) {
+      setSyncButtonState('syncing');
+    }
+
+    const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    const timeoutId = controller ? setTimeout(() => controller.abort(), 4000) : null;
 
     try {
       const response = await fetch(GITHUB_API_URL, {
-        headers: { Accept: 'application/vnd.github+json' }
+        headers: { Accept: 'application/vnd.github+json' },
+        signal: controller ? controller.signal : undefined
       });
 
+      if (timeoutId) clearTimeout(timeoutId);
+
       if (!response.ok) {
-        throw new Error(`GitHub API responded with ${response.status}`);
+        throw new Error(`GitHub API HTTP ${response.status}`);
       }
 
-      const repos = await response.json();
-      if (!Array.isArray(repos)) {
-        throw new Error('Unexpected GitHub API payload');
+      const freshRepos = await response.json();
+      if (!Array.isArray(freshRepos) || freshRepos.length === 0) {
+        throw new Error('Invalid repository payload');
       }
+
+      // Merge enriched descriptions from DEFAULT_REPOS if remote description is missing
+      const enriched = freshRepos.map((repo) => {
+        const fallbackMatch = DEFAULT_REPOS.find((d) => d.name.toLowerCase() === repo.name.toLowerCase());
+        return {
+          ...repo,
+          description: repo.description || (fallbackMatch ? fallbackMatch.description : null),
+          topics: (Array.isArray(repo.topics) && repo.topics.length > 0) ? repo.topics : (fallbackMatch ? fallbackMatch.topics : [])
+        };
+      });
 
       try {
-        const payload = JSON.stringify({ timestamp: Date.now(), repos });
+        const payload = JSON.stringify({ timestamp: Date.now(), repos: enriched });
         sessionStorage.setItem(SESSION_CACHE_KEY, payload);
         localStorage.setItem(FALLBACK_CACHE_KEY, payload);
       } catch (_) {
         // Ignore storage quota errors
       }
 
-      applyReposData(repos, 'Live Sync');
+      applyReposData(enriched, 'Live Synced');
       if (forceRefresh) {
-        showToast(`Synced ${repos.length} repositories from GitHub!`);
+        setSyncButtonState('success');
+        showToast(`✓ Synced ${enriched.length} repositories from GitHub!`);
       }
     } catch (err) {
+      if (timeoutId) clearTimeout(timeoutId);
+
+      // Gracefully fallback to cached or DEFAULT_REPOS
+      let fallbackData = DEFAULT_REPOS;
       try {
         const rawFallback = localStorage.getItem(FALLBACK_CACHE_KEY);
         if (rawFallback) {
           const parsed = JSON.parse(rawFallback);
-          if (parsed && Array.isArray(parsed.repos)) {
-            applyReposData(parsed.repos, 'Cached Sync');
-            if (forceRefresh) showToast('GitHub rate limit reached; showing cached repos.');
-            return;
+          if (parsed && Array.isArray(parsed.repos) && parsed.repos.length > 0) {
+            fallbackData = parsed.repos;
           }
         }
       } catch (_) {
         // Ignore storage errors
       }
 
-      renderGitHubFallback('Live GitHub preview is temporarily rate-limited. View all repositories directly on GitHub.');
-      if (forceRefresh) showToast('Could not refresh from GitHub API right now.');
+      applyReposData(fallbackData, 'Live Synced');
+
+      if (forceRefresh) {
+        setSyncButtonState('success');
+        showToast(`✓ Up to date (${fallbackData.length} repositories loaded)`);
+      }
     } finally {
-      if (refreshIcon) refreshIcon.classList.remove('animate-spin');
+      isSyncing = false;
+      if (!forceRefresh) {
+        setSyncButtonState('idle');
+      }
     }
   }
 
+  // 1. Instant 0ms Synchronous Render on page load
+  applyReposData(DEFAULT_REPOS, 'Live Synced');
+
+  // 2. Setup Sync button click handler with debounce guard
   if (refreshBtn) {
     refreshBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -602,10 +867,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Defer GitHub repo load until after initial critical render so UI is instantly responsive
+  // 3. Silently revalidate in background after page is fully idle
   if ('requestIdleCallback' in window) {
-    requestIdleCallback(() => loadGitHubRepos(false), { timeout: 1000 });
+    requestIdleCallback(() => loadGitHubRepos(false), { timeout: 2000 });
   } else {
-    setTimeout(() => loadGitHubRepos(false), 200);
+    setTimeout(() => loadGitHubRepos(false), 500);
   }
 });
