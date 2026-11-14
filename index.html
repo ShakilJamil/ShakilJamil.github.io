@@ -67,8 +67,14 @@
         <a href="#contact" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Contact</a>
       </nav>
 
-      <!-- Right Action Items (Theme Toggle & Contact Button) -->
-      <div class="flex items-center gap-3">
+      <!-- Right Action Items (Arcade, Theme Toggle & Contact Button) -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Dev Arcade Game Button -->
+        <button onclick="openGameModal()" type="button" aria-label="Play Dev Arcade Mini-Game" class="p-2 sm:px-3 sm:py-2 rounded-xl border border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-mono text-xs font-bold transition flex items-center gap-1.5 shadow-sm hover:scale-105 active:scale-95" title="Play Bug Hunter Dev Arcade">
+          <span class="text-sm">👾</span>
+          <span class="hidden lg:inline">Arcade</span>
+        </button>
+
         <!-- Theme Toggle Button -->
         <button id="theme-toggle" type="button" aria-label="Toggle theme" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
           <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
@@ -95,7 +101,11 @@
       <a href="#experience" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Experience</a>
       <a href="#awards" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Awards</a>
       <a href="#contact" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Contact</a>
-      <div class="pt-2">
+      <div class="pt-2 space-y-2">
+        <button onclick="openGameModal()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-mono text-xs font-bold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 hover:bg-indigo-500/20 active:scale-95 transition">
+          <span class="text-sm">👾</span>
+          <span>Play Dev Arcade (Bug Hunter)</span>
+        </button>
         <a href="#contact" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-semibold bg-brand-600 text-white">
           <span>Get in Touch</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
@@ -141,6 +151,11 @@
             <i data-lucide="file-text" class="w-4 h-4 text-brand-500"></i>
             <span>View &amp; Print CV</span>
           </a>
+
+          <button onclick="openGameModal()" class="px-4 py-3.5 rounded-xl font-semibold border border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 transition-all hover:-translate-y-0.5 flex items-center gap-2 shadow-sm" title="Play Bug Hunter Arcade">
+            <span class="text-base">👾</span>
+            <span class="text-xs font-mono font-bold">Play Arcade</span>
+          </button>
 
           <div class="flex items-center gap-2 pl-2">
             <a href="https://github.com/ShakilJamil" target="_blank" rel="noopener noreferrer" class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition" aria-label="GitHub Profile">
@@ -1108,14 +1123,89 @@
     </div>
   </div>
 
+  <!-- MODAL: Bug Hunter Dev Arcade Mini-Game -->
+  <div id="arcade-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md transition-opacity">
+    <div class="bg-slate-900 border-2 border-indigo-500/40 rounded-3xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative space-y-4 text-white">
+      <!-- Arcade Header -->
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-brand-600 to-cyan-500 flex items-center justify-center text-lg shadow-md shadow-indigo-500/30">
+            👾
+          </div>
+          <div>
+            <h3 class="font-extrabold text-sm sm:text-base tracking-tight text-white flex items-center gap-2">
+              <span>Bug Hunter</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                Dev Arcade
+              </span>
+            </h3>
+            <p class="text-[11px] text-slate-400 font-mono">Defend production from runtime bugs &amp; memory leaks</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span id="arcade-high-score" class="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20">
+            High: 0
+          </span>
+          <button id="arcade-sound-btn" onclick="toggleGameSound()" class="px-2.5 py-1 rounded-lg border border-slate-700 hover:bg-slate-800 text-[11px] font-mono text-slate-300 transition">
+            🔊 Sound: ON
+          </button>
+          <button onclick="closeGameModal()" aria-label="Close game" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Arcade Viewport (Canvas) -->
+      <div class="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 shadow-inner">
+        <canvas id="arcade-canvas" width="600" height="420" class="w-full h-auto aspect-[600/420] block touch-none"></canvas>
+      </div>
+
+      <!-- Mobile Touch Controls Bar (Visible on touch/small screens) -->
+      <div class="flex sm:hidden items-center justify-between gap-3 pt-1">
+        <div class="flex items-center gap-2">
+          <button id="touch-btn-left" class="w-14 h-12 rounded-xl bg-slate-800 active:bg-indigo-600 text-white font-bold text-lg flex items-center justify-center border border-slate-700 active:scale-95 transition shadow select-none">
+            ◀
+          </button>
+          <button id="touch-btn-right" class="w-14 h-12 rounded-xl bg-slate-800 active:bg-indigo-600 text-white font-bold text-lg flex items-center justify-center border border-slate-700 active:scale-95 transition shadow select-none">
+            ▶
+          </button>
+        </div>
+        <button id="touch-btn-fire" class="flex-1 h-12 rounded-xl bg-gradient-to-r from-cyan-600 to-indigo-600 active:from-cyan-500 active:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-600/30 active:scale-95 transition select-none">
+          <span>⚡ HOTFIX / FIRE</span>
+        </button>
+      </div>
+
+      <!-- Arcade Controls Hint Footer -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between text-[11px] font-mono text-slate-400 pt-2 border-t border-slate-800/80 gap-2">
+        <div class="flex items-center gap-2">
+          <span>Controls: <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200">← →</kbd> or <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200">A / D</kbd> to Steer</span>
+          <span>&bull;</span>
+          <span><kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200">Space</kbd> or Tap to Shoot</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="restartArcadeGame()" class="text-xs text-indigo-400 hover:text-indigo-300 font-bold hover:underline">
+            Restart
+          </button>
+          <span>&bull;</span>
+          <button onclick="closeGameModal()" class="text-xs text-slate-400 hover:text-white font-bold">
+            Exit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification Container -->
   <div id="toast" class="fixed bottom-6 right-6 z-50 hidden px-5 py-3.5 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-2xl font-medium text-xs flex items-center gap-2.5 border border-slate-800 dark:border-slate-200 animate-bounce">
     <i data-lucide="info" class="w-4 h-4 text-brand-500"></i>
     <span id="toast-message">Notification message</span>
   </div>
 
-  <!-- Fast Local Vector Engine (Zero External Blocking Network Calls) -->
+  <!-- Fast Local Vector Engine & Interactive Scripts -->
   <script src="lucide.min.js?v=5" defer></script>
   <script src="app.js?v=5" defer></script>
+  <script src="touch_fx.js?v=5" defer></script>
+  <script src="game.js?v=5" defer></script>
 </body>
 </html>
