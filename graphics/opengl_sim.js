@@ -3496,38 +3496,149 @@ function updateSimulationUI() {
   }
 }
 
+let simulationSpeedMultiplier = 1.0;
+let soundFXEnabled = false;
+let audioCtx = null;
+let lastCannonTime = 0;
+
+function setSimulationSpeed(mult) {
+  simulationSpeedMultiplier = mult;
+  const speeds = [0.5, 1.0, 2.0];
+  speeds.forEach(s => {
+    const btn = document.getElementById(`btn-spd-${s}`);
+    if (btn) {
+      if (s === mult) {
+        btn.className = 'px-2.5 py-1 rounded-lg bg-amber-500 text-white font-mono font-bold text-xs shadow transition';
+      } else {
+        btn.className = 'px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-xs transition';
+      }
+    }
+  });
+}
+
+function toggleSoundFX() {
+  soundFXEnabled = !soundFXEnabled;
+  const btn = document.getElementById('btn-sound');
+  const badge = document.getElementById('hud-sound-badge');
+
+  if (soundFXEnabled) {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    playRetroBeep(440, 0.15, 'sine');
+    if (btn) {
+      btn.className = 'px-3 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow-md shadow-emerald-600/30 transition flex items-center gap-1.5';
+      btn.innerHTML = '<i data-lucide="volume-2" class="w-4 h-4"></i><span>Sound FX: ON</span>';
+    }
+    if (badge) {
+      badge.classList.remove('hidden');
+    }
+  } else {
+    if (btn) {
+      btn.className = 'px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs transition flex items-center gap-1.5';
+      btn.innerHTML = '<i data-lucide="volume-x" class="w-4 h-4"></i><span>Sound FX: OFF</span>';
+    }
+    if (badge) {
+      badge.classList.add('hidden');
+    }
+  }
+  if (window.lucide) lucide.createIcons();
+}
+
+function playRetroBeep(freq, duration, type = 'sine') {
+  if (!soundFXEnabled || !audioCtx) return;
+  try {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    const now = audioCtx.currentTime;
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, now);
+    gain.gain.setValueAtTime(0.08, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(now);
+    osc.stop(now + duration);
+  } catch (_) {}
+}
+
+function playCannonBlast() {
+  if (!soundFXEnabled || !audioCtx) return;
+  const now = Date.now();
+  if (now - lastCannonTime < 1800) return; // Debounce
+  lastCannonTime = now;
+  try {
+    const t = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(140, t);
+    osc.frequency.exponentialRampToValueAtTime(32, t + 0.35);
+    gain.gain.setValueAtTime(0.18, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(t);
+    osc.stop(t + 0.35);
+  } catch (_) {}
+}
+
+function toggleFullscreenCanvas() {
+  const canvas = document.getElementById('gl-canvas');
+  if (!canvas) return;
+  if (!document.fullscreenElement) {
+    if (canvas.requestFullscreen) {
+      canvas.requestFullscreen();
+    } else if (canvas.webkitRequestFullscreen) {
+      canvas.webkitRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+}
+
 function updatePhysics() {
+  const mult = simulationSpeedMultiplier;
+
   // Cloud 1
   if (position < -1.0) position = 2.0;
-  position -= speed;
+  position -= speed * mult;
 
   // Cloud 2
   if (position2 < -2.0) position2 = 2.0;
-  position2 -= speed2;
+  position2 -= speed2 * mult;
 
   // Sun
   if (position3 > 2.0) position3 = -2.0;
-  position3 += speed3;
+  position3 += speed3 * mult;
 
   // Bullet (firing towards enemy)
-  if (position4 > 0.50) position4 = -0.05;
-  position4 += speed4;
+  if (position4 > 0.50) {
+    position4 = -0.05;
+    playCannonBlast();
+  }
+  position4 += speed4 * mult;
 
   // Boat 1
   if (position9 >= 2.0) position9 = -2.0;
-  position9 += speed9;
+  position9 += speed9 * mult;
 
   // Boat 2
   if (position10 <= -2.0) position10 = 2.0;
-  position10 -= speed10;
+  position10 -= speed10 * mult;
 
   // Man going (Freedom Fighter marching with rifle)
   if (position12 >= 2.0) position12 = -2.0;
-  position12 += speed12;
+  position12 += speed12 * mult;
 
   // Tank / Car (Military Tank rolling along roadway)
   if (position11 > 2.0) position11 = -2.0;
-  position11 += speed11;
+  position11 += speed11 * mult;
 }
 
 function simulationLoop() {

@@ -826,26 +826,67 @@ async function loadTvDisplay() {
 
 function renderTvGrid(tickets) {
   const grid = document.getElementById('tv-serving-grid');
-  if (!grid) return;
-
-  grid.innerHTML = '';
-  if (tickets.length === 0) {
-    grid.innerHTML = '<div class="col-span-full py-12 text-center text-slate-400 font-mono">No active consultations at this moment.</div>';
-    return;
+  if (grid) {
+    grid.innerHTML = '';
+    if (tickets.length === 0) {
+      grid.innerHTML = '<div class="col-span-full py-12 text-center text-slate-400 font-mono">No active consultations at this moment.</div>';
+    } else {
+      tickets.forEach(t => {
+        grid.innerHTML += `
+          <div class="p-8 rounded-3xl border-2 border-emerald-500/40 bg-white dark:bg-dark-card shadow-2xl text-center space-y-3 pulse-glow animate-card-fade">
+            <span class="text-xs font-mono uppercase tracking-widest text-emerald-500 font-bold">Calling Now</span>
+            <div class="text-6xl font-black font-mono tracking-wider text-slate-900 dark:text-white">${t.ticketNumber}</div>
+            <div class="py-2 px-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-sm font-bold text-brand-600 font-mono">
+              ${t.counterNumber || 'Counter 101'}
+            </div>
+            <p class="text-xs text-slate-400 font-sans">${t.departmentName}</p>
+          </div>
+        `;
+      });
+    }
   }
 
-  tickets.forEach(t => {
-    grid.innerHTML += `
-      <div class="p-8 rounded-3xl border-2 border-emerald-500/40 bg-white dark:bg-dark-card shadow-2xl text-center space-y-3 pulse-glow animate-card-fade">
-        <span class="text-xs font-mono uppercase tracking-widest text-emerald-500 font-bold">Calling Now</span>
-        <div class="text-6xl font-black font-mono tracking-wider text-slate-900 dark:text-white">${t.ticketNumber}</div>
-        <div class="py-2 px-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-sm font-bold text-brand-600 font-mono">
-          ${t.counterNumber || 'Counter 101'}
-        </div>
-        <p class="text-xs text-slate-400">${t.departmentName}</p>
-      </div>
-    `;
-  });
+  // Update Waiting Queue list in TV view
+  const nextList = document.getElementById('tv-next-list');
+  const countEl = document.getElementById('tv-waiting-count');
+  if (nextList && demoState.queue) {
+    const waitingItems = demoState.queue.filter(q => q.status === 'WAITING');
+    if (countEl) countEl.textContent = `${waitingItems.length} Waiting`;
+    nextList.innerHTML = '';
+    if (waitingItems.length === 0) {
+      nextList.innerHTML = '<p class="text-xs text-slate-400 font-mono text-center py-4">No waiting tickets in queue.</p>';
+    } else {
+      waitingItems.slice(0, 5).forEach((q, idx) => {
+        const estWait = (idx + 1) * 6;
+        nextList.innerHTML += `
+          <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 flex items-center justify-between font-mono text-xs">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-brand-500/10 text-brand-500 font-bold flex items-center justify-center text-[10px]">#${idx + 1}</span>
+              <div>
+                <span class="font-bold text-slate-900 dark:text-white text-sm">${q.ticketNumber}</span>
+                <span class="block text-[10px] text-slate-400 font-sans">${q.departmentName}</span>
+              </div>
+            </div>
+            <span class="text-[11px] font-bold text-amber-500">~${estWait}m</span>
+          </div>
+        `;
+      });
+    }
+  }
+}
+
+// Live Digital Clock for TV Signage
+if (typeof setInterval !== 'undefined') {
+  const clockTimer = setInterval(() => {
+    const clockEl = typeof document !== 'undefined' ? document.getElementById('tv-clock-time') : null;
+    if (clockEl) {
+      const now = new Date();
+      clockEl.textContent = now.toLocaleTimeString();
+    }
+  }, 1000);
+  if (clockTimer && typeof clockTimer.unref === 'function') {
+    clockTimer.unref();
+  }
 }
 
 // -------------------------------------------------------------

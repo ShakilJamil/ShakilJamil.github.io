@@ -495,6 +495,115 @@
       font-size: 1.5rem;
       cursor: pointer;
     }
+    /* Role Portals Styling */
+    .portal-role-nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .role-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .role-btn:hover {
+      color: white;
+      border-color: #64748b;
+    }
+    .role-btn.active {
+      background: rgba(217, 119, 6, 0.2);
+      color: #fbbf24;
+      border-color: #f59e0b;
+    }
+    .portal-view {
+      display: none;
+    }
+    .portal-view.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+    }
+    .kpi-title {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .kpi-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: #ffffff;
+    }
+    .btn-action-sm {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .btn-action-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-action-primary:hover {
+      background: var(--primary-hover);
+    }
+    .btn-action-success {
+      background: #059669;
+      color: white;
+    }
+    .btn-action-success:hover {
+      background: #10b981;
+    }
+    .btn-action-danger {
+      background: #dc2626;
+      color: white;
+    }
+    .btn-action-secondary {
+      background: #334155;
+      color: white;
+    }
+    .btn-action-secondary:hover {
+      background: #475569;
+    }
+    /* Printable Waybill Styling */
+    .waybill-card {
+      background: white;
+      color: #0f172a;
+      border-radius: 8px;
+      padding: 24px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
   </style>
 </head>
 <body>
@@ -553,6 +662,10 @@
       <button class="tab-btn" onclick="switchTab('hubs')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
         Nationwide Hubs (8 Divisions)
+      </button>
+      <button class="tab-btn" onclick="switchTab('portal')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        Role Portals (Admin / Rider / Member)
       </button>
     </div>
 
@@ -850,6 +963,166 @@
       </div>
     </div>
 
+    <!-- TAB 5: ROLE-BASED PORTALS (AUTHENTIC PHP PROJECT SUBSYSTEM) -->
+    <div id="pane-portal" class="tab-pane">
+      <div class="card">
+        <div class="card-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+          Quick Eagle Role-Based Management Portal
+        </div>
+        <div class="card-desc">Interactive role simulation representing the Member, Delivery Rider, and Admin subsystems from the authentic PHP project.</div>
+
+        <!-- Role Switcher -->
+        <div class="portal-role-nav">
+          <button class="role-btn active" id="btn-role-member" onclick="switchPortalRole('member')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            👤 Customer / Member Portal
+          </button>
+          <button class="role-btn" id="btn-role-rider" onclick="switchPortalRole('rider')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18.5" cy="17.5" r="3.5"></circle><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="15" cy="5" r="1"></circle><path d="M12 17.5V14l-3-3 4-3 2 3h2"></path></svg>
+            🛵 Delivery Rider (DeliveryMan) Portal
+          </button>
+          <button class="role-btn" id="btn-role-admin" onclick="switchPortalRole('admin')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            🛡️ Central Hub Admin Dashboard
+          </button>
+        </div>
+
+        <!-- VIEW 1: MEMBER / CUSTOMER PORTAL -->
+        <div id="view-member" class="portal-view active">
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <div>
+              <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase;">Active Customer Session</div>
+              <div style="font-size:1.15rem; font-weight:800; color:white;">Shakil Jamil Mrida <span style="font-size:0.75rem; background:rgba(217,119,6,0.2); color:#fbbf24; border:1px solid #d97706; padding:2px 8px; border-radius:99px; margin-left:6px;">Verified Member</span></div>
+              <div style="font-size:0.82rem; color:var(--text-muted);">Email: mafialhasan@gmail.com &bull; Client ID: <code style="color:#38bdf8;">QE-MEM-2024-06</code></div>
+            </div>
+            <button class="btn" style="width:auto; padding:10px 18px; font-size:0.85rem;" onclick="switchTab('book')">
+              + Dispatch New Parcel
+            </button>
+          </div>
+
+          <h4 style="margin-bottom:12px; font-size:1rem; color:white; display:flex; align-items:center; gap:8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            My Consignment Bookings &amp; Invoices
+          </h4>
+          <div class="table-container">
+            <table id="memberParcelsTable">
+              <thead>
+                <tr>
+                  <th>Tracking ID</th>
+                  <th>Recipient / Destination</th>
+                  <th>Consignment Item</th>
+                  <th>Status</th>
+                  <th>Payment</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="memberParcelsBody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- VIEW 2: DELIVERY RIDER / DELIVERYMAN PORTAL -->
+        <div id="view-rider" class="portal-view">
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <div>
+              <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase;">On-Duty Courier Driver</div>
+              <div style="font-size:1.15rem; font-weight:800; color:white;">Kamal Hossain <span style="font-size:0.75rem; background:rgba(16,185,129,0.2); color:#10b981; border:1px solid #10b981; padding:2px 8px; border-radius:99px; margin-left:6px;">Rider #RDR-42</span></div>
+              <div style="font-size:0.82rem; color:var(--text-muted);">Assigned Zone: North Dhaka Metro &bull; Vehicle: Motorbike Reg: DHK-M-8891</div>
+            </div>
+            <div style="text-align:right;">
+              <span class="status-tag status-delivered">● Active On Route</span>
+            </div>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-title">Assigned Deliveries</div>
+              <div class="kpi-value" id="riderAssignedCount">2</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Completed Today</div>
+              <div class="kpi-value" style="color:#10b981;" id="riderDeliveredCount">1</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">COD Amount to Collect</div>
+              <div class="kpi-value" style="color:#fbbf24;" id="riderCodAmount">৳4,250</div>
+            </div>
+          </div>
+
+          <h4 style="margin-bottom:12px; font-size:1rem; color:white; display:flex; align-items:center; gap:8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+            Live Delivery Manifest &amp; Proof of Delivery (POD)
+          </h4>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tracking ID</th>
+                  <th>Recipient &amp; Delivery Address</th>
+                  <th>Item Details</th>
+                  <th>Status</th>
+                  <th>Action / Update Status</th>
+                </tr>
+              </thead>
+              <tbody id="riderParcelsBody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- VIEW 3: CENTRAL HUB ADMIN DASHBOARD -->
+        <div id="view-admin" class="portal-view">
+          <!-- Statistics matching FunctionalitesModel.txt SQL counts -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-title">Total Consignments (numberofParcel)</div>
+              <div class="kpi-value" id="adminTotalParcels">148</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Registered Members (numberofMember)</div>
+              <div class="kpi-value" style="color:#38bdf8;" id="adminTotalMembers">94</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Fleet Riders (numberofDliveryman)</div>
+              <div class="kpi-value" style="color:#a855f7;" id="adminTotalRiders">28</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Freight Revenue (Total Revenue)</div>
+              <div class="kpi-value" style="color:#fbbf24;">৳86,400</div>
+            </div>
+          </div>
+
+          <h4 style="margin-bottom:12px; font-size:1rem; color:white; display:flex; align-items:center; gap:8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            Consignment Master Registry &amp; Dispatch Allocation
+          </h4>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tracking ID</th>
+                  <th>Route (Origin → Destination)</th>
+                  <th>Sender</th>
+                  <th>Recipient</th>
+                  <th>Status</th>
+                  <th>Payment Type</th>
+                  <th>Quick Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminParcelsBody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
   <!-- BOOKING SUCCESS MODAL -->
@@ -889,8 +1162,124 @@
 
       <div style="display:flex; gap:10px;">
         <button class="btn" style="background:#334155;" onclick="closeModal()">Close</button>
-        <button class="btn" onclick="trackGeneratedParcel()">Track Shipment Now →</button>
+        <button class="btn" onclick="openWaybill(latestCreatedId)">View Consignment Slip 📄</button>
+        <button class="btn" onclick="trackGeneratedParcel()">Track Shipment →</button>
       </div>
+    </div>
+  </div>
+
+  <!-- PRINTABLE WAYBILL / CONSIGNMENT NOTE MODAL -->
+  <div id="waybillModal" class="modal-overlay">
+    <div class="modal-box" style="max-width:620px; background:#ffffff; color:#0f172a; padding:28px;">
+      <button class="modal-close" style="color:#64748b;" onclick="closeWaybill()">&times;</button>
+      
+      <!-- Waybill Header -->
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2px solid #0f172a; padding-bottom:12px; margin-bottom:16px;">
+        <div>
+          <div style="font-size:1.4rem; font-weight:800; color:#d97706; letter-spacing:-0.5px;">QUICK EAGLE COURIER</div>
+          <div style="font-size:0.75rem; color:#64748b; font-weight:600;">EXPRESS AIR &amp; SURFACE CONSIGNMENT NOTE</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:'JetBrains Mono', monospace; font-size:1.15rem; font-weight:800; color:#0f172a;" id="wbId">QE-84920</div>
+          <div style="font-size:0.72rem; color:#64748b;">BARCODE: <span style="font-family:monospace; letter-spacing:2px; font-weight:bold;">||||| | |||| ||| ||||</span></div>
+        </div>
+      </div>
+
+      <!-- Route Matrix -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; font-size:0.85rem; background:#f8fafc; padding:12px; border-radius:6px; border:1px solid #e2e8f0;">
+        <div>
+          <strong style="color:#64748b; font-size:0.72rem; text-transform:uppercase;">Origin Shipper:</strong>
+          <div style="font-weight:700; margin-top:2px;" id="wbSender">Shakil Jamil</div>
+          <div style="color:#64748b; font-size:0.8rem;" id="wbOrigin">Dhaka Central Hub</div>
+        </div>
+        <div>
+          <strong style="color:#64748b; font-size:0.72rem; text-transform:uppercase;">Consignee / Recipient:</strong>
+          <div style="font-weight:700; margin-top:2px;" id="wbRecipient">Rafiqul Islam</div>
+          <div style="color:#64748b; font-size:0.8rem;" id="wbDest">Chittagong Port Hub</div>
+        </div>
+      </div>
+
+      <!-- Item & Dispatch Specs -->
+      <table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:0.82rem;">
+        <thead>
+          <tr style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; color:#475569;">
+            <th style="padding:6px 8px; text-align:left;">Commodity Description</th>
+            <th style="padding:6px 8px; text-align:center;">Weight</th>
+            <th style="padding:6px 8px; text-align:center;">Status</th>
+            <th style="padding:6px 8px; text-align:right;">Charges (BDT)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #e2e8f0;">
+            <td style="padding:8px;" id="wbItem">Enterprise Router &amp; Network Switchboard</td>
+            <td style="padding:8px; text-align:center;" id="wbWeight">4.2 kg</td>
+            <td style="padding:8px; text-align:center;"><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:bold; font-size:0.75rem;" id="wbStatus">IN TRANSIT</span></td>
+            <td style="padding:8px; text-align:right; font-weight:bold;" id="wbCharge">৳295.00</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Dispatch Signatures -->
+      <div style="display:flex; justify-content:space-between; margin-top:20px; padding-top:12px; border-top:1px dashed #cbd5e1; font-size:0.75rem; color:#64748b;">
+        <div>
+          <div>Authorized Booking Officer:</div>
+          <div style="font-weight:bold; color:#0f172a; margin-top:2px;">Quick Eagle Hub Desk #04</div>
+        </div>
+        <div style="text-align:right;">
+          <div>Consignee Acknowledgment:</div>
+          <div style="font-weight:bold; color:#0f172a; margin-top:2px;">Digital Signature Verified ✓</div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px; margin-top:20px;">
+        <button class="btn" style="background:#334155; color:white;" onclick="closeWaybill()">Done</button>
+        <button class="btn" style="background:#d97706; color:white;" onclick="window.print()">Print Waybill 🖨️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE PAYMENT GATEWAY SIMULATOR -->
+  <div id="paymentModal" class="modal-overlay">
+    <div class="modal-box" style="max-width:440px;">
+      <button class="modal-close" onclick="closePayment()">&times;</button>
+      <div style="text-align:center; margin-bottom:18px;">
+        <div style="font-size:1.6rem; font-weight:800; color:#d97706;">Quick Eagle Pay</div>
+        <div style="font-size:0.85rem; color:var(--text-muted);">Secure Online Logistics Payment Gateway</div>
+      </div>
+
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:16px; margin-bottom:18px;">
+        <div class="calc-row">
+          <span>Consignment ID:</span>
+          <strong id="payTrkId" style="font-family:'JetBrains Mono'; color:#fbbf24;"></strong>
+        </div>
+        <div class="calc-row total">
+          <span>Total Fare:</span>
+          <span id="payAmount" style="color:#10b981;">৳170.00</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Payment Channel</label>
+        <select id="payChannel" class="form-control">
+          <option value="bKash">bKash Mobile Wallet (01700-656279)</option>
+          <option value="Nagad">Nagad Instant Pay (01700-656279)</option>
+          <option value="Visa">Visa / MasterCard Debit</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Account / Mobile Number</label>
+        <input type="text" id="payAccount" value="01700656279" class="form-control" placeholder="017XXXXXXXX">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Demo PIN / Security Token</label>
+        <input type="password" value="1234" class="form-control" placeholder="••••">
+      </div>
+
+      <button class="btn" onclick="processPaymentSuccess()" style="background:#059669;">
+        Confirm &amp; Pay Instant Fee →
+      </button>
     </div>
   </div>
 
@@ -1151,6 +1540,189 @@
       document.getElementById('bookingModal').classList.remove('active');
     }
 
+    function openWaybill(trkId) {
+      const id = trkId || latestCreatedId || 'QE-84920';
+      const parcel = PARCEL_DB[id];
+      if (!parcel) return;
+
+      document.getElementById('wbId').textContent = parcel.id;
+      document.getElementById('wbSender').textContent = parcel.sender;
+      document.getElementById('wbOrigin').textContent = parcel.route.split('→')[0] || 'Origin Hub';
+      document.getElementById('wbRecipient').textContent = parcel.recipient;
+      document.getElementById('wbDest').textContent = parcel.route.split('→')[1] || 'Destination Hub';
+      document.getElementById('wbItem').textContent = parcel.item;
+      document.getElementById('wbWeight').textContent = (parcel.item.match(/\((.*?)\)/) || ['', '1.5 kg'])[1];
+      document.getElementById('wbStatus').textContent = parcel.status.toUpperCase();
+      document.getElementById('wbCharge').textContent = parcel.payment || '৳280.00';
+
+      document.getElementById('waybillModal').classList.add('active');
+    }
+
+    function closeWaybill() {
+      document.getElementById('waybillModal').classList.remove('active');
+    }
+
+    function openPayment(amount, trkId) {
+      document.getElementById('payAmount').textContent = amount;
+      document.getElementById('payTrkId').textContent = trkId;
+      document.getElementById('paymentModal').classList.add('active');
+    }
+
+    function closePayment() {
+      document.getElementById('paymentModal').classList.remove('active');
+    }
+
+    function processPaymentSuccess() {
+      const channel = document.getElementById('payChannel').value;
+      const trkId = document.getElementById('payTrkId').textContent;
+      const randTrx = 'TRX' + Math.floor(10000000 + Math.random() * 90000000);
+      alert(`Payment Successful via ${channel}!\nTransaction ID: ${randTrx}\nConsignment ${trkId} marked as PREPAID.`);
+      closePayment();
+      if (PARCEL_DB[trkId]) {
+        PARCEL_DB[trkId].payment = `Prepaid via ${channel} (${randTrx})`;
+        renderPortalData();
+      }
+    }
+
+    // Role-based Portal Functions (Authentic Subsystem Simulation)
+    let currentPortalRole = 'member';
+
+    function switchPortalRole(role) {
+      currentPortalRole = role;
+      document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.portal-view').forEach(v => v.classList.remove('active'));
+
+      const btn = document.getElementById('btn-role-' + role);
+      if (btn) btn.classList.add('active');
+
+      const view = document.getElementById('view-' + role);
+      if (view) view.classList.add('active');
+
+      renderPortalData();
+    }
+
+    function renderPortalData() {
+      // 1. Member View
+      const memberBody = document.getElementById('memberParcelsBody');
+      if (memberBody) {
+        memberBody.innerHTML = '';
+        Object.values(PARCEL_DB).forEach(p => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><code style="color:#fbbf24; font-weight:bold;">${p.id}</code></td>
+            <td><strong>${p.recipient}</strong><div style="font-size:0.75rem; color:var(--text-muted);">${p.route}</div></td>
+            <td>${p.item}</td>
+            <td><span class="status-tag ${p.statusClass}">${p.statusIcon} ${p.status}</span></td>
+            <td><span style="font-size:0.8rem; color:#cbd5e1;">${p.payment || 'Standard Rate'}</span></td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button class="btn-action-sm btn-action-primary" onclick="loadSample('${p.id}'); switchTab('track');">Track</button>
+                <button class="btn-action-sm btn-action-secondary" onclick="openWaybill('${p.id}')">Waybill 📄</button>
+                ${p.status === 'Order Booked' ? `<button class="btn-action-sm btn-action-danger" onclick="memberCancelParcel('${p.id}')">Cancel</button>` : ''}
+              </div>
+            </td>
+          `;
+          memberBody.appendChild(tr);
+        });
+      }
+
+      // 2. Rider View
+      const riderBody = document.getElementById('riderParcelsBody');
+      if (riderBody) {
+        riderBody.innerHTML = '';
+        let assigned = 0;
+        let delivered = 0;
+        Object.values(PARCEL_DB).forEach(p => {
+          if (p.status !== 'Cancelled') assigned++;
+          if (p.status === 'Delivered') delivered++;
+
+          const tr = document.createElement('tr');
+          let actionBtn = '';
+          if (p.status === 'Order Booked' || p.status === 'Processing') {
+            actionBtn = `<button class="btn-action-sm btn-action-primary" onclick="riderUpdateStatus('${p.id}', 'In Transit')">Mark Picked Up 🛵</button>`;
+          } else if (p.status === 'In Transit') {
+            actionBtn = `<button class="btn-action-sm btn-action-primary" onclick="riderUpdateStatus('${p.id}', 'Out for Delivery')">Out for Delivery 📦</button>`;
+          } else if (p.status === 'Out for Delivery') {
+            actionBtn = `<button class="btn-action-sm btn-action-success" onclick="riderUpdateStatus('${p.id}', 'Delivered')">Deliver &amp; Sign ✓</button>`;
+          } else if (p.status === 'Delivered') {
+            actionBtn = `<span style="color:#10b981; font-weight:bold; font-size:0.8rem;">✓ Handed Over</span>`;
+          }
+
+          tr.innerHTML = `
+            <td><code style="color:#fbbf24; font-weight:bold;">${p.id}</code></td>
+            <td><strong>${p.recipient}</strong></td>
+            <td>${p.item}</td>
+            <td><span class="status-tag ${p.statusClass}">${p.statusIcon} ${p.status}</span></td>
+            <td>${actionBtn}</td>
+          `;
+          riderBody.appendChild(tr);
+        });
+
+        if (document.getElementById('riderAssignedCount')) document.getElementById('riderAssignedCount').textContent = assigned;
+        if (document.getElementById('riderDeliveredCount')) document.getElementById('riderDeliveredCount').textContent = delivered;
+      }
+
+      // 3. Admin View
+      const adminBody = document.getElementById('adminParcelsBody');
+      if (adminBody) {
+        adminBody.innerHTML = '';
+        Object.values(PARCEL_DB).forEach(p => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><code style="color:#fbbf24; font-weight:bold;">${p.id}</code></td>
+            <td>${p.route}</td>
+            <td>${p.sender}</td>
+            <td>${p.recipient}</td>
+            <td><span class="status-tag ${p.statusClass}">${p.statusIcon} ${p.status}</span></td>
+            <td>${p.payment || 'Cash on Delivery (COD)'}</td>
+            <td>
+              <button class="btn-action-sm btn-action-secondary" onclick="openWaybill('${p.id}')">Waybill</button>
+            </td>
+          `;
+          adminBody.appendChild(tr);
+        });
+
+        if (document.getElementById('adminTotalParcels')) {
+          document.getElementById('adminTotalParcels').textContent = Object.keys(PARCEL_DB).length + 145;
+        }
+      }
+    }
+
+    function riderUpdateStatus(trkId, newStatus) {
+      const p = PARCEL_DB[trkId];
+      if (!p) return;
+
+      p.status = newStatus;
+      if (newStatus === 'In Transit') {
+        p.statusClass = 'status-transit';
+        p.statusIcon = '🚚';
+        p.stages.push({ title: 'Picked Up by Courier Rider', meta: 'North Dhaka Dispatch Hub • Real-time update', done: true, current: true });
+      } else if (newStatus === 'Out for Delivery') {
+        p.statusClass = 'status-transit';
+        p.statusIcon = '🛵';
+        p.stages.push({ title: 'Out for Delivery to Recipient', meta: 'Rider Kamal Hossain is arriving shortly', done: true, current: true });
+      } else if (newStatus === 'Delivered') {
+        p.statusClass = 'status-delivered';
+        p.statusIcon = '✓';
+        p.eta = 'Delivered just now';
+        p.stages.push({ title: 'Successfully Delivered to Consignee', meta: 'Recipient signature captured & verified ✓', done: true, current: true });
+      }
+
+      renderPortalData();
+      alert(`Consignment ${trkId} status updated to: ${newStatus}! Tracking timeline updated.`);
+    }
+
+    function memberCancelParcel(trkId) {
+      if (!confirm(`Are you sure you want to cancel consignment ${trkId}?`)) return;
+      if (PARCEL_DB[trkId]) {
+        PARCEL_DB[trkId].status = 'Cancelled';
+        PARCEL_DB[trkId].statusClass = 'status-pending';
+        PARCEL_DB[trkId].statusIcon = '✕';
+        PARCEL_DB[trkId].stages.push({ title: 'Cancelled by Shipper', meta: 'Booking terminated before hub dispatch', done: true, current: true });
+        renderPortalData();
+      }
+    }
+
     function trackGeneratedParcel() {
       closeModal();
       if (latestCreatedId) {
@@ -1164,6 +1736,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       calculateRate();
       performTracking();
+      renderPortalData();
     });
   </script>
 </body>
