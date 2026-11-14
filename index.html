@@ -6,80 +6,26 @@
   <title>Shakil Jamil Mrida | Software Developer &amp; CSE Engineer</title>
   <meta name="description" content="Portfolio of Shakil Jamil Mrida - Software Developer & Computer Science Engineer specializing in web applications, Spring Boot, Laravel, Angular, and robust databases. 6x AIUB Dean's Award Recipient.">
   
-  <!-- Google Fonts -->
+  <!-- Performance-Optimized Google Fonts Preconnection & Async Loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace'],
-          },
-          colors: {
-            brand: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              200: '#c7d2fe',
-              300: '#a5b4fc',
-              400: '#818cf8',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-              800: '#3730a3',
-              900: '#312e81',
-              950: '#1e1b4b',
-            },
-            dark: {
-              bg: '#0a0f1d',
-              card: '#111827',
-              border: '#1f2937',
-              hover: '#1e293b'
-            }
-          },
-          animation: {
-            'gradient': 'gradient 8s ease infinite',
-            'float': 'float 4s ease-in-out infinite',
-            'pulse-subtle': 'pulseSubtle 3s ease-in-out infinite',
-          },
-          keyframes: {
-            gradient: {
-              '0%, 100%': { backgroundPosition: '0% 50%' },
-              '50%': { backgroundPosition: '100% 50%' },
-            },
-            float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-10px)' },
-            },
-            pulseSubtle: {
-              '0%, 100%': { opacity: '0.4' },
-              '50%': { opacity: '0.8' },
-            }
-          }
-        }
-      }
-    }
-  </script>
-  
-  <link rel="stylesheet" href="style.css">
-</head>
-<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-slate-200 font-sans transition-colors duration-300 min-h-screen selection:bg-brand-500 selection:text-white relative overflow-x-hidden">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  </noscript>
 
-  <!-- Ambient Background Glow Effects -->
-  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-    <div class="absolute -top-40 -left-40 w-96 h-96 bg-brand-500/20 dark:bg-brand-600/15 rounded-full blur-[128px]"></div>
-    <div class="absolute top-1/3 -right-40 w-96 h-96 bg-cyan-500/15 dark:bg-cyan-500/10 rounded-full blur-[128px]"></div>
-    <div class="absolute bottom-10 left-1/3 w-[30rem] h-[30rem] bg-purple-500/15 dark:bg-purple-600/10 rounded-full blur-[140px]"></div>
-    <div class="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+  <!-- Precompiled Minified Production CSS (Zero Runtime JIT Compilation, 0ms Render Lag) -->
+  <link rel="stylesheet" href="style.min.css?v=5">
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-slate-200 font-sans min-h-screen selection:bg-brand-500 selection:text-white relative overflow-x-hidden">
+
+  <!-- Ambient Background Glow Effects (Hardware Accelerated, Smooth 60fps) -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden ambient-glow">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-brand-500/20 dark:bg-brand-600/15 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/3 -right-40 w-96 h-96 bg-cyan-500/15 dark:bg-cyan-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-10 left-1/3 w-96 h-96 bg-purple-500/15 dark:bg-purple-600/10 rounded-full blur-3xl"></div>
+    <div class="absolute inset-0 bg-grid-pattern"></div>
   </div>
 
   <!-- Header / Navigation Bar -->
@@ -1154,6 +1100,8 @@
     <span id="toast-message">Notification message</span>
   </div>
 
-  <script src="app.js?v=4"></script>
+  <!-- Fast Local Vector Engine (Zero External Blocking Network Calls) -->
+  <script src="lucide.min.js?v=5" defer></script>
+  <script src="app.js?v=5" defer></script>
 </body>
 </html>

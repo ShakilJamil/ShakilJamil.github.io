@@ -1,0 +1,6 @@
+node_modules/
+verify_css.js
+build_lucide.js
+test_performance.js
+.DS_Store
+Thumbs.db
