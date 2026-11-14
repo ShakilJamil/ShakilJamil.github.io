@@ -6,6 +6,11 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Always ensure opening starts at top unless a valid section anchor is explicitly targeted
+  if (window.location.hash === '#contact' || !window.location.hash || window.location.hash === '#hero') {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }
+
   // 1. Initialize Lucide Icons via Local Vector Engine
   if (window.lucide) {
     window.lucide.createIcons();
@@ -173,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     showToast('Message delivered successfully!');
     if (window.history && window.history.replaceState) {
-      window.history.replaceState({}, '', window.location.pathname + '#contact');
+      window.history.replaceState({}, '', window.location.pathname);
     }
   }
 
