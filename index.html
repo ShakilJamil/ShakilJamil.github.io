@@ -57,7 +57,7 @@
       </a>
 
       <!-- Desktop Navigation Links -->
-      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600 dark:text-slate-300">
+      <nav class="hidden md:flex items-center gap-4 lg:gap-7 text-sm font-medium text-slate-600 dark:text-slate-300">
         <a href="#about" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">About</a>
         <a href="#skills" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Skills</a>
         <a href="#projects" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Projects</a>
@@ -1124,31 +1124,32 @@
   </div>
 
   <!-- MODAL: Bug Hunter Dev Arcade Mini-Game -->
-  <div id="arcade-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md transition-opacity">
-    <div class="bg-slate-900 border-2 border-indigo-500/40 rounded-3xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative space-y-4 text-white">
+  <div id="arcade-modal" onclick="if(event.target === this) closeGameModal()" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md transition-opacity">
+    <div class="bg-slate-900 border-2 border-indigo-500/40 rounded-3xl max-w-2xl w-full p-3.5 sm:p-6 shadow-2xl relative space-y-3 sm:space-y-4 text-white max-h-[96vh] overflow-y-auto my-auto">
       <!-- Arcade Header -->
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-brand-600 to-cyan-500 flex items-center justify-center text-lg shadow-md shadow-indigo-500/30">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5 sm:pb-3 gap-2">
+        <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+          <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-brand-600 to-cyan-500 flex items-center justify-center text-base sm:text-lg shadow-md shadow-indigo-500/30 flex-shrink-0">
             👾
           </div>
-          <div>
-            <h3 class="font-extrabold text-sm sm:text-base tracking-tight text-white flex items-center gap-2">
+          <div class="min-w-0">
+            <h3 class="font-extrabold text-sm sm:text-base tracking-tight text-white flex items-center gap-1.5 sm:gap-2 truncate">
               <span>Bug Hunter</span>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span class="text-[9px] sm:text-[10px] font-mono px-1.5 sm:px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 whitespace-nowrap">
                 Dev Arcade
               </span>
             </h3>
-            <p class="text-[11px] text-slate-400 font-mono">Defend production from runtime bugs &amp; memory leaks</p>
+            <p class="text-[10px] sm:text-[11px] text-slate-400 font-mono truncate hidden sm:block">Defend production from runtime bugs &amp; memory leaks</p>
           </div>
         </div>
 
-        <div class="flex items-center gap-2">
-          <span id="arcade-high-score" class="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20">
+        <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+          <span id="arcade-high-score" class="text-[11px] sm:text-xs font-mono font-bold text-amber-400 bg-amber-500/10 px-2 sm:px-2.5 py-1 rounded-lg border border-amber-500/20 whitespace-nowrap">
             High: 0
           </span>
-          <button id="arcade-sound-btn" onclick="toggleGameSound()" class="px-2.5 py-1 rounded-lg border border-slate-700 hover:bg-slate-800 text-[11px] font-mono text-slate-300 transition">
-            🔊 Sound: ON
+          <button id="arcade-sound-btn" onclick="toggleGameSound()" class="px-2 sm:px-2.5 py-1 rounded-lg border border-slate-700 hover:bg-slate-800 text-[11px] font-mono text-slate-300 transition flex items-center gap-1">
+            <span id="arcade-sound-icon">🔊</span>
+            <span id="arcade-sound-text" class="hidden sm:inline">Sound: ON</span>
           </button>
           <button onclick="closeGameModal()" aria-label="Close game" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">
             <i data-lucide="x" class="w-5 h-5"></i>
@@ -1158,26 +1159,43 @@
 
       <!-- Arcade Viewport (Canvas) -->
       <div class="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 shadow-inner">
-        <canvas id="arcade-canvas" width="600" height="420" class="w-full h-auto aspect-[600/420] block touch-none"></canvas>
+        <canvas id="arcade-canvas" width="600" height="420" style="touch-action: none;" class="w-full h-auto aspect-[600/420] block"></canvas>
       </div>
 
       <!-- Mobile Touch Controls Bar (Visible on touch/small screens) -->
-      <div class="flex sm:hidden items-center justify-between gap-3 pt-1">
+      <div class="flex sm:hidden items-center justify-between gap-2.5 pt-1">
         <div class="flex items-center gap-2">
-          <button id="touch-btn-left" class="w-14 h-12 rounded-xl bg-slate-800 active:bg-indigo-600 text-white font-bold text-lg flex items-center justify-center border border-slate-700 active:scale-95 transition shadow select-none">
+          <button id="touch-btn-left" style="touch-action: manipulation;" class="w-16 h-12 rounded-xl bg-slate-800 active:bg-indigo-600 text-white font-bold text-xl flex items-center justify-center border border-slate-700 active:scale-95 transition shadow select-none">
             ◀
           </button>
-          <button id="touch-btn-right" class="w-14 h-12 rounded-xl bg-slate-800 active:bg-indigo-600 text-white font-bold text-lg flex items-center justify-center border border-slate-700 active:scale-95 transition shadow select-none">
+          <button id="touch-btn-right" style="touch-action: manipulation;" class="w-16 h-12 rounded-xl bg-slate-800 active:bg-indigo-600 text-white font-bold text-xl flex items-center justify-center border border-slate-700 active:scale-95 transition shadow select-none">
             ▶
           </button>
         </div>
-        <button id="touch-btn-fire" class="flex-1 h-12 rounded-xl bg-gradient-to-r from-cyan-600 to-indigo-600 active:from-cyan-500 active:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-600/30 active:scale-95 transition select-none">
+        <button id="touch-btn-fire" style="touch-action: manipulation;" class="flex-1 h-12 rounded-xl bg-gradient-to-r from-cyan-600 to-indigo-600 active:from-cyan-500 active:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-600/30 active:scale-95 transition select-none">
           <span>⚡ HOTFIX / FIRE</span>
         </button>
       </div>
 
       <!-- Arcade Controls Hint Footer -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between text-[11px] font-mono text-slate-400 pt-2 border-t border-slate-800/80 gap-2">
+        <div class="flex items-center gap-2">
+          <span>Controls: <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200">← →</kbd> or <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200">A / D</kbd> to Steer</span>
+          <span>&bull;</span>
+          <span><kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200">Space</kbd> or Tap to Shoot</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="restartArcadeGame()" class="text-xs text-indigo-400 hover:text-indigo-300 font-bold hover:underline">
+            Restart
+          </button>
+          <span>&bull;</span>
+          <button onclick="closeGameModal()" class="text-xs text-slate-400 hover:text-white font-bold">
+            Exit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
         <div class="flex items-center gap-2">
           <span>Controls: <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200">← →</kbd> or <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200">A / D</kbd> to Steer</span>
           <span>&bull;</span>

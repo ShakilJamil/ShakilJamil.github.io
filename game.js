@@ -200,6 +200,12 @@
       }, { passive: false });
 
       canvas.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches[0]) {
+          const rect = canvas.getBoundingClientRect();
+          const scaleX = canvas.width / rect.width;
+          const touchX = (e.touches[0].clientX - rect.left) * scaleX;
+          player.x = Math.max(player.width, Math.min(canvas.width - player.width, touchX));
+        }
         if (gameState === 'START' || gameState === 'GAMEOVER') {
           startGame();
         } else if (gameState === 'PLAYING') {
@@ -252,6 +258,11 @@
 
   function onKeyDown(e) {
     if (!isModalOpen()) return;
+
+    if (e.code === 'Escape') {
+      window.closeGameModal();
+      return;
+    }
 
     if (e.code === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
       keys.left = true;
@@ -816,10 +827,12 @@
 
   window.toggleGameSound = function() {
     soundEnabled = !soundEnabled;
+    const textEl = document.getElementById('arcade-sound-text');
+    const iconEl = document.getElementById('arcade-sound-icon');
     const btn = document.getElementById('arcade-sound-btn');
-    if (btn) {
-      btn.textContent = soundEnabled ? '🔊 Sound: ON' : '🔇 Sound: OFF';
-    }
+    if (textEl) textEl.textContent = soundEnabled ? 'Sound: ON' : 'Sound: OFF';
+    if (iconEl) iconEl.textContent = soundEnabled ? '🔊' : '🔇';
+    if (btn) btn.title = soundEnabled ? 'Sound is ON' : 'Sound is OFF';
   };
 
   window.restartArcadeGame = function() {

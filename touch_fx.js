@@ -31,6 +31,7 @@
     resize();
 
     window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('orientationchange', () => setTimeout(resize, 120), { passive: true });
 
     // Pointer & Touch Listeners
     window.addEventListener('pointerdown', onPointerDown, { passive: true });
@@ -42,7 +43,11 @@
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.floor(window.innerWidth * dpr);
     canvas.height = Math.floor(window.innerHeight * dpr);
-    ctx.scale(dpr, dpr);
+    if (ctx.setTransform) {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    } else {
+      ctx.scale(dpr, dpr);
+    }
   }
 
   function getThemeColors() {
