@@ -281,11 +281,11 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const REPO_LIVE_DEMOS = {
-    pulsequeue: 'projects/pulsequeue/index.html',
-    apwj_final: 'projects/smart-inventory/index.html',
-    'web-tec-spring-23-24-sec-f-Finalproject-group-6': 'projects/courier-management/index.html',
-    marketmngt: 'projects/market-management/index.html',
-    Computer_graphics_OpenGl: 'projects/opengl-simulation/index.html',
+    pulsequeue: 'pulsequeue/',
+    apwj_final: 'inventory/',
+    'web-tec-spring-23-24-sec-f-Finalproject-group-6': 'courier/',
+    marketmngt: 'market/',
+    Computer_graphics_OpenGl: 'graphics/',
     Resume: 'cv.html',
     'ShakilJamil.github.io': 'index.html'
   };
@@ -300,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
       language: 'Java',
       stargazers_count: 0,
       pushed_at: '2026-11-13T22:41:13Z',
-      homepage: 'projects/pulsequeue/index.html',
+      homepage: 'pulsequeue/',
       topics: ['java', 'spring-boot', 'hospital-management', 'realtime-queue']
     },
     {
@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
       language: 'Java',
       stargazers_count: 0,
       pushed_at: '2026-11-13T22:47:36Z',
-      homepage: 'projects/smart-inventory/index.html',
+      homepage: 'inventory/',
       topics: ['java', 'spring-boot', 'inventory-management', 'aop']
     },
     {
@@ -324,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
       language: 'PHP',
       stargazers_count: 0,
       pushed_at: '2026-11-13T23:28:35Z',
-      homepage: 'projects/courier-management/index.html',
+      homepage: 'courier/',
       topics: ['php', 'logistics', 'tracking-system', 'telemetry']
     },
     {
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
       language: 'C#',
       stargazers_count: 0,
       pushed_at: '2026-11-13T23:08:29Z',
-      homepage: 'projects/market-management/index.html',
+      homepage: 'market/',
       topics: ['csharp', 'dotnet', 'erp', 'market-management']
     },
     {
@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
       language: 'C++',
       stargazers_count: 0,
       pushed_at: '2026-11-13T22:59:56Z',
-      homepage: 'projects/opengl-simulation/index.html',
+      homepage: 'graphics/',
       topics: ['cpp', 'opengl', 'simulation', 'graphics']
     },
     {

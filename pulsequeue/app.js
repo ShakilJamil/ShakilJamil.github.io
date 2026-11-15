@@ -58,13 +58,26 @@ const DEFAULT_INITIAL_STATE = {
 let demoState = loadPersistedState();
 
 function loadPersistedState() {
+  const today = new Date().toISOString().split('T')[0];
   try {
     const raw = localStorage.getItem('pulsequeue_state');
     if (raw) {
-      return JSON.parse(raw);
+      const parsed = JSON.parse(raw);
+      if (parsed && Array.isArray(parsed.slots)) {
+        // Automatically rollover expired dates to today so slots are always bookable
+        parsed.slots.forEach(s => {
+          if (!s.slotDate || s.slotDate < today) {
+            s.slotDate = today;
+            s.booked = false;
+          }
+        });
+        return parsed;
+      }
     }
   } catch (_) {}
-  return JSON.parse(JSON.stringify(DEFAULT_INITIAL_STATE));
+  const fresh = JSON.parse(JSON.stringify(DEFAULT_INITIAL_STATE));
+  fresh.slots.forEach(s => { s.slotDate = today; });
+  return fresh;
 }
 
 function persistDemoState() {
@@ -317,37 +330,64 @@ function initWebSockets() {
   }
 }
 
-function playChime() {
+let isTvVoiceEnabled = true;
+
+async function playChime() {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    if (ctx.state === 'suspended') {
+      await ctx.resume().catch(() => {});
+    }
     const now = ctx.currentTime;
 
+    // First tone (E5: 659.25Hz)
     const osc1 = ctx.createOscillator();
     const gain1 = ctx.createGain();
     osc1.type = 'sine';
-    osc1.frequency.setValueAtTime(659.25, now); // E5
-    gain1.gain.setValueAtTime(0.3, now);
-    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+    osc1.frequency.setValueAtTime(659.25, now);
+    gain1.gain.setValueAtTime(0.35, now);
+    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
     osc1.connect(gain1);
     gain1.connect(ctx.destination);
     osc1.start(now);
-    osc1.stop(now + 0.6);
+    osc1.stop(now + 0.55);
 
+    // Second tone (A5: 880.00Hz)
     const osc2 = ctx.createOscillator();
     const gain2 = ctx.createGain();
     osc2.type = 'sine';
-    osc2.frequency.setValueAtTime(880.00, now + 0.3); // A5
-    gain2.gain.setValueAtTime(0.3, now + 0.3);
-    gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+    osc2.frequency.setValueAtTime(880.00, now + 0.28);
+    gain2.gain.setValueAtTime(0.35, now + 0.28);
+    gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.15);
     osc2.connect(gain2);
     gain2.connect(ctx.destination);
-    osc2.start(now + 0.3);
-    osc2.stop(now + 1.2);
+    osc2.start(now + 0.28);
+    osc2.stop(now + 1.15);
+  } catch (_) {}
+}
+
+function speakTicketCall(ticketNumber, counterName, deptName) {
+  if (!isTvVoiceEnabled) return;
+  try {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const cleanTicket = String(ticketNumber).replace('-', ' ');
+      const msg = new SpeechSynthesisUtterance(`Ticket ${cleanTicket}, please proceed to ${counterName}, ${deptName}.`);
+      msg.rate = 0.92;
+      msg.pitch = 1.05;
+      msg.volume = 0.95;
+      window.speechSynthesis.speak(msg);
+    }
   } catch (_) {}
 }
 
 function handleLiveQueueUpdate(payload) {
   playChime();
+  if (payload.ticket && payload.counterNumber) {
+    speakTicketCall(payload.ticket.ticketNumber, payload.counterNumber, payload.ticket.departmentName || 'Clinic');
+  }
 
   const banner = document.getElementById('live-broadcast-banner');
   const bannerTitle = document.getElementById('banner-title');
@@ -355,12 +395,12 @@ function handleLiveQueueUpdate(payload) {
 
   if (banner && payload.ticket) {
     bannerTitle.textContent = `Ticket ${payload.ticket.ticketNumber} ${payload.eventType === 'TICKET_CALLED' ? 'Called!' : 'Updated'}`;
-    bannerDesc.textContent = `Proceed to ${payload.counterNumber || 'assigned station'} (${payload.ticket.departmentName})`;
+    bannerDesc.textContent = `Proceed to ${payload.counterNumber || 'assigned station'} (${payload.ticket.departmentName || 'General Medicine'}) — ${payload.ticket.customerName || 'Patient'}.`;
     banner.classList.remove('hidden');
 
     setTimeout(() => {
       banner.classList.add('hidden');
-    }, 8000);
+    }, 7000);
   }
 
   loadTvDisplay();
@@ -368,8 +408,24 @@ function handleLiveQueueUpdate(payload) {
   loadMetrics();
   loadAdminData();
 
-  if (payload.ticket && payload.ticket.ticketNumber === currentTicketNumber) {
-    updateMyTicketDisplay(payload.ticket);
+  syncMyTicketStatus();
+}
+
+function syncMyTicketStatus() {
+  if (!currentTicketNumber) return;
+  // Check if current user's ticket is currently in active service
+  const servingMatch = demoState.nowServing ? demoState.nowServing.find(s => s.ticketNumber === currentTicketNumber) : null;
+  if (servingMatch) {
+    updateMyTicketDisplay({ ...servingMatch, status: 'SERVING', waitingAheadCount: 0 });
+    return;
+  }
+  // Check if still waiting in queue
+  if (demoState.queue) {
+    const queueIdx = demoState.queue.findIndex(q => q.ticketNumber === currentTicketNumber && q.status === 'WAITING');
+    if (queueIdx !== -1) {
+      const t = demoState.queue[queueIdx];
+      updateMyTicketDisplay({ ...t, waitingAheadCount: queueIdx });
+    }
   }
 }
 
@@ -443,7 +499,12 @@ function populateDepartmentSelects(depts) {
 // -------------------------------------------------------------
 async function loadSlots() {
   const deptId = document.getElementById('department-select')?.value || '';
-  const date = document.getElementById('date-select')?.value || '';
+  const dateInput = document.getElementById('date-select');
+  const today = new Date().toISOString().split('T')[0];
+  if (dateInput && !dateInput.value) {
+    dateInput.value = today;
+  }
+  const date = dateInput?.value || today;
   const grid = document.getElementById('slots-grid');
   const badge = document.getElementById('slot-count-badge');
 
@@ -457,12 +518,34 @@ async function loadSlots() {
     renderSlots(slots);
   } catch (_) {
     isDemoMode = true;
-    const filtered = demoState.slots
+    let filtered = demoState.slots
       .filter(s => !s.booked)
       .filter(s => {
         if (!deptId) return true;
         return s.department.id == deptId;
       });
+
+    // If all slots are booked or none match, generate fresh slots for the selected date
+    if (filtered.length === 0) {
+      const times = ['09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '14:00:00', '14:30:00'];
+      const targetDept = demoState.departments.find(d => d.id == deptId) || demoState.departments[0];
+      times.forEach((t, idx) => {
+        const endHour = parseInt(t.substring(0, 2)) + (t.includes('30') ? 1 : 0);
+        const endMin = t.includes('30') ? '00:00' : '30:00';
+        const endStr = `${String(endHour).padStart(2, '0')}:${endMin}`;
+        demoState.slots.push({
+          id: Date.now() + idx,
+          startTime: t,
+          endTime: endStr,
+          department: targetDept,
+          slotDate: date,
+          version: 0,
+          booked: false
+        });
+      });
+      persistDemoState();
+      filtered = demoState.slots.filter(s => !s.booked && (!deptId || s.department.id == deptId));
+    }
     renderSlots(filtered);
   }
 }
@@ -502,13 +585,19 @@ function renderSlots(slots) {
 
 function openBookingModal(slot) {
   selectedSlotId = slot.id;
-  document.getElementById('modal-dept').textContent = slot.department.name;
-  document.getElementById('modal-time').textContent = `${slot.slotDate} at ${slot.startTime.substring(0, 5)}`;
-  document.getElementById('booking-modal').classList.remove('hidden');
+  const deptEl = document.getElementById('modal-dept');
+  const timeEl = document.getElementById('modal-time');
+  const nameInput = document.getElementById('booking-patient-name');
+  if (deptEl) deptEl.textContent = slot.department ? slot.department.name : 'General Medicine';
+  if (timeEl) timeEl.textContent = `${slot.slotDate || new Date().toISOString().split('T')[0]} at ${(slot.startTime || '10:00:00').substring(0, 5)}`;
+  if (nameInput && (!nameInput.value || nameInput.value === 'Demo Patient')) {
+    nameInput.value = currentUser?.name || 'Guest Patient';
+  }
+  document.getElementById('booking-modal')?.classList.remove('hidden');
 }
 
 function closeBookingModal() {
-  document.getElementById('booking-modal').classList.add('hidden');
+  document.getElementById('booking-modal')?.classList.add('hidden');
   selectedSlotId = null;
 }
 
@@ -516,76 +605,93 @@ async function confirmBooking() {
   if (!selectedSlotId) return;
 
   const confirmBtn = document.getElementById('modal-confirm-btn');
-  confirmBtn.disabled = true;
-  confirmBtn.textContent = 'Guarding Slot with Optimistic Lock...';
+  if (confirmBtn) {
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = 'Guarding Slot with Optimistic Lock...';
+  }
+
+  const patientName = document.getElementById('booking-patient-name')?.value.trim() || currentUser?.name || 'Walk-in Patient';
+  const patientPhone = document.getElementById('booking-patient-phone')?.value.trim() || '+880 1700-656279';
+  const notes = document.getElementById('booking-notes')?.value.trim() || 'General consultation';
+
+  const completeReservation = () => {
+    const newTicketNumber = 'Q-' + (100 + demoState.queue.length + 1);
+    currentTicketNumber = newTicketNumber;
+
+    const deptName = document.getElementById('modal-dept')?.textContent || 'General Medicine';
+    const slot = demoState.slots.find(s => s.id == selectedSlotId);
+    if (slot) {
+      slot.booked = true;
+      slot.version = (slot.version || 0) + 1; // Increment @Version
+    }
+
+    const newTicket = {
+      id: Date.now(),
+      ticketNumber: newTicketNumber,
+      customerName: patientName,
+      customerPhone: patientPhone,
+      departmentName: deptName,
+      counterNumber: 'Counter 101',
+      status: 'WAITING',
+      sequenceNumber: demoState.queue.length + 1,
+      issuedAt: new Date().toLocaleTimeString().substring(0, 5),
+      waitingAheadCount: demoState.queue.length
+    };
+
+    demoState.queue.push(newTicket);
+    demoState.appointments.push({
+      id: Date.now(),
+      appointmentCode: 'APT-' + Math.floor(100000 + Math.random() * 900000),
+      customerName: patientName,
+      departmentName: deptName,
+      time: slot ? slot.startTime.substring(0, 5) : '10:00',
+      status: 'SCHEDULED'
+    });
+    demoState.metrics.waiting += 1;
+    persistDemoState();
+
+    closeBookingModal();
+    if (confirmBtn) {
+      confirmBtn.disabled = false;
+      confirmBtn.textContent = 'Confirm & Issue Ticket';
+    }
+    updateMyTicketDisplay(newTicket);
+    showToast(`Appointment confirmed! Ticket ${newTicketNumber} issued.`);
+    switchTab('my-ticket');
+    loadSlots();
+    loadStaffQueue();
+    loadTvDisplay();
+    loadMetrics();
+    loadAdminData();
+  };
 
   try {
-    const bookRes = await fetch('/api/appointments/book', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${currentUser.token}`
-      },
-      body: JSON.stringify({ slotId: selectedSlotId, notes: document.getElementById('booking-notes')?.value || 'General consultation' })
-    });
-
-    if (bookRes.ok) {
-      const apt = await bookRes.json();
-      closeBookingModal();
-      showToast(`Appointment ${apt.appointmentCode} reserved!`);
-      loadSlots();
-      switchTab('my-ticket');
-    } else {
-      throw new Error('API failure');
-    }
-  } catch (_) {
-    // Demo Mode handling on GitHub Pages
-    setTimeout(() => {
-      const newTicketNumber = 'Q-' + (100 + demoState.queue.length + 1);
-      currentTicketNumber = newTicketNumber;
-
-      const deptName = document.getElementById('modal-dept').textContent || 'General Medicine';
-      const slot = demoState.slots.find(s => s.id == selectedSlotId);
-      if (slot) {
-        slot.booked = true;
-        slot.version = (slot.version || 0) + 1; // Increment @Version
-      }
-
-      const newTicket = {
-        id: Date.now(),
-        ticketNumber: newTicketNumber,
-        customerName: currentUser.name || 'Demo Patient',
-        departmentName: deptName,
-        counterNumber: 'Counter 101',
-        status: 'WAITING',
-        sequenceNumber: demoState.queue.length + 1,
-        issuedAt: new Date().toLocaleTimeString().substring(0, 5)
-      };
-
-      demoState.queue.push(newTicket);
-      demoState.appointments.push({
-        id: Date.now(),
-        appointmentCode: 'APT-' + Math.floor(100000 + Math.random() * 900000),
-        customerName: currentUser.name || 'Demo Patient',
-        departmentName: deptName,
-        time: slot ? slot.startTime.substring(0, 5) : '10:00',
-        status: 'SCHEDULED'
+    if (currentUser?.token) {
+      const bookRes = await fetch('/api/appointments/book', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${currentUser.token}`
+        },
+        body: JSON.stringify({ slotId: selectedSlotId, notes: notes })
       });
-      demoState.metrics.waiting += 1;
-      persistDemoState();
 
-      closeBookingModal();
-      updateMyTicketDisplay({ ...newTicket, waitingAheadCount: demoState.queue.length - 1 });
-      showToast(`Appointment confirmed! Ticket ${newTicketNumber} issued.`);
-      switchTab('my-ticket');
-      loadSlots();
-      loadStaffQueue();
-      loadMetrics();
-      loadAdminData();
-    }, 350);
-  } finally {
-    confirmBtn.disabled = false;
-    confirmBtn.textContent = 'Confirm & Issue Ticket';
+      if (bookRes.ok) {
+        const apt = await bookRes.json();
+        closeBookingModal();
+        if (confirmBtn) {
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = 'Confirm & Issue Ticket';
+        }
+        showToast(`Appointment ${apt.appointmentCode} reserved!`);
+        loadSlots();
+        switchTab('my-ticket');
+        return;
+      }
+    }
+    setTimeout(completeReservation, 350);
+  } catch (_) {
+    setTimeout(completeReservation, 350);
   }
 }
 
@@ -598,13 +704,14 @@ async function issueWalkin() {
     updateMyTicketDisplay(ticket);
     showToast(`Walk-in Ticket ${ticket.ticketNumber} Issued!`);
     switchTab('my-ticket');
+    loadTvDisplay();
   } catch (_) {
     const newNum = 'Q-' + (100 + demoState.queue.length + 1);
     currentTicketNumber = newNum;
     const ticket = {
       id: Date.now(),
       ticketNumber: newNum,
-      customerName: 'Walk-in Patient',
+      customerName: currentUser?.name || 'Walk-in Patient',
       departmentName: 'General Medicine',
       counterNumber: 'Counter 101',
       status: 'WAITING',
@@ -620,12 +727,14 @@ async function issueWalkin() {
     showToast(`Walk-in Ticket ${newNum} Issued!`);
     switchTab('my-ticket');
     loadStaffQueue();
+    loadTvDisplay();
     loadMetrics();
     loadAdminData();
   }
 }
 
 function updateMyTicketDisplay(ticket) {
+  if (!ticket) return;
   const numEl = document.getElementById('ticket-number-display');
   const deptEl = document.getElementById('ticket-department-display');
   const aheadEl = document.getElementById('ticket-ahead-display');
@@ -634,11 +743,21 @@ function updateMyTicketDisplay(ticket) {
   const statusPill = document.getElementById('ticket-status-pill');
 
   if (numEl) numEl.textContent = ticket.ticketNumber;
-  if (deptEl) deptEl.textContent = ticket.departmentName;
-  if (aheadEl) aheadEl.textContent = ticket.waitingAheadCount || '0';
-  if (waitEl) waitEl.textContent = `~${(ticket.waitingAheadCount || 0) * 8}m`;
+  if (deptEl) deptEl.textContent = ticket.departmentName || 'General Medicine';
+  const ahead = ticket.waitingAheadCount !== undefined ? ticket.waitingAheadCount : 0;
+  if (aheadEl) aheadEl.textContent = String(ahead);
+  if (waitEl) waitEl.textContent = ahead === 0 ? (ticket.status === 'SERVING' ? 'Now!' : '<5m') : `~${ahead * 6}m`;
   if (counterEl) counterEl.textContent = ticket.counterNumber || 'Counter 101';
-  if (statusPill) statusPill.innerHTML = `<span>Status: ${ticket.status || 'WAITING'}</span>`;
+
+  if (statusPill) {
+    if (ticket.status === 'SERVING') {
+      statusPill.className = 'inline-block px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 border border-emerald-500/40 animate-pulse';
+      statusPill.innerHTML = `<span>🚨 NOW SERVING — Proceed to ${ticket.counterNumber || 'Station'}!</span>`;
+    } else {
+      statusPill.className = 'inline-block px-3 py-1 rounded-full text-xs font-mono font-bold bg-brand-500/10 text-brand-500 border border-brand-500/20';
+      statusPill.innerHTML = `<span>Status: ${ticket.status || 'WAITING'} (${ahead} ahead)</span>`;
+    }
+  }
 }
 
 // -------------------------------------------------------------
@@ -710,22 +829,25 @@ async function callNextCustomer() {
   const counterText = counterSelect?.options[counterSelect.selectedIndex]?.text.split(' - ')[0] || 'Counter 101';
 
   try {
-    const res = await fetch('/api/queue/call', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${currentUser.token}`
-      },
-      body: JSON.stringify({ counterId })
-    });
+    if (currentUser?.token) {
+      const res = await fetch('/api/queue/call', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${currentUser.token}`
+        },
+        body: JSON.stringify({ counterId })
+      });
 
-    if (res.ok) {
-      const ticket = await res.json();
-      document.getElementById('staff-now-serving').textContent = ticket.ticketNumber;
-      showToast(`Called Ticket ${ticket.ticketNumber} to counter!`);
-    } else {
-      throw new Error('Call failed');
+      if (res.ok) {
+        const ticket = await res.json();
+        const staffServingEl = document.getElementById('staff-now-serving');
+        if (staffServingEl) staffServingEl.textContent = ticket.ticketNumber;
+        showToast(`Called Ticket ${ticket.ticketNumber} to counter!`);
+        return;
+      }
     }
+    throw new Error('Call offline');
   } catch (_) {
     if (demoState.queue.length === 0) {
       showToast('No more patients waiting in queue.');
@@ -739,14 +861,17 @@ async function callNextCustomer() {
       ticketNumber: called.ticketNumber,
       counterNumber: counterText,
       departmentName: called.departmentName,
+      customerName: called.customerName || 'Patient',
       status: 'SERVING'
     });
 
     demoState.metrics.waiting = Math.max(0, demoState.metrics.waiting - 1);
     demoState.metrics.serving = demoState.nowServing.length;
+    demoState.metrics.completed += 1;
     persistDemoState();
 
-    document.getElementById('staff-now-serving').textContent = called.ticketNumber;
+    const staffServingEl = document.getElementById('staff-now-serving');
+    if (staffServingEl) staffServingEl.textContent = called.ticketNumber;
 
     handleLiveQueueUpdate({
       eventType: 'TICKET_CALLED',
@@ -828,22 +953,61 @@ function renderTvGrid(tickets) {
   const grid = document.getElementById('tv-serving-grid');
   if (grid) {
     grid.innerHTML = '';
-    if (tickets.length === 0) {
-      grid.innerHTML = '<div class="col-span-full py-12 text-center text-slate-400 font-mono">No active consultations at this moment.</div>';
-    } else {
-      tickets.forEach(t => {
+    const activeList = Array.isArray(tickets) ? tickets : (demoState.nowServing || []);
+    const allCounters = (demoState && Array.isArray(demoState.counters) && demoState.counters.length > 0)
+      ? demoState.counters
+      : [
+          { id: 1, counterNumber: 'Counter 101', department: { name: 'General Medicine' } },
+          { id: 2, counterNumber: 'Counter 102', department: { name: 'Cardiology' } },
+          { id: 3, counterNumber: 'Counter 103', department: { name: 'Diagnostics & Lab' } }
+        ];
+
+    allCounters.forEach(cntr => {
+      const activeTicket = activeList.find(t => t.counterNumber === cntr.counterNumber);
+      if (activeTicket) {
         grid.innerHTML += `
-          <div class="p-8 rounded-3xl border-2 border-emerald-500/40 bg-white dark:bg-dark-card shadow-2xl text-center space-y-3 pulse-glow animate-card-fade">
-            <span class="text-xs font-mono uppercase tracking-widest text-emerald-500 font-bold">Calling Now</span>
-            <div class="text-6xl font-black font-mono tracking-wider text-slate-900 dark:text-white">${t.ticketNumber}</div>
-            <div class="py-2 px-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-sm font-bold text-brand-600 font-mono">
-              ${t.counterNumber || 'Counter 101'}
+          <div class="tv-card-calling p-5 sm:p-6 rounded-3xl border-2 border-emerald-500/50 bg-gradient-to-b from-emerald-500/10 to-transparent bg-white dark:bg-dark-card shadow-2xl text-center flex flex-col justify-between space-y-3 pulse-glow animate-card-fade">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-3">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-500 border border-emerald-500/30">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                Calling Now
+              </span>
+              <span class="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">${cntr.counterNumber}</span>
             </div>
-            <p class="text-xs text-slate-400 font-sans">${t.departmentName}</p>
+            <div class="py-2">
+              <div class="tv-ticket-num font-black font-mono tracking-tight text-slate-900 dark:text-white drop-shadow-sm select-all">${activeTicket.ticketNumber}</div>
+            </div>
+            <div class="space-y-2">
+              <div class="py-2 px-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs sm:text-sm font-bold text-brand-600 dark:text-brand-400 font-mono flex items-center justify-center gap-2 truncate">
+                <span>${cntr.counterNumber}</span>
+                <span class="text-slate-400">&bull;</span>
+                <span class="truncate">${activeTicket.departmentName || cntr.department?.name || 'Clinic'}</span>
+              </div>
+              <p class="text-[11px] text-slate-400 truncate font-sans">Patient: <strong class="text-slate-700 dark:text-slate-300">${activeTicket.customerName || 'Patient Consultation'}</strong></p>
+            </div>
           </div>
         `;
-      });
-    }
+      } else {
+        grid.innerHTML += `
+          <div class="tv-card-ready p-5 sm:p-6 rounded-3xl border-2 border-dashed border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-dark-card/60 shadow-sm text-center flex flex-col justify-between space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/60 pb-3">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-500">
+                <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+                Station Ready
+              </span>
+              <span class="text-xs font-mono font-bold text-slate-400">${cntr.counterNumber}</span>
+            </div>
+            <div class="py-4">
+              <div class="text-3xl sm:text-4xl font-extrabold font-mono text-slate-300 dark:text-slate-600">READY</div>
+              <p class="text-xs text-slate-400 mt-1 font-sans">Awaiting next patient</p>
+            </div>
+            <div class="py-2 px-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 text-xs font-mono text-slate-500 truncate">
+              ${cntr.counterNumber} &bull; ${cntr.department?.name || 'Consultation'}
+            </div>
+          </div>
+        `;
+      }
+    });
   }
 
   // Update Waiting Queue list in TV view
@@ -856,23 +1020,153 @@ function renderTvGrid(tickets) {
     if (waitingItems.length === 0) {
       nextList.innerHTML = '<p class="text-xs text-slate-400 font-mono text-center py-4">No waiting tickets in queue.</p>';
     } else {
-      waitingItems.slice(0, 5).forEach((q, idx) => {
+      waitingItems.slice(0, 6).forEach((q, idx) => {
         const estWait = (idx + 1) * 6;
         nextList.innerHTML += `
-          <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 flex items-center justify-between font-mono text-xs">
-            <div class="flex items-center gap-2">
-              <span class="w-6 h-6 rounded-lg bg-brand-500/10 text-brand-500 font-bold flex items-center justify-center text-[10px]">#${idx + 1}</span>
-              <div>
-                <span class="font-bold text-slate-900 dark:text-white text-sm">${q.ticketNumber}</span>
-                <span class="block text-[10px] text-slate-400 font-sans">${q.departmentName}</span>
+          <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 flex items-center justify-between font-mono text-xs hover:border-brand-500/30 transition">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <span class="w-6 h-6 shrink-0 rounded-lg bg-brand-500/10 text-brand-500 font-bold flex items-center justify-center text-[10px]">#${idx + 1}</span>
+              <div class="min-w-0">
+                <span class="font-bold text-slate-900 dark:text-white text-sm block">${q.ticketNumber}</span>
+                <span class="block text-[11px] text-slate-400 font-sans truncate">${q.departmentName || 'Clinic'} (${q.customerName || 'Patient'})</span>
               </div>
             </div>
-            <span class="text-[11px] font-bold text-amber-500">~${estWait}m</span>
+            <span class="text-xs font-bold text-amber-500 shrink-0 ml-2">~${estWait}m</span>
           </div>
         `;
       });
     }
   }
+  if (typeof window !== 'undefined' && window.lucide) window.lucide.createIcons();
+}
+
+function callNextFromTv() {
+  if (!demoState.queue || demoState.queue.length === 0) {
+    const names = ['Emma Watson', 'Liam Davis', 'Noah Wilson', 'Olivia Taylor', 'James Anderson'];
+    const depts = demoState.departments || [{ id: 1, name: 'General Medicine' }];
+    const chosenDept = depts[Math.floor(Math.random() * depts.length)];
+    const chosenName = names[Math.floor(Math.random() * names.length)];
+    const newNum = 'Q-' + (100 + (demoState.queue ? demoState.queue.length : 0) + Math.floor(Math.random() * 50) + 1);
+    demoState.queue = demoState.queue || [];
+    demoState.queue.push({
+      id: Date.now(),
+      ticketNumber: newNum,
+      customerName: chosenName,
+      departmentName: chosenDept.name,
+      counterNumber: 'Counter 101',
+      status: 'WAITING',
+      sequenceNumber: demoState.queue.length + 1,
+      issuedAt: new Date().toLocaleTimeString().substring(0, 5)
+    });
+    demoState.metrics.waiting = (demoState.metrics.waiting || 0) + 1;
+  }
+
+  const counters = (demoState.counters && demoState.counters.length > 0)
+    ? demoState.counters
+    : [{ counterNumber: 'Counter 101' }, { counterNumber: 'Counter 102' }, { counterNumber: 'Counter 103' }];
+
+  let targetCounter = counters[0].counterNumber;
+  if (demoState.nowServing && demoState.nowServing.length > 0) {
+    const lastCounter = demoState.nowServing[0]?.counterNumber;
+    const nextIdx = (counters.findIndex(c => c.counterNumber === lastCounter) + 1) % counters.length;
+    targetCounter = counters[nextIdx].counterNumber;
+  }
+
+  const called = demoState.queue.shift();
+  called.counterNumber = targetCounter;
+  called.status = 'SERVING';
+
+  demoState.nowServing = (demoState.nowServing || []).filter(s => s.counterNumber !== targetCounter);
+  demoState.nowServing.unshift({
+    id: called.id,
+    ticketNumber: called.ticketNumber,
+    counterNumber: targetCounter,
+    departmentName: called.departmentName,
+    customerName: called.customerName || 'Patient',
+    status: 'SERVING'
+  });
+
+  demoState.metrics.waiting = Math.max(0, (demoState.metrics.waiting || 1) - 1);
+  demoState.metrics.serving = demoState.nowServing.length;
+  demoState.metrics.completed = (demoState.metrics.completed || 0) + 1;
+  persistDemoState();
+
+  const staffServingEl = document.getElementById('staff-now-serving');
+  if (staffServingEl) staffServingEl.textContent = called.ticketNumber;
+
+  handleLiveQueueUpdate({
+    eventType: 'TICKET_CALLED',
+    counterNumber: targetCounter,
+    ticket: called
+  });
+
+  showToast(`TV Broadcast: Ticket ${called.ticketNumber} called to ${targetCounter}!`);
+  loadTvDisplay();
+  loadStaffQueue();
+  loadMetrics();
+  loadAdminData();
+}
+
+let tvAutoSimInterval = null;
+
+function toggleTvAutoSimulation() {
+  const text = document.getElementById('tv-auto-text');
+  const btn = document.getElementById('tv-auto-sim-btn');
+
+  if (tvAutoSimInterval) {
+    clearInterval(tvAutoSimInterval);
+    tvAutoSimInterval = null;
+    if (text) text.textContent = 'Auto-Simulation';
+    if (btn) btn.classList.remove('bg-emerald-500/20', 'border-emerald-500/50');
+    showToast('TV Auto-Simulation paused.');
+  } else {
+    callNextFromTv();
+    tvAutoSimInterval = setInterval(() => {
+      callNextFromTv();
+    }, 6000);
+    if (text) text.textContent = 'Simulating (6s)';
+    if (btn) btn.classList.add('bg-emerald-500/20', 'border-emerald-500/50');
+    showToast('TV Auto-Simulation active! New calls every 6s.');
+  }
+}
+
+function toggleTvVoice() {
+  isTvVoiceEnabled = !isTvVoiceEnabled;
+  const text = document.getElementById('tv-voice-text');
+  const btn = document.getElementById('tv-voice-btn');
+
+  if (isTvVoiceEnabled) {
+    if (text) text.textContent = 'Voice ON';
+    if (btn) btn.classList.remove('opacity-60');
+    speakTicketCall('Q-100', 'Counter 101', 'General Medicine');
+    showToast('Voice announcements ENABLED.');
+  } else {
+    if (text) text.textContent = 'Voice OFF';
+    if (btn) btn.classList.add('opacity-60');
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    showToast('Voice announcements MUTED.');
+  }
+}
+
+function toggleTvFullscreen() {
+  try {
+    if (!document.fullscreenElement) {
+      const tvTab = document.getElementById('tab-tv');
+      if (tvTab && tvTab.requestFullscreen) {
+        tvTab.requestFullscreen().catch(() => {
+          document.documentElement.requestFullscreen().catch(() => {});
+        });
+      } else if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+  } catch (_) {}
 }
 
 // Live Digital Clock for TV Signage
@@ -924,7 +1218,7 @@ function renderMetrics(data) {
 // ADMIN CRUD CONTROLLER & DATABASE INSPECTOR
 // -------------------------------------------------------------
 async function loadAdminData() {
-  if (currentUser.role !== 'ROLE_ADMIN') return;
+  if (!currentUser || currentUser.role !== 'ROLE_ADMIN') return;
   loadAdminDepartments();
   loadAdminCounters();
   loadAdminSlots();
