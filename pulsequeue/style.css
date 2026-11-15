@@ -40,35 +40,35 @@
   box-shadow: 0 0 25px rgba(99, 102, 241, 0.35);
 }
 
-
 /* TV Kiosk & Signage Fullscreen Optimizations */
 #tab-tv:fullscreen,
 #tab-tv:-webkit-full-screen {
   width: 100vw !important;
   height: 100vh !important;
   max-width: 100vw !important;
-  padding: 2rem 2.5rem !important;
+  max-height: 100vh !important;
+  padding: 1.25rem 2rem !important;
   background: #090d16 !important;
   color: #f8fafc !important;
   overflow-y: auto !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: flex-start !important;
-  gap: 1.5rem !important;
+  gap: 1rem !important;
   box-sizing: border-box !important;
 }
 
 #tv-serving-grid {
-  min-height: 240px;
+  min-height: 200px;
 }
 
 .tv-card-calling {
-  min-height: 250px;
+  min-height: 220px;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .tv-card-ready {
-  min-height: 250px;
+  min-height: 220px;
   opacity: 0.85;
   transition: all 0.25s ease;
 }
@@ -76,9 +76,4 @@
 .tv-card-calling:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 30px -10px rgba(16, 185, 129, 0.3);
-}
-
-.tv-ticket-num {
-  font-size: clamp(2.75rem, 4.2vw, 4.25rem);
-  line-height: 1;
 }

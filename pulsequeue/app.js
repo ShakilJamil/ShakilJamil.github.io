@@ -966,19 +966,19 @@ function renderTvGrid(tickets) {
       const activeTicket = activeList.find(t => t.counterNumber === cntr.counterNumber);
       if (activeTicket) {
         grid.innerHTML += `
-          <div class="tv-card-calling p-5 sm:p-6 rounded-3xl border-2 border-emerald-500/50 bg-gradient-to-b from-emerald-500/10 to-transparent bg-white dark:bg-dark-card shadow-2xl text-center flex flex-col justify-between space-y-3 pulse-glow animate-card-fade">
-            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-3">
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-500 border border-emerald-500/30">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+          <div class="tv-card-calling p-4 sm:p-5 rounded-2xl border-2 border-emerald-500/50 bg-gradient-to-b from-emerald-500/10 to-transparent bg-white dark:bg-dark-card shadow-xl text-center flex flex-col justify-between space-y-2 pulse-glow animate-card-fade">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-2">
+              <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-500 border border-emerald-500/30">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
                 Calling Now
               </span>
-              <span class="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">${cntr.counterNumber}</span>
+              <span class="text-[11px] font-mono font-bold text-slate-500 dark:text-slate-400">${cntr.counterNumber}</span>
             </div>
             <div class="py-2">
-              <div class="tv-ticket-num font-black font-mono tracking-tight text-slate-900 dark:text-white drop-shadow-sm select-all">${activeTicket.ticketNumber}</div>
+              <div class="text-4xl sm:text-5xl font-black font-mono tracking-tight text-slate-900 dark:text-white drop-shadow-sm select-all">${activeTicket.ticketNumber}</div>
             </div>
-            <div class="space-y-2">
-              <div class="py-2 px-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs sm:text-sm font-bold text-brand-600 dark:text-brand-400 font-mono flex items-center justify-center gap-2 truncate">
+            <div class="space-y-1.5">
+              <div class="py-1.5 px-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold text-brand-600 dark:text-brand-400 font-mono flex items-center justify-center gap-1.5 truncate">
                 <span>${cntr.counterNumber}</span>
                 <span class="text-slate-400">&bull;</span>
                 <span class="truncate">${activeTicket.departmentName || cntr.department?.name || 'Clinic'}</span>
@@ -989,19 +989,19 @@ function renderTvGrid(tickets) {
         `;
       } else {
         grid.innerHTML += `
-          <div class="tv-card-ready p-5 sm:p-6 rounded-3xl border-2 border-dashed border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-dark-card/60 shadow-sm text-center flex flex-col justify-between space-y-3">
-            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/60 pb-3">
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-500">
-                <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+          <div class="tv-card-ready p-4 sm:p-5 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-dark-card/60 shadow-sm text-center flex flex-col justify-between space-y-2">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/60 pb-2">
+              <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-500">
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
                 Station Ready
               </span>
-              <span class="text-xs font-mono font-bold text-slate-400">${cntr.counterNumber}</span>
+              <span class="text-[11px] font-mono font-bold text-slate-400">${cntr.counterNumber}</span>
             </div>
-            <div class="py-4">
+            <div class="py-2">
               <div class="text-3xl sm:text-4xl font-extrabold font-mono text-slate-300 dark:text-slate-600">READY</div>
-              <p class="text-xs text-slate-400 mt-1 font-sans">Awaiting next patient</p>
+              <p class="text-[11px] text-slate-400 mt-0.5 font-sans">Awaiting next patient</p>
             </div>
-            <div class="py-2 px-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 text-xs font-mono text-slate-500 truncate">
+            <div class="py-1.5 px-2 rounded-xl bg-slate-50 dark:bg-slate-900/60 text-xs font-mono text-slate-500 truncate">
               ${cntr.counterNumber} &bull; ${cntr.department?.name || 'Consultation'}
             </div>
           </div>
@@ -1018,12 +1018,12 @@ function renderTvGrid(tickets) {
     if (countEl) countEl.textContent = `${waitingItems.length} Waiting`;
     nextList.innerHTML = '';
     if (waitingItems.length === 0) {
-      nextList.innerHTML = '<p class="text-xs text-slate-400 font-mono text-center py-4">No waiting tickets in queue.</p>';
+      nextList.innerHTML = '<p class="text-xs text-slate-400 font-mono text-center py-4 col-span-full">No waiting tickets in queue.</p>';
     } else {
       waitingItems.slice(0, 6).forEach((q, idx) => {
         const estWait = (idx + 1) * 6;
         nextList.innerHTML += `
-          <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 flex items-center justify-between font-mono text-xs hover:border-brand-500/30 transition">
+          <div class="p-2.5 sm:p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 flex items-center justify-between font-mono text-xs hover:border-brand-500/30 transition">
             <div class="flex items-center gap-2.5 min-w-0">
               <span class="w-6 h-6 shrink-0 rounded-lg bg-brand-500/10 text-brand-500 font-bold flex items-center justify-center text-[10px]">#${idx + 1}</span>
               <div class="min-w-0">

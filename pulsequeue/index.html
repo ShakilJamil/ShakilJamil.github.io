@@ -12,7 +12,7 @@
   
   <!-- Precompiled Production Stylesheet & Local Vector Engine (Zero Runtime JIT Lag) -->
   <link rel="stylesheet" href="../style.min.css?v=5">
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=12">
   <script src="../lucide.min.js?v=5" defer></script>
 </head>
 <body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-slate-200 font-sans min-h-screen flex flex-col">
@@ -70,7 +70,7 @@
   </header>
 
   <!-- Main Container -->
-  <main class="max-w-7xl xl:max-w-[1520px] 2xl:max-w-[1720px] mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-8">
+  <main class="max-w-7xl xl:max-w-[1550px] 2xl:max-w-[1750px] mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-8">
 
     <!-- Live Queue Notification Banner (Updated via WebSockets) -->
     <div id="live-broadcast-banner" class="hidden p-4 rounded-2xl bg-gradient-to-r from-brand-600/20 via-cyan-500/20 to-purple-600/20 border border-brand-500/30 flex items-center justify-between animate-card-fade">
@@ -305,22 +305,22 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
         <!-- Main: NOW CALLING (Large Illuminated Display) -->
-        <div class="lg:col-span-8 xl:col-span-8 2xl:col-span-9 space-y-4">
+        <div class="xl:col-span-8 2xl:col-span-9 space-y-4">
           <div class="flex items-center justify-between">
             <h3 class="text-xs font-mono uppercase tracking-widest font-extrabold text-slate-400">Now Serving &bull; Active Counters</h3>
             <span class="text-[11px] font-mono text-emerald-500 font-bold flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Broadcasting
             </span>
           </div>
-          <div id="tv-serving-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+          <div id="tv-serving-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5">
             <!-- Populated via JS / WebSockets -->
           </div>
         </div>
 
         <!-- Sidebar: UP NEXT IN QUEUE -->
-        <div class="lg:col-span-4 xl:col-span-4 2xl:col-span-3 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-4 sticky top-6">
+        <div class="xl:col-span-4 2xl:col-span-3 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-card shadow-sm space-y-4">
           <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
             <h4 class="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5 font-mono">
               <i data-lucide="list-ordered" class="w-4 h-4 text-brand-500"></i> Up Next in Queue
@@ -328,7 +328,7 @@
             <span id="tv-waiting-count" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-brand-500/10 text-brand-400">4 Waiting</span>
           </div>
 
-          <div id="tv-next-list" class="space-y-2.5">
+          <div id="tv-next-list" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-2.5">
             <!-- Populated dynamically via JS -->
           </div>
 
@@ -923,6 +923,6 @@
     <span id="toast-message">Notification message</span>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=12"></script>
 </body>
 </html>
